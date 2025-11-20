@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -216,9 +217,15 @@ export function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
+        {/* Spacer to push theme switcher and mobile menu to the right */}
+        <div className="flex-1" />
+
+        {/* Theme Switcher */}
+        <ThemeSwitcher />
+
         {/* Mobile Navigation */}
         <Sheet>
-          <SheetTrigger asChild className="md:hidden ml-auto">
+          <SheetTrigger asChild className="md:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
