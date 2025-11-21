@@ -7,8 +7,8 @@ export interface Post {
   content: string;
 }
 
-// Posts data
-export const posts: Post[] = [
+// Initial posts data
+const initialPosts: Post[] = [
   {
     id: 1,
     title: "Introduction to Next.js",
@@ -28,6 +28,17 @@ export const posts: Post[] = [
     content: "App Router is a new way of routing in Next.js 13+...",
   },
 ];
+
+// Use global to persist data in dev mode (HMR safe)
+const globalForPosts = globalThis as unknown as {
+  posts: Post[] | undefined;
+};
+
+export const posts = globalForPosts.posts ?? initialPosts;
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPosts.posts = posts;
+}
 
 // Data access functions
 export async function getPosts(): Promise<Post[]> {

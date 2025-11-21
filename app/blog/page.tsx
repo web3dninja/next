@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getPosts } from "@/lib/data";
+import CreatePostForm from "./components/CreatePostForm";
+import DeletePostButton from "./components/DeletePostButton";
 
 export default async function BlogPage() {
   const posts = await getPosts();
@@ -15,15 +17,18 @@ export default async function BlogPage() {
           Blog
         </h1>
 
-        <ul className="space-y-3">
+        <CreatePostForm />
+
+        <ul className="space-y-3 mt-6">
           {posts.map((post) => (
-            <li key={post.id}>
+            <li key={post.id} className="flex items-center gap-2">
               <Link
                 href={`/blog/${post.slug}`}
-                className="block p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                className="flex-1 block p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900"
               >
                 <span className="text-black dark:text-white">{post.title}</span>
               </Link>
+              <DeletePostButton postId={post.id} />
             </li>
           ))}
         </ul>

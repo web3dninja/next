@@ -1,5 +1,6 @@
 import Link from "next/link";
 import UsersList from "./components/UsersList";
+import CreateUserForm from "./components/CreateUserForm";
 import { getUsers } from "@/lib/data";
 
 export default async function UsersPage() {
@@ -21,7 +22,9 @@ export default async function UsersPage() {
           Users
         </h1>
 
-        <UsersList users={users} />
+        <CreateUserForm />
+
+        <UsersList initialUsers={users} />
       </main>
     </div>
   );

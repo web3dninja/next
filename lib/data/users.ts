@@ -6,14 +6,25 @@ export interface User {
   email: string;
 }
 
-// Users data
-export const users: User[] = [
+// Initial users data
+const initialUsers: User[] = [
   { id: 1, name: "John Smith", email: "john.smith@example.com" },
   { id: 2, name: "Sarah Johnson", email: "sarah.johnson@example.com" },
   { id: 3, name: "Michael Brown", email: "michael.brown@example.com" },
   { id: 4, name: "Emily Davis", email: "emily.davis@example.com" },
   { id: 5, name: "David Wilson", email: "david.wilson@example.com" },
 ];
+
+// Use global to persist data in dev mode (HMR safe)
+const globalForUsers = globalThis as unknown as {
+  users: User[] | undefined;
+};
+
+export const users = globalForUsers.users ?? initialUsers;
+
+if (process.env.NODE_ENV !== "production") {
+  globalForUsers.users = users;
+}
 
 // Data access functions
 export async function getUsers(): Promise<User[]> {
@@ -27,7 +38,6 @@ export async function getUser(id: number): Promise<User | null> {
   return users.find((u) => u.id === id) || null;
 }
 
-// Mutation functions
 export async function addUser(user: Omit<User, "id">): Promise<User> {
   const newUser: User = {
     id: users.length + 1,
