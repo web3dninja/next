@@ -32,9 +32,9 @@ const routes = [
 
 const blogRoutes = [
   { href: "/blog", label: "All Posts" },
-  { href: "/blog/intro-to-nextjs", label: "Intro to Next.js" },
-  { href: "/blog/server-components", label: "Server Components" },
-  { href: "/blog/app-router", label: "App Router" },
+  { href: "/blog/1", label: "Intro to Next.js" },
+  { href: "/blog/2", label: "Server Components" },
+  { href: "/blog/3", label: "App Router" },
 ];
 
 const docsRoutes = [
