@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { deletePostAction } from "../actions";
 
@@ -9,22 +9,36 @@ interface DeletePostButtonProps {
 }
 
 export default function DeletePostButton({ postId }: DeletePostButtonProps) {
-  const [state, formAction, isPending] = useActionState(deletePostAction, null);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: deletePostAction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
+  const handleDelete = () => {
+    mutation.mutate(postId);
+  };
 
   return (
-    <form action={formAction}>
-      <input type="hidden" name="id" value={postId} />
+    <>
       <Button
-        type="submit"
+        onClick={handleDelete}
         variant="destructive"
         size="sm"
-        disabled={isPending}
+        disabled={mutation.isPending}
       >
-        {isPending ? "..." : "Delete"}
+        {mutation.isPending ? "..." : "Delete"}
       </Button>
-      {state?.error && (
-        <span className="text-xs text-red-500 ml-2">{state.error}</span>
+      {mutation.isError && (
+        <span className="text-xs text-red-500 ml-2">
+          {mutation.error instanceof Error
+            ? mutation.error.message
+            : "Failed to delete post"}
+        </span>
       )}
-    </form>
+    </>
   );
 }

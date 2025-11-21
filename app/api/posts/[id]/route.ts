@@ -25,7 +25,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   const updated = await updatePost(parseInt(id), {
     title: body.title,
     content: body.content,
-    slug: body.slug,
   });
 
   if (!updated) {

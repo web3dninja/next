@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "server": "tsx server/index.ts",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "db:seed:users": "tsx prisma/seed-users.ts",
+    "db:seed:posts": "tsx prisma/seed-posts.ts"
   },
   "dependencies": {
     "-": "^0.0.1",

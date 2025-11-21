@@ -3,31 +3,25 @@
 import { revalidatePath } from "next/cache";
 import { addPost, updatePost, deletePost } from "@/lib/data";
 
-export async function createPostAction(formData: FormData) {
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
-  const slug = formData.get("slug") as string;
-
-  if (!title || !content) {
-    return { error: "Title and content are required" };
+export async function createPostAction(data: { title: string; content: string }) {
+  if (!data.title || !data.content) {
+    throw new Error("Title and content are required");
   }
 
   const post = await addPost({
-    title,
-    content,
-    slug: slug || title.toLowerCase().replace(/\s+/g, "-"),
+    title: data.title,
+    content: data.content,
   });
 
   revalidatePath("/blog");
 
-  return { success: true, post };
+  return post;
 }
 
 export async function updatePostAction(formData: FormData) {
   const id = parseInt(formData.get("id") as string);
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
-  const slug = formData.get("slug") as string;
 
   if (!id) {
     return { error: "ID is required" };
@@ -35,8 +29,7 @@ export async function updatePostAction(formData: FormData) {
 
   const post = await updatePost(id, {
     ...(title && { title }),
-    ...(content && { content }),
-    ...(slug && { slug }),
+    ...(content && { content }),    
   });
 
   if (!post) {
@@ -44,25 +37,23 @@ export async function updatePostAction(formData: FormData) {
   }
 
   revalidatePath("/blog");
-  revalidatePath(`/blog/${post.slug}`);
+  revalidatePath(`/blog/${post.id}`);
 
   return { success: true, post };
 }
 
-export async function deletePostAction(formData: FormData) {
-  const id = parseInt(formData.get("id") as string);
-
+export async function deletePostAction(id: number) {
   if (!id) {
-    return { error: "ID is required" };
+    throw new Error("ID is required");
   }
 
   const post = await deletePost(id);
 
   if (!post) {
-    return { error: "Post not found" };
+    throw new Error("Post not found");
   }
 
   revalidatePath("/blog");
 
-  return { success: true, post };
+  return post;
 }

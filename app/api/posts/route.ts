@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
 
   const newPost = await addPost({
     title: body.title,
-    slug: body.slug || body.title.toLowerCase().replace(/\s+/g, "-"),
     content: body.content,
   });
 
