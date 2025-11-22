@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { PrismaClient, Role } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { hashPassword } from '../lib/auth';
+import { hashPassword } from '../src/lib/auth';
 import { UserCreateInput } from './generated/models';
 
 if (!process.env.DATABASE_URL) {

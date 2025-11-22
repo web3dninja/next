@@ -12,6 +12,7 @@ import {
   ItemGroup,
   ItemTitle,
 } from '@/components/ui/item';
+import { usePathname } from 'next/navigation';
 
 interface UsersListProps {
   initialUsers: User[];
@@ -19,6 +20,7 @@ interface UsersListProps {
 
 export default function UsersList({ initialUsers }: UsersListProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const lacation = usePathname();
 
   const currentUsers = initialUsers;
   const filteredUsers = currentUsers.filter(
@@ -40,7 +42,7 @@ export default function UsersList({ initialUsers }: UsersListProps) {
       <ItemGroup>
         {filteredUsers.map((user: User) => (
           <Item key={user.id} variant="outline" asChild>
-            <Link href={`/users/${user.id}`}>
+            <Link href={`${lacation}/${user.id}`}>
               <ItemContent>
                 <ItemTitle>
                   {user.username}{' '}

@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { getUser } from "@/lib/data";
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getUser } from '@/lib/data';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -16,7 +16,7 @@ export default async function UserPage({ params }: PageProps) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col gap-8 py-16 px-8 bg-white dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col gap-8 bg-white px-8 py-16 dark:bg-black">
         <div>
           <Link
             href="/users"
@@ -27,8 +27,8 @@ export default async function UserPage({ params }: PageProps) {
         </div>
 
         <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-700">
-          <h1 className="text-2xl font-semibold text-black dark:text-zinc-50 mb-4">
-            {user.name}
+          <h1 className="mb-4 text-2xl font-semibold text-black dark:text-zinc-50">
+            {user.username}
           </h1>
 
           <div className="space-y-3">
