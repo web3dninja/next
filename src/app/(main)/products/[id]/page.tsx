@@ -25,36 +25,40 @@ export default async function ProductPage({ params }: PageProps) {
 
       <div className="content">
         <div className="mx-auto max-w-4xl">
-        <div className="flex-start grid items-start gap-8 md:grid-cols-2">
-          <div>
-            <div className="overflow-hidden rounded-lg">
-              <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
-            </div>
-
-            <Button asChild size="xl" className="mt-4 w-full">
-              <Link href={product.link} target="_blank" rel="noopener noreferrer">
-                Buy Now
-              </Link>
-            </Button>
-          </div>
-          <div className="space-y-4">
+          <div className="flex-start grid items-start gap-8 md:grid-cols-2">
             <div>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">{product.brand}</p>
-              <h1 className="text-3xl font-bold text-black dark:text-white">{product.name}</h1>
-            </div>
+              <div className="overflow-hidden rounded-lg">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
 
-            <div className="flex items-center gap-4">
-              <span className="text-2xl font-bold text-black dark:text-white">
-                ${product.price}
-              </span>
-              <Badge variant="default">{product.category}</Badge>
+              <Button asChild size="xl" className="mt-4 w-full">
+                <Link href={product.link} target="_blank" rel="noopener noreferrer">
+                  Buy on Amazon
+                </Link>
+              </Button>
             </div>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">{product.brand}</p>
+                <h1 className="text-3xl font-bold text-black dark:text-white">{product.name}</h1>
+              </div>
 
-            <p className="whitespace-pre-line text-zinc-600 dark:text-zinc-300">
-              {product.description}
-            </p>
+              <div className="flex items-center gap-4">
+                <span className="text-2xl font-bold text-black dark:text-white">
+                  ${product.price}
+                </span>
+                <Badge variant="default">{product.category}</Badge>
+              </div>
+
+              <p className="whitespace-pre-line text-zinc-600 dark:text-zinc-300">
+                {product.description}
+              </p>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </>
