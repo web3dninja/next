@@ -9,7 +9,6 @@ export type RouteWithDropdown = Route & {
 
 export const routes: RouteWithDropdown[] = [
   { href: '/', label: 'Home' },
-  { href: '/admin/users', label: 'Users' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
   {

@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '@/globals.css';
 import { Header } from '@/root';
-import { ThemeProvider } from '@/components/theme-provider';
-import { QueryProvider } from '@/components/providers/query-provider';
+import { QueryProvider, ThemeProvider } from '@/providers';
 import { getCurrentUser } from '@/components/auth-modal/actions';
 import { Toaster } from '@/components/ui/sonner';
 

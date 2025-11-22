@@ -1,10 +1,11 @@
 'use client';
 
 import AuthModal from '@/components/auth-modal/index';
-import { ThemeSwitcher } from '@/components/theme-switcher';
+import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
 import { Logo } from './components/Logo';
 import { DesktopNav } from './components/desktop/DesktopNav';
 import { MobileNav } from './components/mobile/MobileNav';
+import { UserMenu } from './components/UserMenu';
 
 interface HeaderProps {
   user?: {
@@ -22,20 +23,15 @@ export function Header({ user }: HeaderProps) {
         {/* Logo */}
         <Logo />
 
-        {/* Desktop Navigation */}
         <DesktopNav />
 
-        {/* Spacer to push theme switcher and mobile menu to the right */}
         <div className="flex-1" />
 
-        {/* Auth Modal */}
-        <AuthModal user={user} />
-
-        {/* Theme Switcher */}
-        <ThemeSwitcher />
-
-        {/* Mobile Navigation */}
-        <MobileNav />
+        <div className="flex items-center gap-2">
+          {user ? <UserMenu user={user} /> : <AuthModal user={user} />}
+          <MobileNav />
+          <ThemeSwitcher />
+        </div>
       </div>
     </header>
   );

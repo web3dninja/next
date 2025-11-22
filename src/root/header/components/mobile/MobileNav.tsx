@@ -2,23 +2,29 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu } from 'lucide-react';
+import { Menu, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
+  MobileNavMenu,
+  MobileNavMenuItem,
+  MobileNavMenuButton,
+  MobileNavMenuSub,
+  MobileNavMenuSubItem,
+  MobileNavMenuSubButton,
+} from '@/components/ui/mobile-nav-menu';
 import { routes } from '../../routes';
-import { DropdownItem } from './DropdownItem';
 
 export function MobileNav() {
   const pathname = usePathname();
+
+  const isActive = (href: string, dropdown?: boolean) => {
+    if (dropdown) {
+      return pathname.startsWith(href);
+    }
+    return pathname === href;
+  };
 
   return (
     <Sheet>
@@ -28,31 +34,48 @@ export function MobileNav() {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left">
-        <SheetHeader>
+      <SheetContent side="left" className="p-0">
+        <SheetHeader className="border-b px-6 py-4">
           <SheetTitle>Navigation</SheetTitle>
         </SheetHeader>
-        <NavigationMenu viewport={false} className="mt-4 max-w-full [&>div]:w-full">
-          <NavigationMenuList className="flex-col items-start gap-2">
+        <div className="p-4">
+          <MobileNavMenu>
             {routes.map(route => (
-              <NavigationMenuItem key={route.href} className="w-full">
+              <MobileNavMenuItem key={route.href}>
                 {route.dropdown ? (
-                  <DropdownItem {...route} />
+                  <Collapsible>
+                    <CollapsibleTrigger asChild>
+                      <MobileNavMenuButton
+                        isActive={isActive(route.href, true)}
+                        className="w-full outline [&[data-state=open]_svg]:rotate-180"
+                      >
+                        <span>{route.label}</span>
+                        <ChevronDown className="ml-auto size-4 transition-transform" />
+                      </MobileNavMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <MobileNavMenuSub>
+                        {route.dropdown.map(item => (
+                          <MobileNavMenuSubItem key={item.href}>
+                            <MobileNavMenuSubButton asChild isActive={isActive(item.href, false)}>
+                              <Link href={item.href}>{item.label}</Link>
+                            </MobileNavMenuSubButton>
+                          </MobileNavMenuSubItem>
+                        ))}
+                      </MobileNavMenuSub>
+                    </CollapsibleContent>
+                  </Collapsible>
                 ) : (
-                  <NavigationMenuLink
-                    asChild
-                    href={route.href}
-                    className={cn(navigationMenuTriggerStyle(), 'w-full items-start justify-start')}
-                  >
-                    <Link href={route.href} passHref>
-                      {route.label}
+                  <MobileNavMenuButton asChild isActive={isActive(route.href)}>
+                    <Link href={route.href}>
+                      <span>{route.label}</span>
                     </Link>
-                  </NavigationMenuLink>
+                  </MobileNavMenuButton>
                 )}
-              </NavigationMenuItem>
+              </MobileNavMenuItem>
             ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+          </MobileNavMenu>
+        </div>
       </SheetContent>
     </Sheet>
   );
