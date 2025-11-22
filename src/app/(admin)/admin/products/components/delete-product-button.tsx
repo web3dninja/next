@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { deleteProductAction } from '../actions';
+import { deleteProductAction } from '../product.actions';
 import type { Product } from '@/lib/data/products';
 import { Spinner } from '@/components/ui/spinner';
 import { TrashIcon } from 'lucide-react';

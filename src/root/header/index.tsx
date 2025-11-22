@@ -1,22 +1,3 @@
-'use client';
-
-import AuthModal from '@/components/auth-modal/index';
-import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
-import { Logo } from './components/Logo';
-import { DesktopNav } from './components/desktop/desktop-nav';
-import { MobileNav } from './components/mobile/MobileNav';
-import { UserMenu } from './components/UserMenu';
-import { routes } from './routes';
-
-interface HeaderProps {
-  user?: {
-    id: number;
-    username: string;
-    email: string;
-    role: string;
-  } | null;
-}
-
 export function Header({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:border-zinc-800 dark:bg-black/95 dark:supports-[backdrop-filter]:bg-black/60">

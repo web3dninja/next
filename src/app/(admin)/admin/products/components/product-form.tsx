@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { ImagePreview } from '@/components/ui/image-preview';
-import { createProductAction, updateProductAction } from '../actions';
+import { createProductAction, updateProductAction } from '../product.actions';
 import { Product } from '@/lib/data';
 
 const productSchema = z.object({

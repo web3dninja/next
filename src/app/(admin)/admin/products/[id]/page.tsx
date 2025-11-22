@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { BackButton } from '@/components/ui/back-button';
 import { ProductForm } from '../components/product-form';
-import { getProductAction } from '../actions';
+import { getProductAction } from '../product.actions';
 import { use } from 'react';
 
 interface PageProps {

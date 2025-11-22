@@ -1,5 +1,5 @@
 import { Header } from '@/root';
-import { getCurrentUser } from '@/components/auth-modal/actions';
+import { getCurrentUserAction } from '@/actions';
 import { MainHeader } from '@/root/header/components/main/MainHeader';
 
 export default async function MainLayout({
@@ -7,7 +7,7 @@ export default async function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUserAction();
 
   return (
     <>

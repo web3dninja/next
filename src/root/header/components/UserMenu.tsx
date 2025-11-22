@@ -1,32 +1,25 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { logoutAction } from '@/components/auth-modal/actions';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { logoutAction } from '@/actions/user';
+import type { User } from '@/types/user.type';
+import { toast } from 'sonner';
 
 interface UserMenuProps {
-  user: {
-    id: number;
-    username: string;
-    email: string;
-    role: string;
-  };
+  user: User;
 }
 
 export function UserMenu({ user }: UserMenuProps) {
-  const router = useRouter();
-
   const logoutMutation = useMutation({
     mutationFn: logoutAction,
     onSuccess: () => {
-      router.refresh();
+      toast.success('You have been logged out!');
+    },
+    onError: error => {
+      toast.error(String(error));
     },
   });
 
@@ -42,7 +35,7 @@ export function UserMenu({ user }: UserMenuProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="cursor-pointer rounded-full outline-none ring-offset-2 ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+        <button className="ring-offset-background focus-visible:ring-ring cursor-pointer rounded-full ring-offset-2 outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
           <Avatar>
             <AvatarFallback className="bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100">
               {getInitials(user.username)}
@@ -53,9 +46,7 @@ export function UserMenu({ user }: UserMenuProps) {
       <PopoverContent className="w-56" align="end">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-              {user.username}
-            </p>
+            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.username}</p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
           </div>
           <Button
@@ -72,4 +63,3 @@ export function UserMenu({ user }: UserMenuProps) {
     </Popover>
   );
 }
-

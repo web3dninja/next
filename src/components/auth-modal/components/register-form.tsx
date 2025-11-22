@@ -16,7 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { registerAction } from '../actions';
+import { registerUserAction } from '@/actions/user';
+import { RoleEnum } from '@/types/user.type';
 
 const registerSchema = z
   .object({
@@ -48,7 +49,7 @@ export function RegisterForm() {
   });
 
   const { mutate: registerMutation, isPending } = useMutation({
-    mutationFn: registerAction,
+    mutationFn: registerUserAction,
     onSuccess: () => {
       form.reset();
       router.refresh();
@@ -60,7 +61,7 @@ export function RegisterForm() {
     },
   });
   const onSubmit = (data: RegisterFormData) => {
-    registerMutation({ ...data, role: 'USER' });
+    registerMutation({ ...data, role: RoleEnum.USER });
   };
 
   return (

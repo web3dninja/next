@@ -1,14 +1,14 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { deleteUser } from '@/lib/data';
+import { deleteUserById } from '@/lib/data/users';
 
 export async function deleteUserAction(id: number) {
   if (!id) {
     throw new Error('ID is required');
   }
 
-  const user = await deleteUser(id);
+  const user = await deleteUserById(id);
 
   if (!user) {
     throw new Error('User not found');

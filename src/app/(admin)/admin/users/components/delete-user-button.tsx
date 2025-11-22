@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { deleteUserAction } from '../actions';
-import type { User } from '@/lib/data/users';
+import type { User } from '@/types/user.type';
 import { Spinner } from '@/components/ui/spinner';
 import { TrashIcon } from 'lucide-react';
 

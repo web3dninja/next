@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getUser } from '@/lib/data';
+import { getUserById } from '@/lib/data/users';
 import { BackButton } from '@/components/ui/back-button';
 
 interface PageProps {
@@ -8,7 +8,7 @@ interface PageProps {
 
 export default async function UserPage({ params }: PageProps) {
   const { id } = await params;
-  const user = await getUser(parseInt(id));
+  const user = await getUserById(parseInt(id));
 
   if (!user) {
     notFound();

@@ -1,7 +1,7 @@
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import Link from 'next/link';
 
-export default function AdminPage() {
+export default async function AdminPage() {
   return (
     <div className="content">
       {/* Hero Section */}

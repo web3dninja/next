@@ -4,7 +4,7 @@ import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
 import { ThemeSwitcher } from '../theme-switcher';
 import { routes } from '../../routes';
-import { User } from '@/lib/data';
+import type { User } from '@/types/user.type';
 import AuthModal from '@/components/auth-modal';
 
 export function MainHeader({ user }: Readonly<{ user: User | null }>) {

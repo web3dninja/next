@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -14,12 +14,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { loginAction } from "../actions";
+} from '@/components/ui/form';
+import { loginAction } from '@/actions/user';
 
 const loginSchema = z.object({
-  email: z.email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
+  email: z.email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
@@ -28,8 +28,8 @@ export function LoginForm() {
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -37,18 +37,17 @@ export function LoginForm() {
     mutationFn: loginAction,
     onSuccess: () => {
       form.reset();
-      toast.success("Successfully logged in!");
+      toast.success('Successfully logged in!');
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(String(error));
-      form.setError("root.serverError", { message: String(error) });
+      form.setError('root.serverError', { message: String(error) });
     },
   });
 
   const onSubmit = (data: LoginFormData) => {
-    loginMutation(data)
+    loginMutation(data);
   };
-
 
   return (
     <Form {...form}>
@@ -79,24 +78,15 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  disabled={isPending}
-                  {...field}
-                />
+                <Input type="password" placeholder="••••••••" disabled={isPending} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={isPending}
-        >
-          {isPending ? "Logging in..." : "Login"}
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? 'Logging in...' : 'Login'}
         </Button>
       </form>
     </Form>

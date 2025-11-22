@@ -1,17 +1,23 @@
 import { Sidebar, SidebarContent, SidebarProvider } from '@/components/ui/sidebar';
 import { SheetHeader } from '@/components/ui/sheet';
 import { Header } from '@/root';
-import { getCurrentUser } from '@/components/auth-modal/actions';
+import { getCurrentUserAction } from '@/actions';
 import { AdminHeader } from '@/root/header/components/admin/AdminHeader';
 import { HorizontalRoutes } from '@/components/features/horizontal-routes';
 import { adminRoutes } from '@/root/header/components/admin/routes';
+import { RoleEnum } from '@/types/user.type';
+import { notFound } from 'next/navigation';
 
 export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUserAction();
+
+  if (user?.role !== RoleEnum.ADMIN) {
+    notFound();
+  }
 
   return (
     <SidebarProvider>
