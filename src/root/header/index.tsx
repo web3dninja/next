@@ -6,6 +6,7 @@ import { Logo } from './components/Logo';
 import { DesktopNav } from './components/desktop/DesktopNav';
 import { MobileNav } from './components/mobile/MobileNav';
 import { UserMenu } from './components/UserMenu';
+import { routes } from './routes';
 
 interface HeaderProps {
   user?: {
@@ -23,13 +24,13 @@ export function Header({ user }: HeaderProps) {
         {/* Logo */}
         <Logo />
 
-        <DesktopNav />
+        <DesktopNav routes={routes} />
 
         <div className="flex-1" />
 
         <div className="flex items-center gap-2">
           {user ? <UserMenu user={user} /> : <AuthModal user={user} />}
-          <MobileNav />
+          <MobileNav routes={routes} />
           <ThemeSwitcher />
         </div>
       </div>

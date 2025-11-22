@@ -14,9 +14,14 @@ import {
   MobileNavMenuSubItem,
   MobileNavMenuSubButton,
 } from '@/components/ui/mobile-nav-menu';
-import { routes } from '../../routes';
+import { type RouteWithDropdown } from '../../routes';
 
-export function MobileNav() {
+interface MobileNavProps {
+  routes: RouteWithDropdown[];
+  title?: string;
+}
+
+export function MobileNav({ routes, title = 'Navigation' }: MobileNavProps) {
   const pathname = usePathname();
 
   const isActive = (href: string, dropdown?: boolean) => {
@@ -36,11 +41,11 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
         <SheetHeader className="border-b px-6 py-4">
-          <SheetTitle>Navigation</SheetTitle>
+          <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
         <div className="p-4">
           <MobileNavMenu>
-            {routes.map(route => (
+          {routes.map(route => (
               <MobileNavMenuItem key={route.href}>
                 {route.dropdown ? (
                   <Collapsible>
@@ -69,11 +74,11 @@ export function MobileNav() {
                   <MobileNavMenuButton asChild isActive={isActive(route.href)}>
                     <Link href={route.href}>
                       <span>{route.label}</span>
-                    </Link>
+            </Link>
                   </MobileNavMenuButton>
                 )}
               </MobileNavMenuItem>
-            ))}
+          ))}
           </MobileNavMenu>
         </div>
       </SheetContent>

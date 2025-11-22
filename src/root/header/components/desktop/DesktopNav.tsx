@@ -10,10 +10,14 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { routes } from '../../routes';
+import { type RouteWithDropdown } from '../../routes';
 import { DropdownItem } from './DropdownItem';
 
-export function DesktopNav() {
+interface DesktopNavProps {
+  routes: RouteWithDropdown[];
+}
+
+export function DesktopNav({ routes }: DesktopNavProps) {
   const pathname = usePathname();
 
   return (
