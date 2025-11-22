@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ThemeSwitcher } from '@/components/theme-switcher';
+import AuthModal from '@/components/auth-modal/index';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,48 +14,51 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/navigation-menu';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 const routes = [
-  { href: "/", label: "Home" },
-  { href: "/users", label: "Users" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: '/', label: 'Home' },
+  { href: '/admin/users', label: 'Users' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 const blogRoutes = [
-  { href: "/blog", label: "All Posts" },
-  { href: "/blog/1", label: "Intro to Next.js" },
-  { href: "/blog/2", label: "Server Components" },
-  { href: "/blog/3", label: "App Router" },
+  { href: '/blog', label: 'All Posts' },
+  { href: '/blog/1', label: 'Intro to Next.js' },
+  { href: '/blog/2', label: 'Server Components' },
+  { href: '/blog/3', label: 'App Router' },
 ];
 
 const docsRoutes = [
-  { href: "/docs", label: "Documentation" },
-  { href: "/docs/intro", label: "Introduction" },
-  { href: "/docs/guides/routing", label: "Routing" },
+  { href: '/docs', label: 'Documentation' },
+  { href: '/docs/intro', label: 'Introduction' },
+  { href: '/docs/guides/routing', label: 'Routing' },
 ];
 
 const marketingRoutes = [
-  { href: "/pricing", label: "Pricing" },
-  { href: "/features", label: "Features" },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/features', label: 'Features' },
 ];
 
 const productRoutes = [
-  { href: "/products/electronics", label: "Electronics" },
-  { href: "/products/electronics/phones", label: "Phones" },
-  { href: "/products/clothing", label: "Clothing" },
+  { href: '/products/electronics', label: 'Electronics' },
+  { href: '/products/electronics/phones', label: 'Phones' },
+  { href: '/products/clothing', label: 'Clothing' },
 ];
 
-export function Header() {
+interface HeaderProps {
+  user?: {
+    id: number;
+    username: string;
+    email: string;
+    role: string;
+  } | null;
+}
+
+export function Header({ user }: HeaderProps) {
   const pathname = usePathname();
 
   return (
@@ -69,44 +73,44 @@ export function Header() {
         <NavigationMenu className="hidden md:flex" viewport={false}>
           <NavigationMenuList>
             {/* Simple links */}
-            {routes.map((route) => (
+            {routes.map(route => (
               <NavigationMenuItem key={route.href}>
-                <Link href={route.href} legacyBehavior passHref>
-                  <NavigationMenuLink
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      pathname === route.href && "bg-zinc-100 dark:bg-zinc-800"
-                    )}
-                  >
+                <NavigationMenuLink
+                  asChild
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800',
+                  )}
+                >
+                  <Link href={route.href} passHref>
                     {route.label}
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
 
             {/* Blog dropdown */}
             <NavigationMenuItem>
               <NavigationMenuTrigger
-                className={cn(
-                  pathname.startsWith("/blog") && "bg-zinc-100 dark:bg-zinc-800"
-                )}
+                className={cn(pathname.startsWith('/blog') && 'bg-zinc-100 dark:bg-zinc-800')}
               >
                 Blog
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[200px] gap-1 p-2">
-                  {blogRoutes.map((route) => (
+                  {blogRoutes.map(route => (
                     <li key={route.href}>
-                      <Link href={route.href} legacyBehavior passHref>
-                        <NavigationMenuLink
-                          className={cn(
-                            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800",
-                            pathname === route.href && "bg-zinc-100 dark:bg-zinc-800"
-                          )}
-                        >
+                      <NavigationMenuLink
+                        asChild
+                        className={cn(
+                          'block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-zinc-100 dark:hover:bg-zinc-800',
+                          pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800',
+                        )}
+                      >
+                        <Link href={route.href} passHref>
                           <span className="text-sm font-medium">{route.label}</span>
-                        </NavigationMenuLink>
-                      </Link>
+                        </Link>
+                      </NavigationMenuLink>
                     </li>
                   ))}
                 </ul>
@@ -116,21 +120,20 @@ export function Header() {
             {/* Docs dropdown */}
             <NavigationMenuItem>
               <NavigationMenuTrigger
-                className={cn(
-                  pathname.startsWith("/docs") && "bg-zinc-100 dark:bg-zinc-800"
-                )}
+                className={cn(pathname.startsWith('/docs') && 'bg-zinc-100 dark:bg-zinc-800')}
               >
                 Docs
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[200px] gap-1 p-2">
-                  {docsRoutes.map((route) => (
+                  {docsRoutes.map(route => (
                     <li key={route.href}>
-                      <Link href={route.href} legacyBehavior passHref>
+                      <Link href={route.href} passHref>
                         <NavigationMenuLink
+                          asChild
                           className={cn(
-                            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800",
-                            pathname === route.href && "bg-zinc-100 dark:bg-zinc-800"
+                            'block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-zinc-100 dark:hover:bg-zinc-800',
+                            pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800',
                           )}
                         >
                           <span className="text-sm font-medium">{route.label}</span>
@@ -145,26 +148,24 @@ export function Header() {
             {/* Products dropdown */}
             <NavigationMenuItem>
               <NavigationMenuTrigger
-                className={cn(
-                  pathname.startsWith("/products") && "bg-zinc-100 dark:bg-zinc-800"
-                )}
+                className={cn(pathname.startsWith('/products') && 'bg-zinc-100 dark:bg-zinc-800')}
               >
                 Products
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[200px] gap-1 p-2">
-                  {productRoutes.map((route) => (
+                  {productRoutes.map(route => (
                     <li key={route.href}>
-                      <Link href={route.href} legacyBehavior passHref>
-                        <NavigationMenuLink
-                          className={cn(
-                            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800",
-                            pathname === route.href && "bg-zinc-100 dark:bg-zinc-800"
-                          )}
-                        >
+                      <NavigationMenuLink
+                        className={cn(
+                          'block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-zinc-100 dark:hover:bg-zinc-800',
+                          pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800',
+                        )}
+                      >
+                        <Link href={route.href} passHref>
                           <span className="text-sm font-medium">{route.label}</span>
-                        </NavigationMenuLink>
-                      </Link>
+                        </Link>
+                      </NavigationMenuLink>
                     </li>
                   ))}
                 </ul>
@@ -175,26 +176,27 @@ export function Header() {
             <NavigationMenuItem>
               <NavigationMenuTrigger
                 className={cn(
-                  (pathname === "/pricing" || pathname === "/features") &&
-                    "bg-zinc-100 dark:bg-zinc-800"
+                  (pathname === '/pricing' || pathname === '/features') &&
+                    'bg-zinc-100 dark:bg-zinc-800',
                 )}
               >
                 Marketing
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[200px] gap-1 p-2">
-                  {marketingRoutes.map((route) => (
+                  {marketingRoutes.map(route => (
                     <li key={route.href}>
-                      <Link href={route.href} legacyBehavior passHref>
-                        <NavigationMenuLink
-                          className={cn(
-                            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800",
-                            pathname === route.href && "bg-zinc-100 dark:bg-zinc-800"
-                          )}
-                        >
+                      <NavigationMenuLink
+                        asChild
+                        className={cn(
+                          'block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-zinc-100 dark:hover:bg-zinc-800',
+                          pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800',
+                        )}
+                      >
+                        <Link href={route.href} passHref>
                           <span className="text-sm font-medium">{route.label}</span>
-                        </NavigationMenuLink>
-                      </Link>
+                        </Link>
+                      </NavigationMenuLink>
                     </li>
                   ))}
                 </ul>
@@ -203,22 +205,26 @@ export function Header() {
 
             {/* Dashboard link */}
             <NavigationMenuItem>
-              <Link href="/dashboard" legacyBehavior passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    pathname.startsWith("/dashboard") && "bg-zinc-100 dark:bg-zinc-800"
-                  )}
-                >
+              <NavigationMenuLink
+                asChild
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  pathname.startsWith('/dashboard') && 'bg-zinc-100 dark:bg-zinc-800',
+                )}
+              >
+                <Link href="/dashboard" passHref>
                   Dashboard
-                </NavigationMenuLink>
-              </Link>
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
         {/* Spacer to push theme switcher and mobile menu to the right */}
         <div className="flex-1" />
+
+        {/* Auth Modal */}
+        <AuthModal user={user} />
 
         {/* Theme Switcher */}
         <ThemeSwitcher />
@@ -235,17 +241,15 @@ export function Header() {
             <SheetHeader>
               <SheetTitle>Navigation</SheetTitle>
             </SheetHeader>
-            <nav className="flex flex-col gap-4 mt-4">
+            <nav className="mt-4 flex flex-col gap-4">
               {/* Main routes */}
-              {routes.map((route) => (
+              {routes.map(route => (
                 <Link
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-black dark:hover:text-white",
-                    pathname === route.href
-                      ? "text-black dark:text-white"
-                      : "text-zinc-500"
+                    'text-sm font-medium transition-colors hover:text-black dark:hover:text-white',
+                    pathname === route.href ? 'text-black dark:text-white' : 'text-zinc-500',
                   )}
                 >
                   {route.label}
@@ -255,18 +259,14 @@ export function Header() {
               <div className="h-px bg-zinc-200 dark:bg-zinc-800" />
 
               {/* Blog */}
-              <span className="text-xs font-semibold text-zinc-400 uppercase">
-                Blog
-              </span>
-              {blogRoutes.map((route) => (
+              <span className="text-xs font-semibold text-zinc-400 uppercase">Blog</span>
+              {blogRoutes.map(route => (
                 <Link
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-black dark:hover:text-white pl-2",
-                    pathname === route.href
-                      ? "text-black dark:text-white"
-                      : "text-zinc-500"
+                    'pl-2 text-sm font-medium transition-colors hover:text-black dark:hover:text-white',
+                    pathname === route.href ? 'text-black dark:text-white' : 'text-zinc-500',
                   )}
                 >
                   {route.label}
@@ -276,18 +276,14 @@ export function Header() {
               <div className="h-px bg-zinc-200 dark:bg-zinc-800" />
 
               {/* Docs */}
-              <span className="text-xs font-semibold text-zinc-400 uppercase">
-                Docs
-              </span>
-              {docsRoutes.map((route) => (
+              <span className="text-xs font-semibold text-zinc-400 uppercase">Docs</span>
+              {docsRoutes.map(route => (
                 <Link
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-black dark:hover:text-white pl-2",
-                    pathname === route.href
-                      ? "text-black dark:text-white"
-                      : "text-zinc-500"
+                    'pl-2 text-sm font-medium transition-colors hover:text-black dark:hover:text-white',
+                    pathname === route.href ? 'text-black dark:text-white' : 'text-zinc-500',
                   )}
                 >
                   {route.label}
@@ -297,18 +293,14 @@ export function Header() {
               <div className="h-px bg-zinc-200 dark:bg-zinc-800" />
 
               {/* Products */}
-              <span className="text-xs font-semibold text-zinc-400 uppercase">
-                Products
-              </span>
-              {productRoutes.map((route) => (
+              <span className="text-xs font-semibold text-zinc-400 uppercase">Products</span>
+              {productRoutes.map(route => (
                 <Link
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-black dark:hover:text-white pl-2",
-                    pathname === route.href
-                      ? "text-black dark:text-white"
-                      : "text-zinc-500"
+                    'pl-2 text-sm font-medium transition-colors hover:text-black dark:hover:text-white',
+                    pathname === route.href ? 'text-black dark:text-white' : 'text-zinc-500',
                   )}
                 >
                   {route.label}
@@ -318,18 +310,14 @@ export function Header() {
               <div className="h-px bg-zinc-200 dark:bg-zinc-800" />
 
               {/* Marketing */}
-              <span className="text-xs font-semibold text-zinc-400 uppercase">
-                Marketing
-              </span>
-              {marketingRoutes.map((route) => (
+              <span className="text-xs font-semibold text-zinc-400 uppercase">Marketing</span>
+              {marketingRoutes.map(route => (
                 <Link
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-black dark:hover:text-white pl-2",
-                    pathname === route.href
-                      ? "text-black dark:text-white"
-                      : "text-zinc-500"
+                    'pl-2 text-sm font-medium transition-colors hover:text-black dark:hover:text-white',
+                    pathname === route.href ? 'text-black dark:text-white' : 'text-zinc-500',
                   )}
                 >
                   {route.label}
@@ -342,10 +330,10 @@ export function Header() {
               <Link
                 href="/dashboard"
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-black dark:hover:text-white",
-                  pathname.startsWith("/dashboard")
-                    ? "text-black dark:text-white"
-                    : "text-zinc-500"
+                  'text-sm font-medium transition-colors hover:text-black dark:hover:text-white',
+                  pathname.startsWith('/dashboard')
+                    ? 'text-black dark:text-white'
+                    : 'text-zinc-500',
                 )}
               >
                 Dashboard

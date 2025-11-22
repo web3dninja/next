@@ -6,7 +6,7 @@ export type Role = "USER" | "ADMIN";
 
 export interface User {
   id: number;
-  name: string;
+  username: string;
   email: string;
   role: Role;
 }
@@ -24,17 +24,6 @@ export async function getUser(id: number): Promise<User | null> {
   return await prisma.user.findUnique({
     where: { id },
   });
-}
-
-export async function addUser(user: Omit<User, "id" | "role"> & { role?: Role }): Promise<User> {
-  const newUser = await prisma.user.create({
-    data: {
-      name: user.name,
-      email: user.email,
-      role: user.role ?? "USER",
-    },
-  });
-  return newUser as User;
 }
 
 export async function updateUser(id: number, data: Partial<Omit<User, "id">>): Promise<User | null> {
