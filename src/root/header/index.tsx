@@ -3,8 +3,8 @@
 import AuthModal from '@/components/auth-modal/index';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Logo } from './components/Logo';
-import { DesktopNav } from './components/DesktopNav';
-import { MobileNav } from './components/MobileNav';
+import { DesktopNav } from './components/desktop/DesktopNav';
+import { MobileNav } from './components/mobile/MobileNav';
 
 interface HeaderProps {
   user?: {
@@ -40,4 +40,3 @@ export function Header({ user }: HeaderProps) {
     </header>
   );
 }
-
