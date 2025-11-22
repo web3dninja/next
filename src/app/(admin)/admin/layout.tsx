@@ -23,12 +23,13 @@ export default async function AdminLayout({
           </div>
         </SidebarContent>
       </Sidebar>
-      <main className="w-full">
+
+      <div className="flex min-h-screen w-full flex-col">
         <Header>
           <AdminHeader user={user} />
         </Header>
-        {children}
-      </main>
+        <main>{children}</main>
+      </div>
     </SidebarProvider>
   );
 }

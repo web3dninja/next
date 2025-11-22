@@ -53,7 +53,7 @@
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
+  --muted: oklch(0.9315 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
@@ -131,6 +131,6 @@
   }
 
   .content {
-    @apply bg-muted dark:bg-muted/20 container mx-auto flex flex-col items-stretch justify-center gap-5 rounded-lg px-4 py-10;
+    @apply border-muted/50 border-border container mx-auto flex flex-col items-stretch justify-center gap-5 rounded-lg border-1 px-4 py-5;
   }
 }

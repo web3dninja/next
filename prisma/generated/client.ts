@@ -45,16 +45,6 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model Post
- * 
- */
-export type Post = Prisma.PostModel
-/**
- * Model Category
- * 
- */
-export type Category = Prisma.CategoryModel
-/**
  * Model Product
  * 
  */

@@ -18,32 +18,8 @@ model User {
   username String  @unique
   password String
   role     Role    @default(USER)
-  posts    Post[]
 
   @@map("users")
-}
-
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int?
-
-  @@map("posts")
-}
-
-model Category {
-  id          Int        @id @default(autoincrement())
-  slug        String     @unique
-  name        String
-  description String?
-  parentId    Int?
-  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
-  children    Category[] @relation("CategoryHierarchy")
-
-  @@map("categories")
 }
 
 model Product {

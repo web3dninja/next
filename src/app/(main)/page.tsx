@@ -1,3 +1,5 @@
+import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
+import { ItemMedia } from '@/components/ui/item';
 import Link from 'next/link';
 
 export default async function Home() {
@@ -18,47 +20,26 @@ export default async function Home() {
 
       {/* Features Grid */}
       <div className="mt-8 grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+        <Item variant="outline" asChild>
+          <Link href="/admin">
+            <ItemMedia variant="image">👑</ItemMedia>
+            <ItemContent>
+              <ItemTitle>Admin</ItemTitle>
+              <ItemDescription>Admin dashboard for managing users</ItemDescription>
+            </ItemContent>
+          </Link>
+        </Item>
+
         {/* Users Section */}
-        <Link href="admin/users">
-          <div className="h-full cursor-pointer rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
-            <h2 className="mb-2 text-xl font-semibold text-black dark:text-white">👥 Users</h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Full CRUD functionality for managing users
-            </p>
-          </div>
-        </Link>
-
-        {/* Blog Section */}
-        <Link href="/blog">
-          <div className="h-full cursor-pointer rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
-            <h2 className="mb-2 text-xl font-semibold text-black dark:text-white">📝 Blog</h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Create and manage posts in the blog
-            </p>
-          </div>
-        </Link>
-
-        {/* Docs Section */}
-        <Link href="/docs">
-          <div className="h-full cursor-pointer rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
-            <h2 className="mb-2 text-xl font-semibold text-black dark:text-white">
-              📚 Documentation
-            </h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Documentation and guides for the project
-            </p>
-          </div>
-        </Link>
-
-        {/* Admin Section */}
-        <Link href="/admin">
-          <div className="h-full cursor-pointer rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
-            <h2 className="mb-2 text-xl font-semibold text-black dark:text-white">👥 Admin</h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Admin dashboard for managing users
-            </p>
-          </div>
-        </Link>
+        <Item variant="outline" asChild>
+          <Link href="/admin/users">
+            <ItemMedia variant="image">👥</ItemMedia>
+            <ItemContent>
+              <ItemTitle>Users</ItemTitle>
+              <ItemDescription>Full CRUD functionality for managing users</ItemDescription>
+            </ItemContent>
+          </Link>
+        </Item>
       </div>
 
       {/* Tech Stack */}

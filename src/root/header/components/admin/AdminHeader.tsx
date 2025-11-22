@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import AuthModal from '@/components/auth-modal/index';
 import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
 import { DesktopNav } from '../desktop/desktop-nav';
@@ -8,14 +7,15 @@ import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
 import { User } from '@/lib/data';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { MenuIcon } from 'lucide-react';
 import { routes } from '../../routes';
-import { Button } from '@/components/ui/button';
+import { Logo } from '../Logo';
 
 export function AdminHeader({ user }: Readonly<{ user: User | null }>) {
   return (
     <>
       <SidebarTrigger />
+      <Logo />
+
       <DesktopNav routes={routes} />
 
       <div className="flex-1" />
