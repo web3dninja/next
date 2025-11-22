@@ -6,29 +6,29 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-function MobileNavMenu({ className, ...props }: React.ComponentProps<'ul'>) {
+function HorizontalNavMenu({ className, ...props }: React.ComponentProps<'ul'>) {
   return (
     <ul
-      data-slot="mobile-nav-menu"
-      data-mobile-nav="menu"
+      data-slot="horizontal-nav-menu"
+      data-horizontal-nav="menu"
       className={cn('flex w-full min-w-0 flex-col gap-1', className)}
       {...props}
     />
   );
 }
 
-function MobileNavMenuItem({ className, ...props }: React.ComponentProps<'li'>) {
+function HorizontalNavMenuItem({ className, ...props }: React.ComponentProps<'li'>) {
   return (
     <li
-      data-slot="mobile-nav-menu-item"
-      data-mobile-nav="menu-item"
+      data-slot="horizontal-nav-menu-item"
+      data-horizontal-nav="menu-item"
       className={cn('group/menu-item relative', className)}
       {...props}
     />
   );
 }
 
-const mobileNavMenuButtonVariants = cva(
+const HorizontalNavMenuButtonVariants = cva(
   'peer/menu-button ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
   {
     variants: {
@@ -50,7 +50,7 @@ const mobileNavMenuButtonVariants = cva(
   },
 );
 
-function MobileNavMenuButton({
+function HorizontalNavMenuButton({
   asChild = false,
   isActive = false,
   variant = 'default',
@@ -60,26 +60,26 @@ function MobileNavMenuButton({
 }: React.ComponentProps<'button'> & {
   asChild?: boolean;
   isActive?: boolean;
-} & VariantProps<typeof mobileNavMenuButtonVariants>) {
+} & VariantProps<typeof HorizontalNavMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button';
 
   return (
     <Comp
-      data-slot="mobile-nav-menu-button"
-      data-mobile-nav="menu-button"
+      data-slot="horizontal-nav-menu-button"
+      data-horizontal-nav="menu-button"
       data-size={size}
       data-active={isActive}
-      className={cn(mobileNavMenuButtonVariants({ variant, size }), className)}
+      className={cn(HorizontalNavMenuButtonVariants({ variant, size }), className)}
       {...props}
     />
   );
 }
 
-function MobileNavMenuSub({ className, ...props }: React.ComponentProps<'ul'>) {
+function HorizontalNavMenuSub({ className, ...props }: React.ComponentProps<'ul'>) {
   return (
     <ul
-      data-slot="mobile-nav-menu-sub"
-      data-mobile-nav="menu-sub"
+      data-slot="horizontal-nav-menu-sub"
+      data-horizontal-nav="menu-sub"
       className={cn(
         'border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5',
         className,
@@ -89,18 +89,18 @@ function MobileNavMenuSub({ className, ...props }: React.ComponentProps<'ul'>) {
   );
 }
 
-function MobileNavMenuSubItem({ className, ...props }: React.ComponentProps<'li'>) {
+function HorizontalNavMenuSubItem({ className, ...props }: React.ComponentProps<'li'>) {
   return (
     <li
-      data-slot="mobile-nav-menu-sub-item"
-      data-mobile-nav="menu-sub-item"
+      data-slot="horizontal-nav-menu-sub-item"
+      data-horizontal-nav="menu-sub-item"
       className={cn('group/menu-sub-item relative', className)}
       {...props}
     />
   );
 }
 
-function MobileNavMenuSubButton({
+function HorizontalNavMenuSubButton({
   asChild = false,
   size = 'md',
   isActive = false,
@@ -115,8 +115,8 @@ function MobileNavMenuSubButton({
 
   return (
     <Comp
-      data-slot="mobile-nav-menu-sub-button"
-      data-mobile-nav="menu-sub-button"
+      data-slot="horizontal-nav-menu-sub-button"
+      data-horizontal-nav="menu-sub-button"
       data-size={size}
       data-active={isActive}
       className={cn(
@@ -132,10 +132,10 @@ function MobileNavMenuSubButton({
 }
 
 export {
-  MobileNavMenu,
-  MobileNavMenuItem,
-  MobileNavMenuButton,
-  MobileNavMenuSub,
-  MobileNavMenuSubItem,
-  MobileNavMenuSubButton,
+  HorizontalNavMenu,
+  HorizontalNavMenuItem,
+  HorizontalNavMenuButton,
+  HorizontalNavMenuSub,
+  HorizontalNavMenuSubItem,
+  HorizontalNavMenuSubButton,
 };

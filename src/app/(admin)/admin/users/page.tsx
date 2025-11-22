@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import UsersList from './components/UsersList';
 import { getUsers } from '@/lib/data';
+import { BackButton } from '@/components/ui/back-button';
 
 export default async function UsersPage() {
   const users = await getUsers();
@@ -8,12 +9,7 @@ export default async function UsersPage() {
   return (
     <div className="content">
       <div>
-        <Link
-          href="/"
-          className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-        >
-          ← Back to Home
-        </Link>
+        <BackButton href="/admin" label="Back to Admin" />
       </div>
 
       <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Users</h1>

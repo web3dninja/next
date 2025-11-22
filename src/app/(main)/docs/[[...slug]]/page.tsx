@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { docsContent } from '../screens';
+import { BackButton } from '@/components/ui/back-button';
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
@@ -37,22 +38,12 @@ export default async function DocsPage({ params }: PageProps) {
   return (
     <div className="content">
       {/* Breadcrumb */}
-      <div className="mb-6 flex items-center gap-4">
-        <Button asChild variant="ghost" size="sm">
-          <Link href="/">← Home</Link>
-        </Button>
-        {path && (
-          <>
-            <span className="text-zinc-300 dark:text-zinc-700">/</span>
-            <Button asChild variant="ghost" size="sm">
-              <Link href="/docs">Docs</Link>
-            </Button>
-          </>
-        )}
+      <div>
+        <BackButton href="/" label="Home" />
       </div>
 
       {/* Page title */}
-      <h1 className="mb-6 text-3xl font-bold text-black dark:text-white">{pageData.title}</h1>
+      <h1>{pageData.title}</h1>
 
       {/* Page content */}
       {pageData.content}

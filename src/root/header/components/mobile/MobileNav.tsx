@@ -2,19 +2,27 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
-  MobileNavMenu,
-  MobileNavMenuItem,
-  MobileNavMenuButton,
-  MobileNavMenuSub,
-  MobileNavMenuSubItem,
-  MobileNavMenuSubButton,
-} from '@/components/ui/mobile-nav-menu';
-import { type RouteWithDropdown } from '../../routes';
+  HorizontalNavMenuItem,
+  HorizontalNavMenuSubButton,
+  HorizontalNavMenuSubItem,
+  HorizontalNavMenuSub,
+  HorizontalNavMenuButton,
+  HorizontalNavMenu,
+} from '@/components/ui/horizontal-nav';
+import { type RouteWithDropdown } from '@/types/header.type';
+import { HorizontalRoutes } from '@/components/features/horizontal-routes';
 
 interface MobileNavProps {
   routes: RouteWithDropdown[];
@@ -39,47 +47,12 @@ export function MobileNav({ routes, title = 'Navigation' }: MobileNavProps) {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0">
-        <SheetHeader className="border-b px-6 py-4">
+      <SheetContent side="left">
+        <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
         <div className="p-4">
-          <MobileNavMenu>
-          {routes.map(route => (
-              <MobileNavMenuItem key={route.href}>
-                {route.dropdown ? (
-                  <Collapsible>
-                    <CollapsibleTrigger asChild>
-                      <MobileNavMenuButton
-                        isActive={isActive(route.href, true)}
-                        className="w-full outline [&[data-state=open]_svg]:rotate-180"
-                      >
-                        <span>{route.label}</span>
-                        <ChevronDown className="ml-auto size-4 transition-transform" />
-                      </MobileNavMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <MobileNavMenuSub>
-                        {route.dropdown.map(item => (
-                          <MobileNavMenuSubItem key={item.href}>
-                            <MobileNavMenuSubButton asChild isActive={isActive(item.href, false)}>
-                              <Link href={item.href}>{item.label}</Link>
-                            </MobileNavMenuSubButton>
-                          </MobileNavMenuSubItem>
-                        ))}
-                      </MobileNavMenuSub>
-                    </CollapsibleContent>
-                  </Collapsible>
-                ) : (
-                  <MobileNavMenuButton asChild isActive={isActive(route.href)}>
-                    <Link href={route.href}>
-                      <span>{route.label}</span>
-            </Link>
-                  </MobileNavMenuButton>
-                )}
-              </MobileNavMenuItem>
-          ))}
-          </MobileNavMenu>
+          <HorizontalRoutes routes={routes} />
         </div>
       </SheetContent>
     </Sheet>

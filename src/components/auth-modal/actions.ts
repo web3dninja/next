@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import { hashPassword, verifyPassword, signToken } from '@/lib/auth';
-import { Role } from '@/lib/data/users';
+import { Role, User } from '@/lib/data/users';
 
 export async function registerAction(data: {
   username: string;
@@ -114,7 +114,7 @@ export async function logoutAction() {
   return { success: true };
 }
 
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get('auth-token')?.value;
 

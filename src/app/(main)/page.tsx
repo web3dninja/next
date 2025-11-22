@@ -19,7 +19,7 @@ export default async function Home() {
       {/* Features Grid */}
       <div className="mt-8 grid w-full grid-cols-1 gap-4 md:grid-cols-2">
         {/* Users Section */}
-        <Link href="/admin/users">
+        <Link href="admin/users">
           <div className="h-full cursor-pointer rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
             <h2 className="mb-2 text-xl font-semibold text-black dark:text-white">👥 Users</h2>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">

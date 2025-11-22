@@ -1,10 +1,6 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { getCategory, getServerDate } from '@/lib/data';
-
-// Catch-all route - /products/[...categories]
-// Matches: /products/electronics, /products/electronics/phones, /products/electronics/phones/iphone
-// Does NOT match: /products (needs at least one segment)
+import { BackButton } from '@/components/ui/back-button';
 
 interface PageProps {
   params: Promise<{ categories: string[] }>;
@@ -18,17 +14,15 @@ export default async function ProductCategoryPage({ params }: PageProps) {
 
   return (
     <div className="content">
-      <Button asChild variant="ghost" className="mb-6">
-        <Link href="/">← Home</Link>
-      </Button>
+      <div>
+        <BackButton href="/" label="Home" />
+      </div>
 
-      <h1 className="mb-2 text-3xl font-bold text-black dark:text-white">
-        {category ? category.name : 'Category'}
-      </h1>
+      <h1 className="title">{category ? category.name : 'Category'}</h1>
 
-      <p className="mb-6 text-sm text-zinc-500 dark:text-zinc-400">Server date: {serverDate}</p>
+      <p className="text-sm text-zinc-500 dark:text-zinc-400">Server date: {serverDate}</p>
 
-      {category && <p className="mb-6 text-zinc-600 dark:text-zinc-400">{category.description}</p>}
+      {category && <p className="text-zinc-600 dark:text-zinc-400">{category.description}</p>}
 
       <div className="space-y-4">
         {/* Breadcrumb */}

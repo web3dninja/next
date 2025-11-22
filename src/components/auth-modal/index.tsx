@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { logoutAction } from "@/components/auth-modal/actions";
-import { LoginForm } from "./components/login-form";
-import { RegisterForm } from "./components/register-form";
+} from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { logoutAction } from '@/components/auth-modal/actions';
+import { LoginForm } from './components/login-form';
+import { RegisterForm } from './components/register-form';
 
 interface AuthModalProps {
   user?: {
@@ -25,7 +25,7 @@ interface AuthModalProps {
   } | null;
 }
 
-export default function AuthModal({ user }: AuthModalProps) {
+export default function AuthModal() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -35,24 +35,6 @@ export default function AuthModal({ user }: AuthModalProps) {
       router.refresh();
     },
   });
-
-  if (user) {
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-zinc-600 dark:text-zinc-400">
-          {user.username}
-        </span>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => logoutMutation.mutate()}
-          disabled={logoutMutation.isPending}
-        >
-          {logoutMutation.isPending ? "..." : "Logout"}
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -72,7 +54,7 @@ export default function AuthModal({ user }: AuthModalProps) {
           </TabsList>
 
           <TabsContent value="login" className="mt-4">
-            <LoginForm/>
+            <LoginForm />
           </TabsContent>
 
           <TabsContent value="register" className="mt-4">

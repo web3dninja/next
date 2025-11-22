@@ -1,11 +1,4 @@
-export type Route = {
-  href: string;
-  label: string;
-};
-
-export type RouteWithDropdown = Route & {
-  dropdown?: Route[];
-};
+import { RouteWithDropdown } from '@/types/header.type';
 
 export const routes: RouteWithDropdown[] = [
   { href: '/', label: 'Home' },

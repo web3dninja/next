@@ -28,14 +28,14 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="content">
-      <div className="w-full max-w-3xl p-8">
-        <Button asChild variant="ghost" className="mb-6">
+      <div>
+        <Button asChild variant="ghost">
           <Link href="/blog">← Blog</Link>
         </Button>
-
-        <h1 className="mb-4 text-3xl font-bold text-black dark:text-white">{post.title}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{post.content || 'No content available'}</p>
       </div>
+
+      <h1 className="title">{post.title}</h1>
+      <p className="text-zinc-600 dark:text-zinc-400">{post.content || 'No content available'}</p>
     </div>
   );
 }
