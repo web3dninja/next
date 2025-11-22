@@ -1,21 +1,20 @@
-"use server";
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { addUser, updateUser, deleteUser } from "@/lib/data";
-
+import { revalidatePath } from 'next/cache';
+import { deleteUser } from '@/lib/data';
 
 export async function deleteUserAction(id: number) {
   if (!id) {
-    throw new Error("ID is required");
+    throw new Error('ID is required');
   }
 
   const user = await deleteUser(id);
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
-  revalidatePath("/users");
+  revalidatePath('/users');
 
   return user;
 }

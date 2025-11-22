@@ -19,7 +19,7 @@ export default async function UserPage({ params }: PageProps) {
       <main className="flex min-h-screen w-full max-w-3xl flex-col gap-8 bg-white px-8 py-16 dark:bg-black">
         <div>
           <Link
-            href="/users"
+            href="admin/users"
             className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
           >
             ← Back to List
