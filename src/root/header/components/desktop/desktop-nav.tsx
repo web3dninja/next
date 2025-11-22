@@ -10,7 +10,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { DropdownItem } from './DropdownItem';
+import { DropdownItem } from './dropdown-item';
 import { RouteWithDropdown } from '@/types/header.type';
 
 export function DesktopNav({ routes }: Readonly<{ routes: RouteWithDropdown[] }>) {

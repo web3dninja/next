@@ -3,7 +3,7 @@
 import AuthModal from '@/components/auth-modal/index';
 import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
 import { Logo } from './components/Logo';
-import { DesktopNav } from './components/desktop/DesktopNav';
+import { DesktopNav } from './components/desktop/desktop-nav';
 import { MobileNav } from './components/mobile/MobileNav';
 import { UserMenu } from './components/UserMenu';
 import { routes } from './routes';

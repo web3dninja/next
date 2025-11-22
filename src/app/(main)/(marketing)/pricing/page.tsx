@@ -2,12 +2,13 @@ import { BackButton } from '@/components/ui/back-button';
 
 export default function PricingPage() {
   return (
-    <div className="content">
-      <div>
+    <>
+      <div className="container">
         <BackButton href="/" label="Home" />
       </div>
 
-      <h1 className="mb-6 text-3xl font-bold text-black dark:text-white">Pricing</h1>
+      <div className="content">
+        <h1 className="mb-6 text-3xl font-bold text-black dark:text-white">Pricing</h1>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-700">
@@ -32,6 +33,7 @@ export default function PricingPage() {
       <p className="mt-6 text-sm text-zinc-500 dark:text-zinc-400">
         Route Group: (marketing) - does not affect URL
       </p>
-    </div>
+      </div>
+    </>
   );
 }

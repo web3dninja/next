@@ -1,6 +1,5 @@
 import { Header } from '@/root';
 import { getCurrentUser } from '@/components/auth-modal/actions';
-import { User } from '@/lib/data';
 import { MainHeader } from '@/root/header/components/main/MainHeader';
 
 export default async function MainLayout({
@@ -15,7 +14,7 @@ export default async function MainLayout({
       <Header>
         <MainHeader user={user} />
       </Header>
-      {children}
+      <main>{children}</main>
     </>
   );
 }

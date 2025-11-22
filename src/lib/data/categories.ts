@@ -1,45 +1,106 @@
 // Categories data and functions
 
-export interface Category {
-  id: string;
-  name: string;
-  description: string;
-  subcategories?: Category[];
-}
+import prisma from '@/lib/prisma';
 
-// Categories data
-export const categories: Record<string, Category> = {
-  electronics: {
-    id: "electronics",
-    name: "Electronics",
-    description: "Smartphones, laptops, tablets and accessories",
-    subcategories: [
-      { id: "phones", name: "Phones", description: "Smartphones of all brands" },
-      { id: "laptops", name: "Laptops", description: "Laptops for work and gaming" },
-      { id: "tablets", name: "Tablets", description: "Tablets and e-readers" },
-    ],
-  },
-  clothing: {
-    id: "clothing",
-    name: "Clothing",
-    description: "Men's and women's clothing",
-    subcategories: [
-      { id: "men", name: "Men's", description: "Clothing for men" },
-      { id: "women", name: "Women's", description: "Clothing for women" },
-    ],
-  },
-  home: {
-    id: "home",
-    name: "Home & Garden",
-    description: "Products for home and garden",
-  },
-};
+export interface Category {
+  id: number;
+  slug: string;
+  name: string;
+  description: string | null;
+  parentId: number | null;
+  children?: Category[];
+}
 
 // Data access functions
 export async function getCategories(): Promise<Category[]> {
-  return Object.values(categories);
+  const categories = await prisma.category.findMany({
+    where: { parentId: null },
+    include: {
+      children: true,
+    },
+  });
+  return categories;
 }
 
-export async function getCategory(id: string): Promise<Category | null> {
-  return categories[id] || null;
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  const category = await prisma.category.findUnique({
+    where: { slug },
+    include: {
+      children: true,
+    },
+  });
+  return category;
+}
+
+export async function getCategoryById(id: number): Promise<Category | null> {
+  const category = await prisma.category.findUnique({
+    where: { id },
+    include: {
+      children: true,
+    },
+  });
+  return category;
+}
+
+export async function getAllCategories(): Promise<Category[]> {
+  return await prisma.category.findMany({
+    include: {
+      children: true,
+    },
+  });
+}
+
+// Mutation functions
+export async function createCategory(data: {
+  slug: string;
+  name: string;
+  description?: string;
+  parentId?: number;
+}): Promise<Category> {
+  return await prisma.category.create({
+    data: {
+      slug: data.slug,
+      name: data.name,
+      description: data.description ?? null,
+      parentId: data.parentId ?? null,
+    },
+    include: {
+      children: true,
+    },
+  });
+}
+
+export async function updateCategory(
+  id: number,
+  data: Partial<{ slug: string; name: string; description: string; parentId: number | null }>,
+): Promise<Category | null> {
+  try {
+    return await prisma.category.update({
+      where: { id },
+      data,
+      include: {
+        children: true,
+      },
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function deleteCategory(id: number): Promise<Category | null> {
+  try {
+    return await prisma.category.delete({
+      where: { id },
+      include: {
+        children: true,
+      },
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+// Legacy function for compatibility
+export async function getCategory(slug: string): Promise<Category | null> {
+  return getCategoryBySlug(slug);
 }

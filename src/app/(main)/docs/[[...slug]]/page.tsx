@@ -36,14 +36,14 @@ export default async function DocsPage({ params }: PageProps) {
   }
 
   return (
-    <div className="content">
-      {/* Breadcrumb */}
-      <div>
+    <>
+      <div className="container">
         <BackButton href="/" label="Home" />
       </div>
 
-      {/* Page title */}
-      <h1>{pageData.title}</h1>
+      <div className="content">
+        {/* Page title */}
+        <h1>{pageData.title}</h1>
 
       {/* Page content */}
       {pageData.content}
@@ -69,6 +69,7 @@ export default async function DocsPage({ params }: PageProps) {
           ))}
         </nav>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

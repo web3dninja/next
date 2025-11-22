@@ -1,8 +1,8 @@
 // Users data and functions
 
-import prisma from "@/lib/prisma";
+import prisma from '@/lib/prisma';
 
-export type Role = "USER" | "ADMIN";
+export type Role = 'USER' | 'ADMIN';
 
 export interface User {
   id: number;
@@ -11,22 +11,22 @@ export interface User {
   role: Role;
 }
 
-
-
 // Data access functions
 export async function getUsers(): Promise<User[]> {
-  const users = await prisma.user.findMany();
-  return users;
+  return await prisma.user.findMany();
 }
 
 export async function getUser(id: number): Promise<User | null> {
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await new Promise(resolve => setTimeout(resolve, 50));
   return await prisma.user.findUnique({
     where: { id },
   });
 }
 
-export async function updateUser(id: number, data: Partial<Omit<User, "id">>): Promise<User | null> {
+export async function updateUser(
+  id: number,
+  data: Partial<Omit<User, 'id'>>,
+): Promise<User | null> {
   try {
     return await prisma.user.update({
       where: { id },

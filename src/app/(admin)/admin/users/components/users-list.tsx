@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import DeleteUserButton from './DeleteUserButton';
+import DeleteUserButton from './delete-user-button';
 import { User } from '@/lib/data/users';
 import {
   Item,
@@ -15,15 +15,14 @@ import {
 import { usePathname } from 'next/navigation';
 
 interface UsersListProps {
-  initialUsers: User[];
+  users: User[];
 }
 
-export default function UsersList({ initialUsers }: UsersListProps) {
+export function UsersList({ users }: UsersListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const lacation = usePathname();
 
-  const currentUsers = initialUsers;
-  const filteredUsers = currentUsers.filter(
+  const filteredUsers = users.filter(
     user =>
       user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()),

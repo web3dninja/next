@@ -14,10 +14,13 @@ export default function FeaturesPage() {
   ];
 
   return (
-    <div className="content">
-      <BackButton href="/" label="Home" />
+    <>
+      <div className="container">
+        <BackButton href="/" label="Home" />
+      </div>
 
-      <h1>Features</h1>
+      <div className="content">
+        <h1>Features</h1>
 
       <div className="grid gap-4 md:grid-cols-2">
         {features.map(feature => (
@@ -30,6 +33,7 @@ export default function FeaturesPage() {
           </div>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

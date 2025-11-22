@@ -33,3 +33,28 @@ model Post {
 
   @@map("posts")
 }
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  slug        String     @unique
+  name        String
+  description String?
+  parentId    Int?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+
+  @@map("categories")
+}
+
+model Product {
+  id          Int    @id @default(autoincrement())
+  name        String
+  brand       String
+  description String
+  price       String
+  link        String
+  image       String
+  category    String
+
+  @@map("products")
+}

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import AuthModal from '@/components/auth-modal/index';
 import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
-import { DesktopNav } from '../desktop/DesktopNav';
+import { DesktopNav } from '../desktop/desktop-nav';
 import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
 import { User } from '@/lib/data';

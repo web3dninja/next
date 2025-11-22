@@ -21,15 +21,7 @@ export const routes: RouteWithDropdown[] = [
       { href: '/docs/guides/routing', label: 'Routing' },
     ],
   },
-  {
-    href: '/products',
-    label: 'Products',
-    dropdown: [
-      { href: '/products/electronics', label: 'Electronics' },
-      { href: '/products/electronics/phones', label: 'Phones' },
-      { href: '/products/clothing', label: 'Clothing' },
-    ],
-  },
+  { href: '/products', label: 'Products' },
   {
     href: '/pricing',
     label: 'Pricing',

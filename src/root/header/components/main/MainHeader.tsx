@@ -1,5 +1,5 @@
 import { Logo } from '../Logo';
-import { DesktopNav } from '../desktop/DesktopNav';
+import { DesktopNav } from '../desktop/desktop-nav';
 import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
 import { ThemeSwitcher } from '../theme-switcher';

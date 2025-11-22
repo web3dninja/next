@@ -115,18 +115,22 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground flex min-h-screen flex-col items-stretch;
   }
 
   h1 {
     @apply text-3xl font-bold text-black dark:text-white;
   }
 
-  .main {
-    @apply min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black;
+  main {
+    @apply flex w-full flex-1 flex-col items-stretch gap-5 p-4 py-5;
+  }
+
+  .container {
+    @apply container mx-auto;
   }
 
   .content {
-    @apply bg-background container mx-auto flex min-h-screen flex-col items-stretch justify-center gap-5 px-4 py-10;
+    @apply bg-muted dark:bg-muted/20 container mx-auto flex flex-col items-stretch justify-center gap-5 rounded-lg px-4 py-10;
   }
 }
