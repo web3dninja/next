@@ -3,7 +3,7 @@ import {
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { RouteWithDropdown } from '../../routes';
+import { RouteWithDropdown } from '@/types/header.type';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';

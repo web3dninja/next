@@ -17,7 +17,7 @@ export function MainHeader({ user }: Readonly<{ user: User | null }>) {
       <div className="flex-1" />
 
       <div className="flex items-center gap-2">
-        {user ? <UserMenu user={user} /> : <AuthModal user={user} />}
+        {user ? <UserMenu user={user} /> : <AuthModal />}
         <MobileNav routes={routes} />
         <ThemeSwitcher />
       </div>
