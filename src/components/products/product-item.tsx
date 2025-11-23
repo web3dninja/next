@@ -29,11 +29,11 @@ export function ProductItem({ product }: { product: Product }) {
           </Badge>
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>{product.name}</ItemTitle>
+          <ItemTitle className="line-clamp-2">{product.name}</ItemTitle>
           <ItemDescription>{product.description}</ItemDescription>
           <span className="font-semibold text-black dark:text-white">${product.price}</span>
         </ItemContent>
-        <ItemFooter className="w-full flex-col items-start gap-2">
+        <ItemFooter className="mt-auto w-full basis-auto flex-col items-start gap-2">
           {product.redditStats && <RedditStatsDisplay stats={product.redditStats} />}
         </ItemFooter>
       </Link>
