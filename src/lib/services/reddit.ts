@@ -31,19 +31,56 @@ interface UserVote {
 }
 
 // Sentiment analysis based on keywords with weighted scoring
-function analyzeSentiment(text: string): { sentiment: 'positive' | 'negative' | 'neutral'; strength: number } {
+function analyzeSentiment(text: string): {
+  sentiment: 'positive' | 'negative' | 'neutral';
+  strength: number;
+} {
   const lowerText = text.toLowerCase();
 
   const positiveWords = [
-    'great', 'amazing', 'excellent', 'love', 'best', 'awesome', 'fantastic',
-    'perfect', 'recommend', 'worth', 'good', 'nice', 'helpful', 'quality',
-    'reliable', 'solid', 'impressive', 'satisfied', 'happy', 'wonderful'
+    'great',
+    'amazing',
+    'excellent',
+    'love',
+    'best',
+    'awesome',
+    'fantastic',
+    'perfect',
+    'recommend',
+    'worth',
+    'good',
+    'nice',
+    'helpful',
+    'quality',
+    'reliable',
+    'solid',
+    'impressive',
+    'satisfied',
+    'happy',
+    'wonderful',
   ];
 
   const negativeWords = [
-    'bad', 'terrible', 'awful', 'hate', 'worst', 'poor', 'disappointing',
-    'broken', 'waste', 'avoid', 'regret', 'useless', 'cheap', 'defective',
-    'frustrating', 'annoying', 'failed', 'garbage', 'junk', 'horrible'
+    'bad',
+    'terrible',
+    'awful',
+    'hate',
+    'worst',
+    'poor',
+    'disappointing',
+    'broken',
+    'waste',
+    'avoid',
+    'regret',
+    'useless',
+    'cheap',
+    'defective',
+    'frustrating',
+    'annoying',
+    'failed',
+    'garbage',
+    'junk',
+    'horrible',
   ];
 
   let positiveCount = 0;
@@ -89,23 +126,43 @@ function calculateSpecificity(text: string, keyword: string): number {
   return keywordParts.length > 0 ? matchedParts / keywordParts.length : 0.5;
 }
 
-export async function fetchRedditStats(keyword: string): Promise<RedditStatsResult> {
+export async function fetchRedditStats(keywords: string | string[]): Promise<RedditStatsResult> {
   try {
-    // Search Reddit for the keyword
-    const searchUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(keyword)}&sort=relevance&limit=100&t=month`;
+    // Convert to array if single keyword
+    const keywordArray = Array.isArray(keywords) ? keywords : [keywords];
 
-    const response = await fetch(searchUrl, {
-      headers: {
-        'User-Agent': 'ProductStats/1.0',
-      },
-    });
+    // Fetch data for all keywords and combine results
+    const allPosts: RedditPost[] = [];
+    const seenPostIds = new Set<string>();
 
-    if (!response.ok) {
-      throw new Error(`Reddit API error: ${response.status}`);
+    for (const keyword of keywordArray) {
+      const searchUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(keyword)}&sort=relevance&limit=100&t=month`;
+
+      const response = await fetch(searchUrl, {
+        headers: {
+          'User-Agent': 'ProductStats/1.0',
+        },
+      });
+
+      if (!response.ok) {
+        console.warn(`Reddit API error for keyword "${keyword}": ${response.status}`);
+        continue;
+      }
+
+      const data: RedditSearchResponse = await response.json();
+      const posts = data.data.children.map(child => child.data);
+
+      // Add unique posts only (by title + author to avoid duplicates)
+      for (const post of posts) {
+        const postId = `${post.title}-${post.author}`;
+        if (!seenPostIds.has(postId)) {
+          seenPostIds.add(postId);
+          allPosts.push(post);
+        }
+      }
     }
 
-    const data: RedditSearchResponse = await response.json();
-    const posts = data.data.children.map(child => child.data);
+    const posts = allPosts;
 
     // Track unique user votes (each user contributes up to 1 vote)
     const userVotes = new Map<string, UserVote>();
@@ -113,7 +170,14 @@ export async function fetchRedditStats(keyword: string): Promise<RedditStatsResu
     for (const post of posts) {
       const text = `${post.title} ${post.selftext}`;
       const { sentiment, strength } = analyzeSentiment(text);
-      const specificity = calculateSpecificity(text, keyword);
+
+      // Calculate specificity for the best matching keyword
+      let maxSpecificity = 0;
+      for (const keyword of keywordArray) {
+        const specificity = calculateSpecificity(text, keyword);
+        maxSpecificity = Math.max(maxSpecificity, specificity);
+      }
+      const specificity = maxSpecificity;
 
       // Get or create user vote
       const existingVote = userVotes.get(post.author) || {
@@ -145,14 +209,13 @@ export async function fetchRedditStats(keyword: string): Promise<RedditStatsResu
     }
 
     const mentions = posts.length;
-    const uniqueUsers = userVotes.size;
     const total = totalPositive + totalNegative || 1;
 
     // Calculate scores as percentages
     const positiveScore = Math.round((totalPositive / total) * 100);
     const negativeScore = Math.round((totalNegative / total) * 100);
 
-    // Calculate positive:negative ratio
+    // Calculate positive:negative ratio (capped at 10:1 for normalization)
     const ratio = totalNegative > 0 ? totalPositive / totalNegative : totalPositive;
     const normalizedRatio = Math.min(ratio / 10, 1); // Normalize to 0-1
 
@@ -160,13 +223,11 @@ export async function fetchRedditStats(keyword: string): Promise<RedditStatsResu
     const normalizedPositive = positiveScore / 100;
 
     // Combined score: 75% positive sentiment, 25% positive:negative ratio
-    const combinedScore = (normalizedPositive * 0.75) + (normalizedRatio * 0.25);
+    // This matches the described scoring mechanism exactly
+    const combinedScore = normalizedPositive * 0.75 + normalizedRatio * 0.25;
 
-    // Factor in popularity (more mentions = more weight)
-    const popularityBonus = Math.min(uniqueUsers / 50, 0.2); // Up to 20% bonus
-
-    // Final rank (1-100)
-    const rank = Math.round((combinedScore + popularityBonus) * 100);
+    // Final rank (1-100) - no popularity bonus, pure sentiment-based ranking
+    const rank = Math.round(combinedScore * 100);
 
     return {
       mentions,
@@ -175,7 +236,8 @@ export async function fetchRedditStats(keyword: string): Promise<RedditStatsResu
       rank: Math.max(1, Math.min(100, rank)),
     };
   } catch (error) {
-    console.error(`Error fetching Reddit stats for "${keyword}":`, error);
+    const keywordStr = Array.isArray(keywords) ? keywords.join(', ') : keywords;
+    console.error(`Error fetching Reddit stats for "${keywordStr}":`, error);
 
     // Return default values on error
     return {

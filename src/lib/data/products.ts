@@ -69,7 +69,9 @@ export async function addProduct(
   });
 
   if (!existingStats) {
-    const redditData = await fetchRedditStats(product.redditKeyword);
+    // Split keywords string into array (format: "tag-tag-tag")
+    const keywords = product.redditKeyword.split('-').filter(Boolean);
+    const redditData = await fetchRedditStats(keywords);
 
     await prisma.redditStats.create({
       data: {

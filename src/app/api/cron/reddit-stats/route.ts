@@ -31,7 +31,9 @@ export async function GET(request: Request) {
 
     for (const stat of stats) {
       try {
-        const redditData = await fetchRedditStats(stat.keyword);
+        // Split keywords string into array (format: "tag-tag-tag")
+        const keywords = stat.keyword.split('-').filter(Boolean);
+        const redditData = await fetchRedditStats(keywords);
 
         await prisma.redditStats.update({
           where: { keyword: stat.keyword },

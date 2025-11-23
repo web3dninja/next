@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { ImagePreview } from '@/components/ui/image-preview';
+import { TagsInput } from '@/components/ui/tags-input';
 import { createProductAction, updateProductAction } from '../product.actions';
 import { Product } from '@/lib/data';
 import Link from 'next/link';
@@ -29,7 +30,7 @@ const productSchema = z.object({
   link: z.string().min(1, 'Link is required'),
   image: z.string().min(1, 'Image URL is required'),
   category: z.string().min(1, 'Category is required'),
-  redditKeyword: z.string().min(1, 'Reddit Keyword is required'),
+  redditKeywords: z.array(z.string().min(1)).min(1, 'At least one Reddit keyword is required'),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
@@ -50,14 +51,16 @@ export function ProductForm({ mode, product }: ProductFormProps) {
       link: product?.link ?? '',
       image: product?.image ?? '',
       category: product?.category ?? '',
-      redditKeyword: product?.redditKeyword ?? '',
+      redditKeywords: product?.redditKeyword
+        ? product.redditKeyword.split('-').filter(Boolean)
+        : [],
     },
   });
 
   const imageUrl = form.watch('image');
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
-    mutationFn: (data: ProductFormData) => createProductAction(data),
+    mutationFn: (data: Omit<Product, 'id' | 'redditStats'>) => createProductAction(data),
     onSuccess: () => {
       toast.success('Product created successfully!');
     },
@@ -67,7 +70,8 @@ export function ProductForm({ mode, product }: ProductFormProps) {
   });
 
   const { mutate: updateMutation, isPending: isUpdating } = useMutation({
-    mutationFn: (data: ProductFormData) => updateProductAction(product!.id, data),
+    mutationFn: (data: Omit<Product, 'id' | 'redditStats'>) =>
+      updateProductAction(product!.id, data),
     onSuccess: () => {
       toast.success('Product updated successfully!');
     },
@@ -79,10 +83,16 @@ export function ProductForm({ mode, product }: ProductFormProps) {
   const isPending = isCreating || isUpdating;
 
   const onSubmit = (data: ProductFormData) => {
+    const { redditKeywords, ...restData } = data;
+    const formattedData: Omit<Product, 'id' | 'redditStats'> = {
+      ...restData,
+      redditKeyword: redditKeywords.join('-'),
+    };
+
     if (mode === 'create') {
-      createMutation(data);
+      createMutation(formattedData);
     } else {
-      updateMutation(data);
+      updateMutation(formattedData);
     }
   };
 
@@ -219,12 +229,17 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
             <FormField
               control={form.control}
-              name="redditKeyword"
+              name="redditKeywords"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Reddit Keyword</FormLabel>
+                  <FormLabel>Reddit Keywords</FormLabel>
                   <FormControl>
-                    <Input placeholder="iphone-15-pro" disabled={isPending} {...field} />
+                    <TagsInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Add keywords (e.g., AirFryer, Air Fryer)"
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
