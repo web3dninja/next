@@ -36,11 +36,8 @@ async function seedProducts() {
 
   for (const product of products) {
     try {
-      const created = await prisma.product.create({
-        data: product,
-      });
-
-      const existingStats = await prisma.redditStats.findUnique({
+      // First, ensure RedditStats exists
+      let existingStats = await prisma.redditStats.findUnique({
         where: { keyword: product.redditKeyword },
       });
 
@@ -49,9 +46,11 @@ async function seedProducts() {
           .split('-')
           .filter(Boolean)
           .map(k => k.trim());
+
+        console.log(`Fetching Reddit stats for keywords: ${keywords.join(', ')}`);
         const redditData = await fetchRedditStats(keywords);
 
-        await prisma.redditStats.create({
+        existingStats = await prisma.redditStats.create({
           data: {
             keyword: product.redditKeyword,
             mentions: redditData.mentions,
@@ -60,7 +59,16 @@ async function seedProducts() {
             rank: redditData.rank,
           },
         });
+
+        console.log(
+          `📊 Created RedditStats: mentions=${redditData.mentions}, positive=${redditData.positiveScore}%, rank=${redditData.rank}`,
+        );
       }
+
+      // Then create product
+      const created = await prisma.product.create({
+        data: product,
+      });
 
       console.log(`✅ Created product: ${created.name} (${created.brand}) - $${created.price}`);
     } catch (error: any) {
