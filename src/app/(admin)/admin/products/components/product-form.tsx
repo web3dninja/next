@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,6 +41,7 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ mode, product }: ProductFormProps) {
+  const queryClient = useQueryClient();
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -62,6 +63,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
   const { mutate: createMutation, isPending: isCreating } = useMutation({
     mutationFn: (data: Omit<Product, 'id' | 'redditStats'>) => createProductAction(data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product created successfully!');
     },
     onError: error => {
@@ -73,6 +75,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
     mutationFn: (data: Omit<Product, 'id' | 'redditStats'>) =>
       updateProductAction(product!.id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product updated successfully!');
     },
     onError: error => {

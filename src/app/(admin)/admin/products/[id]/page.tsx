@@ -6,6 +6,7 @@ import { ProductForm } from '../components/product-form';
 import { getProductAction } from '../product.actions';
 import DeleteProductButton from '../components/delete-product-button';
 import { use } from 'react';
+import { EmptyState } from '@/components/ui/empty-state';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -37,7 +38,7 @@ export default function UpdateProductPage({ params }: PageProps) {
           <BackButton href="/admin/products" label="Back to Products" />
         </div>
         <div className="content">
-          <p className="text-zinc-500 dark:text-zinc-400">Product not found</p>
+          <EmptyState show={true}>Product not found</EmptyState>
         </div>
       </>
     );
