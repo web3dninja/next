@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { PrismaClient } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { fetchRedditStats } from '../src/lib/services/reddit';
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not set in environment variables');
@@ -35,6 +36,25 @@ async function seedProducts() {
       const created = await prisma.product.create({
         data: product,
       });
+
+      const existingStats = await prisma.redditStats.findUnique({
+        where: { keyword: product.redditKeyword },
+      });
+
+      if (!existingStats) {
+        const redditData = await fetchRedditStats(product.redditKeyword);
+
+        await prisma.redditStats.create({
+          data: {
+            keyword: product.redditKeyword,
+            mentions: redditData.mentions,
+            positiveScore: redditData.positiveScore,
+            negativeScore: redditData.negativeScore,
+            rank: redditData.rank,
+          },
+        });
+      }
+
       console.log(`✅ Created product: ${created.name} (${created.brand}) - $${created.price}`);
     } catch (error: any) {
       console.error(`❌ Error creating product ${product.name}:`, error.message);

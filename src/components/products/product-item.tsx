@@ -8,6 +8,7 @@ import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '../ui/item'
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Badge } from '../ui/badge';
+import { RedditStatsDisplay } from './reddit-stats';
 
 export function ProductItem({ product }: { product: Product }) {
   const pathname = usePathname();
@@ -30,9 +31,10 @@ export function ProductItem({ product }: { product: Product }) {
         <ItemContent>
           <ItemTitle>{product.name}</ItemTitle>
           <ItemDescription>{product.description}</ItemDescription>
-        </ItemContent>
-        <ItemFooter>
           <span className="font-semibold text-black dark:text-white">${product.price}</span>
+        </ItemContent>
+        <ItemFooter className="w-full flex-col items-start gap-2">
+          {product.redditStats && <RedditStatsDisplay stats={product.redditStats} />}
         </ItemFooter>
       </Link>
     </Item>

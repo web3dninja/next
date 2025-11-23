@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import { RedditStatsDisplay } from '@/components/products/reddit-stats';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -53,6 +54,10 @@ export default async function ProductPage({ params }: PageProps) {
                   Buy on Amazon
                 </Link>
               </Button>
+
+              {product.redditStats && (
+                <RedditStatsDisplay stats={product.redditStats} className="mt-4" />
+              )}
             </div>
             <div className="flex-1 space-y-4">
               <div>

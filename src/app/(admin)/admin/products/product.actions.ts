@@ -7,28 +7,39 @@ export async function getProductAction(id: number) {
   return await getProductById(id);
 }
 
-export async function createProductAction(product: Omit<Product, 'id' | 'redditStats'>) {
+export async function createProductAction(
+  product: Omit<Product, 'id' | 'redditStats'>,
+): Promise<Product | null> {
   if (!product.name || !product.brand || !product.price) {
     throw new Error('Name, brand, and price are required');
   }
 
-  const data = await addProduct(product);
+  const newProduct = await addProduct(product);
+
+  if (!newProduct) {
+    throw new Error('Failed to create product');
+  }
 
   revalidatePath('/admin/products');
   revalidatePath('/products');
 
-  return data;
+  return newProduct;
 }
 
-export async function updateProductAction(id: number, data: Omit<Product, 'id' | 'redditStats'>) {
+export async function updateProductAction(
+  id: number,
+  data: Omit<Product, 'id' | 'redditStats'>,
+): Promise<Product | null> {
   if (!id) {
     throw new Error('ID is required');
   }
 
-  const product = await updateProduct(id, data);
+  const { redditStats, id: _, ...productData } = data as Product;
 
-  if (!product) {
-    throw new Error('Product not found');
+  const updatedProduct = await updateProduct(id, productData);
+
+  if (!updatedProduct) {
+    throw new Error('Failed to update product');
   }
 
   revalidatePath('/admin/products');
@@ -36,7 +47,7 @@ export async function updateProductAction(id: number, data: Omit<Product, 'id' |
   revalidatePath('/products');
   revalidatePath(`/products/${id}`);
 
-  return product;
+  return updatedProduct;
 }
 
 export async function deleteProductAction(id: number) {
@@ -44,14 +55,12 @@ export async function deleteProductAction(id: number) {
     throw new Error('ID is required');
   }
 
-  const product = await deleteProduct(id);
-
-  if (!product) {
-    throw new Error('Product not found');
+  try {
+    await deleteProduct(id);
+  } catch (error) {
+    throw new Error('Failed to delete product');
   }
 
   revalidatePath('/admin/products');
   revalidatePath('/products');
-
-  return product;
 }
