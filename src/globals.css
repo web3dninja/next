@@ -140,7 +140,7 @@
   }
 
   .content-header {
-    @apply container flex items-center gap-4;
+    @apply container mx-auto flex items-center gap-4;
   }
 
   .grid-list {
