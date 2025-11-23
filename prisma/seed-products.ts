@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
-dotenv.config({ path: '.env.local', override: true });
+dotenv.config({ path: '.env.development', override: true });
 
 import { PrismaClient } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -27,7 +27,8 @@ POWERFUL CONVECTION FAN & SMOKELESS`,
     link: 'https://www.amazon.com/dp/B085LT31HP?&linkCode=ll1&tag=techproductsvl-20&linkId=ce86cbdff0fcc44c3973dc7e4d2119d8&language=en_US&ref_=as_li_ss_tl',
     image: 'https://m.media-amazon.com/images/I/81ocyRbwcIL._AC_SL1500_.jpg',
     category: 'Electronics',
-    redditKeyword: 'airfryer-AirFry-air fryer',
+    redditKeyword:
+      'nuwave air fryer-airfryer nuwave-air fryer nuwave-nuwave airfryer-nuwave fryer-fryer nuwave-nuwave brio airfryer-nuwave brio',
   },
 ];
 
@@ -36,7 +37,6 @@ async function seedProducts() {
 
   for (const product of products) {
     try {
-      // First, ensure RedditStats exists
       let existingStats = await prisma.redditStats.findUnique({
         where: { keyword: product.redditKeyword },
       });

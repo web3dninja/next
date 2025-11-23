@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BackButton } from '@/components/ui/back-button';
 import { ProductForm } from '../components/product-form';
 import { getProductAction } from '../product.actions';
+import DeleteProductButton from '../components/delete-product-button';
 import { use } from 'react';
 
 interface PageProps {
@@ -44,8 +45,9 @@ export default function UpdateProductPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="container">
+      <div className="container flex items-center justify-between gap-4">
         <BackButton href="/admin/products" label="Back to Products" />
+        <DeleteProductButton productId={productId} />
       </div>
 
       <div className="content">

@@ -62,20 +62,11 @@ export function calculateSpecificity(text: string, keywords: string[]): number {
   let max = 0;
 
   for (const key of keywords) {
-    const lowerKey = key.toLowerCase().trim();
-
-    // Exact match
-    if (lower.includes(lowerKey)) {
-      return 1.0;
-    }
-
-    // Partial match - split by spaces only
-    const parts = lowerKey.split(/\s+/).filter(p => p.length > 2);
-    if (parts.length === 0) continue;
-
+    const parts = key.toLowerCase().split(/\s+/);
     let matches = 0;
+
     for (const p of parts) {
-      if (lower.includes(p)) matches++;
+      if (lower.includes(p) && p.length > 2) matches++;
     }
 
     const score = matches / parts.length;

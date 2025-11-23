@@ -8,76 +8,33 @@ import {
   computeCommentScore,
 } from './helpers';
 
-async function getRedditAccessToken(): Promise<string | null> {
-  const clientId = process.env.REDDIT_CLIENT_ID;
-  const clientSecret = process.env.REDDIT_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
-    console.warn('Reddit API credentials not set (REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET)');
-    return null;
-  }
-
-  try {
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-    const response = await fetch('https://www.reddit.com/api/v1/access_token', {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${auth}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'ProductStats/2.0',
-      },
-      body: 'grant_type=client_credentials',
-    });
-
-    if (!response.ok) {
-      console.error('Failed to get Reddit access token:', response.status);
-      return null;
-    }
-
-    const data = await response.json();
-    return data.access_token;
-  } catch (error) {
-    console.error('Error getting Reddit access token:', error);
-    return null;
-  }
-}
-
 export async function fetchRedditStats(keywords: string | string[]): Promise<RedditStatsResult> {
   try {
     const keys = Array.isArray(keywords) ? keywords : [keywords];
     const allPosts: RedditPost[] = [];
 
-    const accessToken = await getRedditAccessToken();
-    if (!accessToken) {
-      console.warn('Skipping Reddit API calls - no access token');
-      return { mentions: 0, positiveScore: 0, negativeScore: 0, rank: 0 };
-    }
+    // Keep the original URL format (as provided)
+    for (const keyword of keys) {
+      const searchUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(keyword)}&limit=100&t=year`;
 
-    const url = (k: string) =>
-      `https://oauth.reddit.com/search?q=${encodeURIComponent(k)}&limit=100&t=year`;
-
-    for (const k of keys) {
-      const r = await fetch(url(k), {
+      const response = await fetch(searchUrl, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'User-Agent': 'ProductStats/2.0',
         },
       });
-      if (!r.ok) {
-        console.warn(`Reddit API error for "${k}": ${r.status}`);
+
+      if (!response.ok) {
+        console.warn(`Reddit API error for keyword "${keyword}": ${response.status}`);
         continue;
       }
 
-      const d: RedditSearchResponse = await r.json();
-      for (const child of d.data.children) {
+      const data: RedditSearchResponse = await response.json();
+      for (const child of data.data.children) {
         allPosts.push(child.data);
       }
     }
 
-    console.log(`Fetched ${allPosts.length} posts for keywords: ${keys.join(', ')}`);
-
     const analyzedScores: number[] = [];
-    let debugCount = 0;
 
     for (const post of allPosts) {
       const text = `${post.title} ${post.selftext}`;
@@ -100,23 +57,7 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
 
       const score = computeCommentScore(a);
       analyzedScores.push(score);
-
-      // Debug first 3 posts
-      if (debugCount < 3) {
-        console.log(`Post ${debugCount + 1}:`, {
-          title: post.title.substring(0, 50),
-          sentiment: sentiment.sentiment,
-          strength: sentiment.strength,
-          specificity,
-          score,
-        });
-        debugCount++;
-      }
     }
-
-    console.log(
-      `Total scores: positive=${analyzedScores.filter(s => s > 0).length}, negative=${analyzedScores.filter(s => s < 0).length}, neutral=${analyzedScores.filter(s => s === 0).length}`,
-    );
 
     const mentions = analyzedScores.length;
     if (mentions === 0) {
@@ -130,12 +71,7 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
       if (s < 0) negativeSum += Math.abs(s);
     }
 
-    // If all neutral, return default values
-    if (positiveSum === 0 && negativeSum === 0) {
-      return { mentions, positiveScore: 50, negativeScore: 50, rank: 50 };
-    }
-
-    const total = positiveSum + negativeSum || 1;
+    const total = positiveSum + negativeSum;
     const positiveScore = Math.round((positiveSum / total) * 100);
     const negativeScore = Math.round((negativeSum / total) * 100);
 
