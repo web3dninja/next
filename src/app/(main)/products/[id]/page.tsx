@@ -10,6 +10,8 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const products = await getProducts();
 

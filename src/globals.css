@@ -135,7 +135,7 @@
   }
 
   .content {
-    @apply border-border container mx-auto flex flex-col items-stretch justify-center gap-5 rounded-lg border-1 px-4 py-5;
+    @apply border-border bg-muted/50 container mx-auto flex flex-col items-stretch justify-center gap-5 rounded-lg border-1 px-4 py-5;
   }
 
   .grid-list {
@@ -143,14 +143,14 @@
   }
 
   .toast-success {
-    border-color: var(--success) !important;
+    border-color: var(--success);
   }
 
   .toast-error {
-    border-color: var(--destructive) !important;
+    border-color: var(--destructive);
   }
 
   .toast-warning {
-    border-color: var(--warning) !important;
+    border-color: var(--warning);
   }
 }

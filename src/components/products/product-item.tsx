@@ -7,12 +7,13 @@ import Link from 'next/link';
 import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '../ui/item';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { Badge } from '../ui/badge';
 
 export function ProductItem({ product }: { product: Product }) {
   const pathname = usePathname();
 
   return (
-    <Item key={product.id} variant="muted" className="flex-col flex-nowrap items-start" asChild>
+    <Item key={product.id} variant="outline" className="flex-col flex-nowrap items-start" asChild>
       <Link href={`${pathname}/${product.id}`}>
         <ItemMedia variant="image" className="relative w-full pb-[100%]">
           <Image
@@ -22,6 +23,9 @@ export function ProductItem({ product }: { product: Product }) {
             className="object-cover"
             sizes="100%"
           />
+          <Badge variant="default" className="absolute right-2 bottom-2">
+            {product.category}
+          </Badge>
         </ItemMedia>
         <ItemContent>
           <ItemTitle>{product.name}</ItemTitle>
@@ -29,7 +33,6 @@ export function ProductItem({ product }: { product: Product }) {
         </ItemContent>
         <ItemFooter>
           <span className="font-semibold text-black dark:text-white">${product.price}</span>
-          <span className="text-sm text-zinc-500 dark:text-zinc-400">{product.category}</span>
         </ItemFooter>
       </Link>
     </Item>
