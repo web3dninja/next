@@ -51,19 +51,6 @@ export async function getProductsByCategory(category: string): Promise<Product[]
 export async function addProduct(
   product: Omit<Product, 'id' | 'redditStats'>,
 ): Promise<Product | null> {
-  const newProduct = await prisma.product.create({
-    data: {
-      name: product.name,
-      brand: product.brand,
-      description: product.description,
-      price: product.price,
-      link: product.link,
-      image: product.image,
-      category: product.category,
-      redditKeyword: product.redditKeyword,
-    },
-  });
-
   const existingStats = await prisma.redditStats.findUnique({
     where: { keyword: product.redditKeyword },
   });
@@ -83,12 +70,21 @@ export async function addProduct(
     });
   }
 
-  const productWithStats = await prisma.product.findUnique({
-    where: { id: newProduct.id },
+  const newProduct = await prisma.product.create({
+    data: {
+      name: product.name,
+      brand: product.brand,
+      description: product.description,
+      price: product.price,
+      link: product.link,
+      image: product.image,
+      category: product.category,
+      redditKeyword: product.redditKeyword,
+    },
     include: { redditStats: true },
   });
 
-  return productWithStats;
+  return newProduct;
 }
 
 export async function updateProduct(
