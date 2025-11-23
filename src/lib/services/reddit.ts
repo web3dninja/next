@@ -1,5 +1,3 @@
-// Reddit API service for fetching product mentions and sentiment
-
 interface RedditPost {
   title: string;
   selftext: string;
@@ -30,7 +28,6 @@ interface UserVote {
   specificity: number;
 }
 
-// Sentiment analysis based on keywords with weighted scoring
 function analyzeSentiment(text: string): {
   sentiment: 'positive' | 'negative' | 'neutral';
   strength: number;
@@ -95,24 +92,21 @@ function analyzeSentiment(text: string): {
   }
 
   const total = positiveCount + negativeCount;
-  const strength = total > 0 ? Math.min(total / 5, 1) : 0.5; // Normalize strength 0-1
+  const strength = total > 0 ? Math.min(total / 5, 1) : 0.5;
 
   if (positiveCount > negativeCount) return { sentiment: 'positive', strength };
   if (negativeCount > positiveCount) return { sentiment: 'negative', strength };
   return { sentiment: 'neutral', strength: 0.5 };
 }
 
-// Check how specific the reference is to the keyword
 function calculateSpecificity(text: string, keyword: string): number {
   const lowerText = text.toLowerCase();
   const lowerKeyword = keyword.toLowerCase();
 
-  // Exact match gets full specificity
   if (lowerText.includes(lowerKeyword)) {
     return 1.0;
   }
 
-  // Check for partial matches (individual words)
   const keywordParts = lowerKeyword.split(/[-\s]+/);
   let matchedParts = 0;
 
@@ -122,16 +116,13 @@ function calculateSpecificity(text: string, keyword: string): number {
     }
   }
 
-  // Return ratio of matched parts (spread out vote among possible models)
   return keywordParts.length > 0 ? matchedParts / keywordParts.length : 0.5;
 }
 
 export async function fetchRedditStats(keywords: string | string[]): Promise<RedditStatsResult> {
   try {
-    // Convert to array if single keyword
     const keywordArray = Array.isArray(keywords) ? keywords : [keywords];
 
-    // Fetch data for all keywords and combine results
     const allPosts: RedditPost[] = [];
     const seenPostIds = new Set<string>();
 
@@ -152,7 +143,6 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
       const data: RedditSearchResponse = await response.json();
       const posts = data.data.children.map(child => child.data);
 
-      // Add unique posts only (by title + author to avoid duplicates)
       for (const post of posts) {
         const postId = `${post.title}-${post.author}`;
         if (!seenPostIds.has(postId)) {
@@ -164,14 +154,12 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
 
     const posts = allPosts;
 
-    // Track unique user votes (each user contributes up to 1 vote)
     const userVotes = new Map<string, UserVote>();
 
     for (const post of posts) {
       const text = `${post.title} ${post.selftext}`;
       const { sentiment, strength } = analyzeSentiment(text);
 
-      // Calculate specificity for the best matching keyword
       let maxSpecificity = 0;
       for (const keyword of keywordArray) {
         const specificity = calculateSpecificity(text, keyword);
@@ -179,14 +167,12 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
       }
       const specificity = maxSpecificity;
 
-      // Get or create user vote
       const existingVote = userVotes.get(post.author) || {
         positive: 0,
         negative: 0,
         specificity: 0,
       };
 
-      // User's vote is weighted by specificity (less than 1 if not exact match)
       const voteWeight = specificity * strength;
 
       if (sentiment === 'positive') {
@@ -199,7 +185,6 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
       userVotes.set(post.author, existingVote);
     }
 
-    // Calculate aggregate scores from unique user votes
     let totalPositive = 0;
     let totalNegative = 0;
 
@@ -211,22 +196,16 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
     const mentions = posts.length;
     const total = totalPositive + totalNegative || 1;
 
-    // Calculate scores as percentages
     const positiveScore = Math.round((totalPositive / total) * 100);
     const negativeScore = Math.round((totalNegative / total) * 100);
 
-    // Calculate positive:negative ratio (capped at 10:1 for normalization)
     const ratio = totalNegative > 0 ? totalPositive / totalNegative : totalPositive;
     const normalizedRatio = Math.min(ratio / 10, 1); // Normalize to 0-1
 
-    // Calculate normalized positive sentiment score (0-1)
     const normalizedPositive = positiveScore / 100;
 
-    // Combined score: 75% positive sentiment, 25% positive:negative ratio
-    // This matches the described scoring mechanism exactly
     const combinedScore = normalizedPositive * 0.75 + normalizedRatio * 0.25;
 
-    // Final rank (1-100) - no popularity bonus, pure sentiment-based ranking
     const rank = Math.round(combinedScore * 100);
 
     return {
@@ -239,7 +218,6 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
     const keywordStr = Array.isArray(keywords) ? keywords.join(', ') : keywords;
     console.error(`Error fetching Reddit stats for "${keywordStr}":`, error);
 
-    // Return default values on error
     return {
       mentions: 0,
       positiveScore: 0,
