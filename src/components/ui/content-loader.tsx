@@ -20,7 +20,7 @@ export function ContentLoader({ variant = 'products', count = 6, className }: Co
 
   if (variant === 'users') {
     return (
-      <div className={cn('gap-4', className)}>
+      <div className={cn('flex flex-col gap-4', className)}>
         {Array.from({ length: count }).map((_, i) => (
           <UserCardSkeleton key={i} />
         ))}
