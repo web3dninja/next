@@ -129,17 +129,7 @@ export async function updateProduct(
   });
 
   if (oldKeyword && newKeyword && oldKeyword !== newKeyword) {
-    const productsWithOldKeyword = await prisma.product.count({
-      where: { redditKeyword: oldKeyword },
-    });
-
-    if (productsWithOldKeyword === 0) {
-      try {
-        await prisma.redditStats.delete({
-          where: { keyword: oldKeyword },
-        });
-      } catch {}
-    }
+    await cleanupOrphanRedditStats(oldKeyword);
   }
 
   const updatedProduct = await prisma.product.findUnique({
@@ -155,10 +145,20 @@ export async function updateProduct(
 }
 
 export async function deleteProduct(id: number): Promise<Product> {
-  return await prisma.product.delete({
+  const product = await prisma.product.findUnique({
+    where: { id },
+  });
+
+  const deletedProduct = await prisma.product.delete({
     where: { id },
     include: { redditStats: true },
   });
+
+  if (product?.redditKeyword) {
+    await cleanupOrphanRedditStats(product.redditKeyword);
+  }
+
+  return deletedProduct;
 }
 
 export async function createRedditStats(keyword: string): Promise<RedditStats> {
@@ -171,4 +171,18 @@ export async function getRedditStatsByKeyword(keyword: string): Promise<RedditSt
   return await prisma.redditStats.findUnique({
     where: { keyword },
   });
+}
+
+async function cleanupOrphanRedditStats(keyword: string): Promise<void> {
+  const productsWithKeyword = await prisma.product.count({
+    where: { redditKeyword: keyword },
+  });
+
+  if (productsWithKeyword === 0) {
+    try {
+      await prisma.redditStats.delete({
+        where: { keyword },
+      });
+    } catch {}
+  }
 }

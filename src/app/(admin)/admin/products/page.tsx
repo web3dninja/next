@@ -8,7 +8,6 @@ import { PlusIcon } from 'lucide-react';
 export default async function AdminProductsPage() {
   const products = await getProducts();
 
-  console.log(products);
   return (
     <>
       <div className="container flex gap-4">
