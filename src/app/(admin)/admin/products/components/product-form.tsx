@@ -102,30 +102,80 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto max-w-4xl space-y-4">
-        <div className="flex gap-6">
-          <div className="mx-auto w-80 sm:w-64">
-            <ImagePreview
-              value={imageUrl}
-              className="relative w-full overflow-hidden rounded-lg pb-[100%]"
-            />
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mx-auto flex max-w-4xl gap-6 space-y-4"
+      >
+        <div className="mx-auto w-80 sm:w-64">
+          <ImagePreview
+            value={imageUrl}
+            className="relative w-full overflow-hidden rounded-lg pb-[100%]"
+          />
 
-            <Button asChild size="xl" className="mt-4 w-full">
-              <Link href={product?.link ?? ''} target="_blank" rel="noopener noreferrer">
-                Buy on Amazon
-              </Link>
-            </Button>
-          </div>
+          <Button asChild size="xl" className="mt-4 w-full">
+            <Link href={product?.link ?? ''} target="_blank" rel="noopener noreferrer">
+              Buy on Amazon
+            </Link>
+          </Button>
+        </div>
 
-          <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Product name" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="brand"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Brand</FormLabel>
+                <FormControl>
+                  <Input placeholder="Brand name" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Product description"
+                    disabled={isPending}
+                    {...field}
+                    className="max-h-50"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name="name"
+              name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="Product name" disabled={isPending} {...field} />
+                    <Input placeholder="99.99" disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -134,94 +184,13 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
             <FormField
               control={form.control}
-              name="brand"
+              name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Brand</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Brand name" disabled={isPending} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Product description"
-                      disabled={isPending}
-                      {...field}
-                      className="max-h-50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input placeholder="99.99" disabled={isPending} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Electronics, Clothing, etc."
-                        disabled={isPending}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Link</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://example.com" disabled={isPending} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image URL</FormLabel>
+                  <FormLabel>Category</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="https://example.com/image.jpg"
+                      placeholder="Electronics, Clothing, etc."
                       disabled={isPending}
                       {...field}
                     />
@@ -230,36 +199,68 @@ export function ProductForm({ mode, product }: ProductFormProps) {
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="redditKeywords"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Reddit Keywords</FormLabel>
-                  <FormControl>
-                    <TagsInput
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder="Add keywords (e.g., AirFryer, Air Fryer)"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {mode === 'create'
-                ? isPending
-                  ? 'Creating...'
-                  : 'Create Product'
-                : isPending
-                  ? 'Updating...'
-                  : 'Update Product'}
-            </Button>
           </div>
+
+          <FormField
+            control={form.control}
+            name="link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Link</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://example.com" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image URL</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="https://example.com/image.jpg"
+                    disabled={isPending}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="redditKeywords"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Reddit Keywords</FormLabel>
+                <FormControl>
+                  <TagsInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Add keywords (e.g., AirFryer, Air Fryer)"
+                    disabled={isPending}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full" size="xl" disabled={isPending}>
+            {mode === 'create'
+              ? isPending
+                ? 'Creating...'
+                : 'Create Product'
+              : isPending
+                ? 'Updating...'
+                : 'Update Product'}
+          </Button>
         </div>
       </form>
     </Form>
