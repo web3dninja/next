@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { getProductById, getProducts } from '@/lib/data';
 import { BackButton } from '@/components/ui/back-button';
 import { notFound } from 'next/navigation';
@@ -19,6 +20,29 @@ export async function generateStaticParams() {
   return products.map(product => ({
     id: product.id.toString(),
   }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductById(Number(id));
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    };
+  }
+
+  const description = product.description.slice(0, 160);
+
+  return {
+    title: `${product.name} by ${product.brand}`,
+    description,
+    openGraph: {
+      title: `${product.name} by ${product.brand}`,
+      description,
+      images: [product.image],
+    },
+  };
 }
 
 export default async function ProductPage({ params }: PageProps) {
