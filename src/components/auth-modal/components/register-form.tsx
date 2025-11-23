@@ -36,7 +36,11 @@ const registerSchema = z
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  onSuccess?: () => void;
+}
+
+export function RegisterForm({ onSuccess }: RegisterFormProps = {}) {
   const router = useRouter();
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -54,6 +58,7 @@ export function RegisterForm() {
       form.reset();
       router.refresh();
       toast.success('Successfully registered!');
+      onSuccess?.();
     },
     onError: error => {
       toast.error(String(error));

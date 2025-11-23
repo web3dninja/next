@@ -24,7 +24,11 @@ const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm() {
+interface LoginFormProps {
+  onSuccess?: () => void;
+}
+
+export function LoginForm({ onSuccess }: LoginFormProps = {}) {
   const queryClient = useQueryClient();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -40,6 +44,7 @@ export function LoginForm() {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       form.reset();
       toast.success('Successfully logged in!');
+      onSuccess?.();
     },
     onError: error => {
       toast.error(String(error));
