@@ -14,7 +14,6 @@ import {
   getUserById,
   getUserByUsername,
   User,
-  UserWithPassword,
 } from '@/lib/data/users';
 
 export async function getCurrentUserAction(): Promise<User | null> {

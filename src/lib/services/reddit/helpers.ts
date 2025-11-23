@@ -88,4 +88,3 @@ export function computeCommentScore(a: AnalyzedComment): number {
     (0.5 + a.specificity / 2)
   );
 }
-

@@ -34,3 +34,22 @@ export interface AnalyzedComment {
   specificity: number;
 }
 
+export interface UpdateResult {
+  keyword: string;
+  status: 'updated' | 'error';
+  data?: {
+    mentions: number;
+    positiveScore: number;
+    negativeScore: number;
+    rank: number;
+  };
+  error?: string;
+}
+
+export interface UpdateAllResult {
+  success: boolean;
+  updated: number;
+  errors: number;
+  results: UpdateResult[];
+}
+
