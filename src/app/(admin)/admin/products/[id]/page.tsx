@@ -7,6 +7,8 @@ import { getProductAction } from '../product.actions';
 import DeleteProductButton from '../components/delete-product-button';
 import { use } from 'react';
 import { EmptyState } from '@/components/ui/empty-state';
+import { ProductFormSkeleton } from '@/components/ui/content-loader';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -24,8 +26,12 @@ export default function UpdateProductPage({ params }: PageProps) {
   if (productLoading) {
     return (
       <>
-        <div className="container">
+        <div className="container flex items-center justify-between gap-4">
           <BackButton href="/admin/products" label="Back to Products" />
+          <Skeleton className="size-9" />
+        </div>
+        <div className="content">
+          <ProductFormSkeleton />
         </div>
       </>
     );

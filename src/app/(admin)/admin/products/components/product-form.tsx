@@ -76,6 +76,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
       updateProductAction(product!.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['product', product!.id] });
       toast.success('Product updated successfully!');
     },
     onError: error => {
