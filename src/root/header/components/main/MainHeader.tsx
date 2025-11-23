@@ -6,8 +6,11 @@ import { ThemeSwitcher } from '../theme-switcher';
 import { routes } from '../../routes';
 import type { User } from '@/types/user.type';
 import AuthModal from '@/components/auth-modal';
+import { getCurrentUserAction } from '@/actions/user';
 
-export function MainHeader({ user }: Readonly<{ user: User | null }>) {
+export async function MainHeader() {
+  const user = await getCurrentUserAction();
+
   return (
     <>
       <Logo />

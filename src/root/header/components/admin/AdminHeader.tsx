@@ -1,16 +1,22 @@
-'use client';
-
 import AuthModal from '@/components/auth-modal/index';
 import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
 import { DesktopNav } from '../desktop/desktop-nav';
 import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
-import type { User } from '@/types/user.type';
+import { RoleEnum } from '@/types/user.type';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { routes } from '../../routes';
 import { Logo } from '../Logo';
+import { getCurrentUserAction } from '@/actions/user';
+import { notFound } from 'next/navigation';
 
-export function AdminHeader({ user }: Readonly<{ user: User | null }>) {
+export async function AdminHeader() {
+  const user = await getCurrentUserAction();
+
+  if (!user || user.role !== RoleEnum.ADMIN) {
+    notFound();
+  }
+
   return (
     <>
       <SidebarTrigger />

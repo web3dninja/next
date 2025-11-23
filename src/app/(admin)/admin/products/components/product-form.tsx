@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -20,6 +19,7 @@ import {
 import { ImagePreview } from '@/components/ui/image-preview';
 import { createProductAction, updateProductAction } from '../product.actions';
 import { Product } from '@/lib/data';
+import Link from 'next/link';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -39,8 +39,6 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ mode, product }: ProductFormProps) {
-  const router = useRouter();
-
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -60,7 +58,6 @@ export function ProductForm({ mode, product }: ProductFormProps) {
     mutationFn: (data: ProductFormData) => createProductAction(data),
     onSuccess: () => {
       toast.success('Product created successfully!');
-      router.push('/admin/products');
     },
     onError: error => {
       toast.error(String(error));
@@ -71,7 +68,6 @@ export function ProductForm({ mode, product }: ProductFormProps) {
     mutationFn: (data: ProductFormData) => updateProductAction(product!.id, data),
     onSuccess: () => {
       toast.success('Product updated successfully!');
-      router.push('/admin/products');
     },
     onError: error => {
       toast.error(String(error));
@@ -90,10 +86,19 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto max-w-165 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto max-w-4xl space-y-4">
         <div className="flex gap-6">
-          <div className="shrink-0 space-y-2">
-            <ImagePreview value={imageUrl} className="size-64" />
+          <div className="mx-auto w-80 sm:w-64">
+            <ImagePreview
+              value={imageUrl}
+              className="relative w-full overflow-hidden rounded-lg pb-[100%]"
+            />
+
+            <Button asChild size="xl" className="mt-4 w-full">
+              <Link href={product?.link ?? ''} target="_blank" rel="noopener noreferrer">
+                Buy on Amazon
+              </Link>
+            </Button>
           </div>
 
           <div className="flex-1 space-y-4">

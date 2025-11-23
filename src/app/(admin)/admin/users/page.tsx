@@ -7,13 +7,12 @@ export default async function UsersPage() {
 
   return (
     <>
-      <div className="container">
+      <div className="container flex gap-4">
         <BackButton href="/admin" label="Back to Admin" />
+        <h1>Users</h1>
       </div>
 
       <div className="content">
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Users</h1>
-
         <UsersList users={users} />
       </div>
     </>

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -25,13 +26,15 @@ export default async function ProductPage({ params }: PageProps) {
 
       <div className="content">
         <div className="mx-auto max-w-4xl">
-          <div className="flex-start grid items-start gap-8 md:grid-cols-2">
-            <div>
-              <div className="overflow-hidden rounded-lg">
-                <img
+          <div className="flex-start flex flex-wrap gap-8">
+            <div className="mx-auto w-80 sm:w-64">
+              <div className="relative overflow-hidden rounded-lg pb-[100%]">
+                <Image
                   src={product.image}
                   alt={product.name}
-                  className="h-full w-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="100%"
                 />
               </div>
 
@@ -41,7 +44,7 @@ export default async function ProductPage({ params }: PageProps) {
                 </Link>
               </Button>
             </div>
-            <div className="space-y-4">
+            <div className="flex-1 space-y-4">
               <div>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">{product.brand}</p>
                 <h1 className="text-3xl font-bold text-black dark:text-white">{product.name}</h1>

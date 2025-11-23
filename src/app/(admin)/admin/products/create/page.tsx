@@ -6,12 +6,12 @@ import { ProductForm } from '../components/product-form';
 export default function CreateProductPage() {
   return (
     <>
-      <div className="container">
+      <div className="container flex gap-4">
         <BackButton href="/admin/products" label="Back to Products" />
+        <h1>Create Product</h1>
       </div>
 
       <div className="content">
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Create Product</h1>
         <div className="mx-auto space-y-4">
           <ProductForm mode="create" />
         </div>

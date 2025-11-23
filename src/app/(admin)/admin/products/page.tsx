@@ -10,8 +10,10 @@ export default async function AdminProductsPage() {
 
   return (
     <>
-      <div className="container flex items-center justify-between">
-        <BackButton href="/admin" label="Back to Admin" />
+      <div className="container flex gap-4">
+        <BackButton href="/admin" label="Admin" />
+        <h1>Products</h1>
+        <div className="flex-1" />
         <Link href="/admin/products/create">
           <Button variant="outline" size="sm">
             <PlusIcon className="mr-2 size-4" />
@@ -21,8 +23,6 @@ export default async function AdminProductsPage() {
       </div>
 
       <div className="content">
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Products</h1>
-
         <ProductsList products={products} />
       </div>
     </>

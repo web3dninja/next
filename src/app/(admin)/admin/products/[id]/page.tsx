@@ -25,9 +25,6 @@ export default function UpdateProductPage({ params }: PageProps) {
         <div className="container">
           <BackButton href="/admin/products" label="Back to Products" />
         </div>
-        <div className="content">
-          <p className="text-zinc-500 dark:text-zinc-400">Loading...</p>
-        </div>
       </>
     );
   }
@@ -52,7 +49,6 @@ export default function UpdateProductPage({ params }: PageProps) {
       </div>
 
       <div className="content">
-        <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">Update Product</h1>
         <ProductForm mode="update" product={product} />
       </div>
     </>

@@ -13,6 +13,8 @@ import {
   ItemTitle,
 } from '@/components/ui/item';
 import { usePathname } from 'next/navigation';
+import { SearchInput } from '@/components/ui/search-input';
+import { EmptyState } from '@/components/ui/empty-state';
 
 interface UsersListProps {
   users: User[];
@@ -29,16 +31,10 @@ export function UsersList({ users }: UsersListProps) {
   );
 
   return (
-    <div className="w-full">
-      <input
-        type="text"
-        placeholder="Search users..."
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        className="mb-4 w-full rounded-lg border border-zinc-300 px-4 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-      />
+    <>
+      <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search users..." />
 
-      <ItemGroup>
+      <ItemGroup className="gap-4">
         {filteredUsers.map((user: User) => (
           <Item key={user.id} variant="outline" asChild>
             <Link href={`${lacation}/${user.id}`}>
@@ -57,9 +53,7 @@ export function UsersList({ users }: UsersListProps) {
           </Item>
         ))}
       </ItemGroup>
-      {filteredUsers.length === 0 && (
-        <p className="text-center text-zinc-500 dark:text-zinc-400">No users found</p>
-      )}
-    </div>
+      <EmptyState show={filteredUsers.length === 0}>No users found</EmptyState>
+    </>
   );
 }
