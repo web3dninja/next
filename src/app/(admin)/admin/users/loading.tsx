@@ -1,4 +1,4 @@
-import { ContentLoader } from '@/components/ui/content-loader';
+import { Item } from '@/components/ui/item';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UsersLoading() {
@@ -10,8 +10,19 @@ export default function UsersLoading() {
       </div>
 
       <div className="content">
-        <Skeleton className="mb-4 h-10 w-full max-w-md" />
-        <ContentLoader variant="users" count={6} />
+        <Skeleton className="h-10 w-full max-w-md" />
+
+        <div className="flex flex-col gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Item key={i} variant="outline">
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-5 w-48" />
+                <Skeleton className="h-4 w-64" />
+              </div>
+              <Skeleton className="size-9 rounded-md" />
+            </Item>
+          ))}
+        </div>
       </div>
     </>
   );
