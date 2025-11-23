@@ -6,7 +6,7 @@ import { BackButton } from '@/components/ui/back-button';
 export default function LoginPage() {
   return (
     <>
-      <div className="container flex gap-4">
+      <div className="content-header">
         <BackButton href="/" label="Home" />
         <h1>Authentication</h1>
       </div>

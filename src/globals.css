@@ -139,6 +139,10 @@
     @apply border-border bg-muted/50 container mx-auto flex flex-col items-stretch justify-center gap-5 rounded-lg border-1 px-4 py-5;
   }
 
+  .content-header {
+    @apply container flex items-center gap-4;
+  }
+
   .grid-list {
     @apply grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4;
   }

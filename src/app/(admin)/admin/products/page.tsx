@@ -10,7 +10,7 @@ export default async function AdminProductsPage() {
 
   return (
     <>
-      <div className="container flex gap-4">
+      <div className="content-header">
         <BackButton href="/admin" label="Admin" />
         <h1>Products</h1>
         <div className="flex-1" />

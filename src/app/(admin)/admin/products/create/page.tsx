@@ -6,7 +6,7 @@ import { ProductForm } from '../components/product-form';
 export default function CreateProductPage() {
   return (
     <>
-      <div className="container flex gap-4">
+      <div className="content-header">
         <BackButton href="/admin/products" label="Back to Products" />
         <h1>Create Product</h1>
       </div>

@@ -6,10 +6,12 @@ import { EmptyState } from '@/components/ui/empty-state';
 
 export const metadata: Metadata = {
   title: 'Products',
-  description: 'Browse our collection of top-rated products with Reddit community reviews and sentiment analysis.',
+  description:
+    'Browse our collection of top-rated products with Reddit community reviews and sentiment analysis.',
   openGraph: {
     title: 'Products',
-    description: 'Browse our collection of top-rated products with Reddit community reviews and sentiment analysis.',
+    description:
+      'Browse our collection of top-rated products with Reddit community reviews and sentiment analysis.',
   },
 };
 
@@ -18,7 +20,7 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <div className="container flex gap-4">
+      <div className="content-header">
         <BackButton href="/" label="Home" />
         <h1>Products</h1>
         <div className="flex-1" />

@@ -7,7 +7,7 @@ export default async function UsersPage() {
 
   return (
     <>
-      <div className="container flex gap-4">
+      <div className="content-header">
         <BackButton href="/admin" label="Back to Admin" />
         <h1>Users</h1>
       </div>

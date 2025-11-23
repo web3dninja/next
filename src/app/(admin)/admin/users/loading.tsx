@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function UsersLoading() {
   return (
     <>
-      <div className="container flex gap-4">
+      <div className="content-header">
         <Skeleton className="h-6 w-24" />
         <Skeleton className="h-8 w-24" />
       </div>
