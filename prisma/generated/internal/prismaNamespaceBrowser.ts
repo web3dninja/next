@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Product: 'Product'
+  Product: 'Product',
+  RedditStats: 'RedditStats'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -90,10 +91,24 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   link: 'link',
   image: 'image',
-  category: 'category'
+  category: 'category',
+  redditKeyword: 'redditKeyword'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const RedditStatsScalarFieldEnum = {
+  id: 'id',
+  keyword: 'keyword',
+  mentions: 'mentions',
+  positiveScore: 'positiveScore',
+  negativeScore: 'negativeScore',
+  rank: 'rank',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RedditStatsScalarFieldEnum = (typeof RedditStatsScalarFieldEnum)[keyof typeof RedditStatsScalarFieldEnum]
 
 
 export const SortOrder = {

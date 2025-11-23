@@ -7,7 +7,7 @@ export async function getProductAction(id: number) {
   return await getProductById(id);
 }
 
-export async function createProductAction(product: Omit<Product, 'id'>) {
+export async function createProductAction(product: Omit<Product, 'id' | 'redditStats'>) {
   if (!product.name || !product.brand || !product.price) {
     throw new Error('Name, brand, and price are required');
   }
@@ -20,7 +20,7 @@ export async function createProductAction(product: Omit<Product, 'id'>) {
   return data;
 }
 
-export async function updateProductAction(id: number, data: Omit<Product, 'id'>) {
+export async function updateProductAction(id: number, data: Omit<Product, 'id' | 'redditStats'>) {
   if (!id) {
     throw new Error('ID is required');
   }

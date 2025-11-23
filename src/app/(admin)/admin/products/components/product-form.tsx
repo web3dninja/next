@@ -29,9 +29,10 @@ const productSchema = z.object({
   link: z.string().min(1, 'Link is required'),
   image: z.string().min(1, 'Image URL is required'),
   category: z.string().min(1, 'Category is required'),
+  redditKeyword: z.string().min(1, 'Reddit Keyword is required'),
 });
 
-type ProductFormData = Omit<Product, 'id'>;
+type ProductFormData = z.infer<typeof productSchema>;
 
 interface ProductFormProps {
   mode: 'create' | 'update';
@@ -49,6 +50,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
       link: product?.link ?? '',
       image: product?.image ?? '',
       category: product?.category ?? '',
+      redditKeyword: product?.redditKeyword ?? '',
     },
   });
 
@@ -209,6 +211,20 @@ export function ProductForm({ mode, product }: ProductFormProps) {
                       disabled={isPending}
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="redditKeyword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Reddit Keyword</FormLabel>
+                  <FormControl>
+                    <Input placeholder="iphone-15-pro" disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

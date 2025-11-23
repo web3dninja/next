@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  Product: 'Product'
+  Product: 'Product',
+  RedditStats: 'RedditStats'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "product"
+    modelProps: "user" | "product" | "redditStats"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RedditStats: {
+      payload: Prisma.$RedditStatsPayload<ExtArgs>
+      fields: Prisma.RedditStatsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RedditStatsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RedditStatsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>
+        }
+        findFirst: {
+          args: Prisma.RedditStatsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RedditStatsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>
+        }
+        findMany: {
+          args: Prisma.RedditStatsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>[]
+        }
+        create: {
+          args: Prisma.RedditStatsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>
+        }
+        createMany: {
+          args: Prisma.RedditStatsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RedditStatsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>[]
+        }
+        delete: {
+          args: Prisma.RedditStatsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>
+        }
+        update: {
+          args: Prisma.RedditStatsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>
+        }
+        deleteMany: {
+          args: Prisma.RedditStatsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RedditStatsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RedditStatsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>[]
+        }
+        upsert: {
+          args: Prisma.RedditStatsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RedditStatsPayload>
+        }
+        aggregate: {
+          args: Prisma.RedditStatsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRedditStats>
+        }
+        groupBy: {
+          args: Prisma.RedditStatsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RedditStatsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RedditStatsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RedditStatsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -611,10 +686,24 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   link: 'link',
   image: 'image',
-  category: 'category'
+  category: 'category',
+  redditKeyword: 'redditKeyword'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const RedditStatsScalarFieldEnum = {
+  id: 'id',
+  keyword: 'keyword',
+  mentions: 'mentions',
+  positiveScore: 'positiveScore',
+  negativeScore: 'negativeScore',
+  rank: 'rank',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RedditStatsScalarFieldEnum = (typeof RedditStatsScalarFieldEnum)[keyof typeof RedditStatsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -678,6 +767,20 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -775,6 +878,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   product?: Prisma.ProductOmit
+  redditStats?: Prisma.RedditStatsOmit
 }
 
 /* Types for Logging */

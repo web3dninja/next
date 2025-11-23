@@ -23,14 +23,29 @@ model User {
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
-  name        String
-  brand       String
-  description String
-  price       String
-  link        String
-  image       String
-  category    String
+  id            Int          @id @default(autoincrement())
+  name          String
+  brand         String
+  description   String
+  price         String
+  link          String
+  image         String
+  category      String
+  redditKeyword String       @unique
+  redditStats   RedditStats?
 
   @@map("products")
+}
+
+model RedditStats {
+  id            Int      @id @default(autoincrement())
+  keyword       String   @unique
+  product       Product  @relation(fields: [keyword], references: [redditKeyword], onDelete: Cascade)
+  mentions      Int      @default(0)
+  positiveScore Int      @default(0)
+  negativeScore Int      @default(0)
+  rank          Int      @default(0)
+  updatedAt     DateTime @default(now()) @updatedAt
+
+  @@map("reddit_stats")
 }

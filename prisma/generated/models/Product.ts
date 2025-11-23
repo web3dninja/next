@@ -43,6 +43,7 @@ export type ProductMinAggregateOutputType = {
   link: string | null
   image: string | null
   category: string | null
+  redditKeyword: string | null
 }
 
 export type ProductMaxAggregateOutputType = {
@@ -54,6 +55,7 @@ export type ProductMaxAggregateOutputType = {
   link: string | null
   image: string | null
   category: string | null
+  redditKeyword: string | null
 }
 
 export type ProductCountAggregateOutputType = {
@@ -65,6 +67,7 @@ export type ProductCountAggregateOutputType = {
   link: number
   image: number
   category: number
+  redditKeyword: number
   _all: number
 }
 
@@ -86,6 +89,7 @@ export type ProductMinAggregateInputType = {
   link?: true
   image?: true
   category?: true
+  redditKeyword?: true
 }
 
 export type ProductMaxAggregateInputType = {
@@ -97,6 +101,7 @@ export type ProductMaxAggregateInputType = {
   link?: true
   image?: true
   category?: true
+  redditKeyword?: true
 }
 
 export type ProductCountAggregateInputType = {
@@ -108,6 +113,7 @@ export type ProductCountAggregateInputType = {
   link?: true
   image?: true
   category?: true
+  redditKeyword?: true
   _all?: true
 }
 
@@ -206,6 +212,7 @@ export type ProductGroupByOutputType = {
   link: string
   image: string
   category: string
+  redditKeyword: string
   _count: ProductCountAggregateOutputType | null
   _avg: ProductAvgAggregateOutputType | null
   _sum: ProductSumAggregateOutputType | null
@@ -240,6 +247,8 @@ export type ProductWhereInput = {
   link?: Prisma.StringFilter<"Product"> | string
   image?: Prisma.StringFilter<"Product"> | string
   category?: Prisma.StringFilter<"Product"> | string
+  redditKeyword?: Prisma.StringFilter<"Product"> | string
+  redditStats?: Prisma.XOR<Prisma.RedditStatsNullableScalarRelationFilter, Prisma.RedditStatsWhereInput> | null
 }
 
 export type ProductOrderByWithRelationInput = {
@@ -251,10 +260,13 @@ export type ProductOrderByWithRelationInput = {
   link?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  redditKeyword?: Prisma.SortOrder
+  redditStats?: Prisma.RedditStatsOrderByWithRelationInput
 }
 
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  redditKeyword?: string
   AND?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   OR?: Prisma.ProductWhereInput[]
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
@@ -265,7 +277,8 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   link?: Prisma.StringFilter<"Product"> | string
   image?: Prisma.StringFilter<"Product"> | string
   category?: Prisma.StringFilter<"Product"> | string
-}, "id">
+  redditStats?: Prisma.XOR<Prisma.RedditStatsNullableScalarRelationFilter, Prisma.RedditStatsWhereInput> | null
+}, "id" | "redditKeyword">
 
 export type ProductOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -276,6 +289,7 @@ export type ProductOrderByWithAggregationInput = {
   link?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  redditKeyword?: Prisma.SortOrder
   _count?: Prisma.ProductCountOrderByAggregateInput
   _avg?: Prisma.ProductAvgOrderByAggregateInput
   _max?: Prisma.ProductMaxOrderByAggregateInput
@@ -295,6 +309,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   link?: Prisma.StringWithAggregatesFilter<"Product"> | string
   image?: Prisma.StringWithAggregatesFilter<"Product"> | string
   category?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  redditKeyword?: Prisma.StringWithAggregatesFilter<"Product"> | string
 }
 
 export type ProductCreateInput = {
@@ -305,6 +320,8 @@ export type ProductCreateInput = {
   link: string
   image: string
   category: string
+  redditKeyword: string
+  redditStats?: Prisma.RedditStatsCreateNestedOneWithoutProductInput
 }
 
 export type ProductUncheckedCreateInput = {
@@ -316,6 +333,8 @@ export type ProductUncheckedCreateInput = {
   link: string
   image: string
   category: string
+  redditKeyword: string
+  redditStats?: Prisma.RedditStatsUncheckedCreateNestedOneWithoutProductInput
 }
 
 export type ProductUpdateInput = {
@@ -326,6 +345,8 @@ export type ProductUpdateInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
+  redditStats?: Prisma.RedditStatsUpdateOneWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateInput = {
@@ -337,6 +358,8 @@ export type ProductUncheckedUpdateInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
+  redditStats?: Prisma.RedditStatsUncheckedUpdateOneWithoutProductNestedInput
 }
 
 export type ProductCreateManyInput = {
@@ -348,6 +371,7 @@ export type ProductCreateManyInput = {
   link: string
   image: string
   category: string
+  redditKeyword: string
 }
 
 export type ProductUpdateManyMutationInput = {
@@ -358,6 +382,7 @@ export type ProductUpdateManyMutationInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProductUncheckedUpdateManyInput = {
@@ -369,6 +394,7 @@ export type ProductUncheckedUpdateManyInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProductCountOrderByAggregateInput = {
@@ -380,6 +406,7 @@ export type ProductCountOrderByAggregateInput = {
   link?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  redditKeyword?: Prisma.SortOrder
 }
 
 export type ProductAvgOrderByAggregateInput = {
@@ -395,6 +422,7 @@ export type ProductMaxOrderByAggregateInput = {
   link?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  redditKeyword?: Prisma.SortOrder
 }
 
 export type ProductMinOrderByAggregateInput = {
@@ -406,10 +434,92 @@ export type ProductMinOrderByAggregateInput = {
   link?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  redditKeyword?: Prisma.SortOrder
 }
 
 export type ProductSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type ProductScalarRelationFilter = {
+  is?: Prisma.ProductWhereInput
+  isNot?: Prisma.ProductWhereInput
+}
+
+export type ProductCreateNestedOneWithoutRedditStatsInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput
+  connect?: Prisma.ProductWhereUniqueInput
+}
+
+export type ProductUpdateOneRequiredWithoutRedditStatsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput
+  upsert?: Prisma.ProductUpsertWithoutRedditStatsInput
+  connect?: Prisma.ProductWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutRedditStatsInput, Prisma.ProductUpdateWithoutRedditStatsInput>, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
+}
+
+export type ProductCreateWithoutRedditStatsInput = {
+  name: string
+  brand: string
+  description: string
+  price: string
+  link: string
+  image: string
+  category: string
+  redditKeyword: string
+}
+
+export type ProductUncheckedCreateWithoutRedditStatsInput = {
+  id?: number
+  name: string
+  brand: string
+  description: string
+  price: string
+  link: string
+  image: string
+  category: string
+  redditKeyword: string
+}
+
+export type ProductCreateOrConnectWithoutRedditStatsInput = {
+  where: Prisma.ProductWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
+}
+
+export type ProductUpsertWithoutRedditStatsInput = {
+  update: Prisma.XOR<Prisma.ProductUpdateWithoutRedditStatsInput, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
+  create: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
+  where?: Prisma.ProductWhereInput
+}
+
+export type ProductUpdateToOneWithWhereWithoutRedditStatsInput = {
+  where?: Prisma.ProductWhereInput
+  data: Prisma.XOR<Prisma.ProductUpdateWithoutRedditStatsInput, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
+}
+
+export type ProductUpdateWithoutRedditStatsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  brand?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.StringFieldUpdateOperationsInput | string
+  link?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type ProductUncheckedUpdateWithoutRedditStatsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  brand?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.StringFieldUpdateOperationsInput | string
+  link?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -423,6 +533,8 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   link?: boolean
   image?: boolean
   category?: boolean
+  redditKeyword?: boolean
+  redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -434,6 +546,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   link?: boolean
   image?: boolean
   category?: boolean
+  redditKeyword?: boolean
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -445,6 +558,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   link?: boolean
   image?: boolean
   category?: boolean
+  redditKeyword?: boolean
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectScalar = {
@@ -456,13 +570,21 @@ export type ProductSelectScalar = {
   link?: boolean
   image?: boolean
   category?: boolean
+  redditKeyword?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "brand" | "description" | "price" | "link" | "image" | "category", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "brand" | "description" | "price" | "link" | "image" | "category" | "redditKeyword", ExtArgs["result"]["product"]>
+export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
+}
+export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ProductIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Product"
-  objects: {}
+  objects: {
+    redditStats: Prisma.$RedditStatsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
@@ -472,6 +594,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     link: string
     image: string
     category: string
+    redditKeyword: string
   }, ExtArgs["result"]["product"]>
   composites: {}
 }
@@ -866,6 +989,7 @@ readonly fields: ProductFieldRefs;
  */
 export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  redditStats<T extends Prisma.Product$redditStatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$redditStatsArgs<ExtArgs>>): Prisma.Prisma__RedditStatsClient<runtime.Types.Result.GetResult<Prisma.$RedditStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -903,6 +1027,7 @@ export interface ProductFieldRefs {
   readonly link: Prisma.FieldRef<"Product", 'String'>
   readonly image: Prisma.FieldRef<"Product", 'String'>
   readonly category: Prisma.FieldRef<"Product", 'String'>
+  readonly redditKeyword: Prisma.FieldRef<"Product", 'String'>
 }
     
 
@@ -919,6 +1044,10 @@ export type ProductFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Product
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
   /**
    * Filter, which Product to fetch.
    */
@@ -938,6 +1067,10 @@ export type ProductFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  /**
    * Filter, which Product to fetch.
    */
   where: Prisma.ProductWhereUniqueInput
@@ -955,6 +1088,10 @@ export type ProductFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Product
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
   /**
    * Filter, which Product to fetch.
    */
@@ -1004,6 +1141,10 @@ export type ProductFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  /**
    * Filter, which Product to fetch.
    */
   where?: Prisma.ProductWhereInput
@@ -1052,6 +1193,10 @@ export type ProductFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  /**
    * Filter, which Products to fetch.
    */
   where?: Prisma.ProductWhereInput
@@ -1094,6 +1239,10 @@ export type ProductCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Product
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
   /**
    * The data needed to create a Product.
    */
@@ -1142,6 +1291,10 @@ export type ProductUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Product
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
   /**
    * The data needed to update a Product.
    */
@@ -1209,6 +1362,10 @@ export type ProductUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  /**
    * The filter to search for the Product to update in case it exists.
    */
   where: Prisma.ProductWhereUniqueInput
@@ -1235,6 +1392,10 @@ export type ProductDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  /**
    * Filter which Product to delete.
    */
   where: Prisma.ProductWhereUniqueInput
@@ -1255,6 +1416,25 @@ export type ProductDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Product.redditStats
+ */
+export type Product$redditStatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RedditStats
+   */
+  select?: Prisma.RedditStatsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RedditStats
+   */
+  omit?: Prisma.RedditStatsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RedditStatsInclude<ExtArgs> | null
+  where?: Prisma.RedditStatsWhereInput
+}
+
+/**
  * Product without action
  */
 export type ProductDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1266,4 +1446,8 @@ export type ProductDefaultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Product
    */
   omit?: Prisma.ProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
 }
