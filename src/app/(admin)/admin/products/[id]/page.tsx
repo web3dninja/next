@@ -7,8 +7,8 @@ import { getProductAction } from '../product.actions';
 import DeleteProductButton from '../components/delete-product-button';
 import { use } from 'react';
 import { EmptyState } from '@/components/ui/empty-state';
-import { ProductFormSkeleton } from '@/components/ui/content-loader';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ProductFormSkeleton } from '../components/product-form-skeleton';
 
 interface PageProps {
   params: Promise<{ id: string }>;
