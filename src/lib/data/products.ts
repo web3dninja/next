@@ -1,5 +1,3 @@
-// Products data and functions
-
 import prisma from '@/lib/prisma';
 import { fetchRedditStats } from '@/lib/services/reddit';
 
@@ -26,7 +24,6 @@ export interface RedditStats {
   updatedAt: Date;
 }
 
-// Data access functions
 export async function getProducts(): Promise<Product[]> {
   return await prisma.product.findMany({
     include: { redditStats: true },
@@ -47,21 +44,22 @@ export async function getProductsByCategory(category: string): Promise<Product[]
   });
 }
 
-// Mutation functions
 export async function addProduct(
   product: Omit<Product, 'id' | 'redditStats'>,
 ): Promise<Product | null> {
+  const normalizedKeyword = product.redditKeyword.toLowerCase().trim();
+
   const existingStats = await prisma.redditStats.findUnique({
-    where: { keyword: product.redditKeyword },
+    where: { keyword: normalizedKeyword },
   });
 
   if (!existingStats) {
-    const keywords = product.redditKeyword.split('-').filter(Boolean);
+    const keywords = normalizedKeyword.split('-').filter(Boolean);
     const redditData = await fetchRedditStats(keywords);
 
     await prisma.redditStats.create({
       data: {
-        keyword: product.redditKeyword,
+        keyword: normalizedKeyword,
         mentions: redditData.mentions,
         positiveScore: redditData.positiveScore,
         negativeScore: redditData.negativeScore,
@@ -79,7 +77,7 @@ export async function addProduct(
       link: product.link,
       image: product.image,
       category: product.category,
-      redditKeyword: product.redditKeyword,
+      redditKeyword: normalizedKeyword,
     },
     include: { redditStats: true },
   });
@@ -96,7 +94,8 @@ export async function updateProduct(
   });
 
   const oldKeyword = currentProduct?.redditKeyword;
-  const newKeyword = data.redditKeyword;
+  const normalizedKeyword = data.redditKeyword.toLowerCase().trim();
+  const newKeyword = normalizedKeyword;
 
   if (oldKeyword && newKeyword && oldKeyword !== newKeyword) {
     const existingStats = await prisma.redditStats.findUnique({
@@ -121,7 +120,10 @@ export async function updateProduct(
 
   await prisma.product.update({
     where: { id },
-    data,
+    data: {
+      ...data,
+      redditKeyword: normalizedKeyword,
+    },
   });
 
   if (oldKeyword && newKeyword && oldKeyword !== newKeyword) {
@@ -155,18 +157,6 @@ export async function deleteProduct(id: number): Promise<Product> {
   }
 
   return deletedProduct;
-}
-
-export async function createRedditStats(keyword: string): Promise<RedditStats> {
-  return await prisma.redditStats.create({
-    data: { keyword },
-  });
-}
-
-export async function getRedditStatsByKeyword(keyword: string): Promise<RedditStats | null> {
-  return await prisma.redditStats.findUnique({
-    where: { keyword },
-  });
 }
 
 async function cleanupOrphanRedditStats(keyword: string): Promise<void> {

@@ -37,12 +37,15 @@ async function seedProducts() {
 
   for (const product of products) {
     try {
+      // Normalize redditKeyword to lowercase for consistency
+      const normalizedKeyword = product.redditKeyword.toLowerCase().trim();
+
       let existingStats = await prisma.redditStats.findUnique({
-        where: { keyword: product.redditKeyword },
+        where: { keyword: normalizedKeyword },
       });
 
       if (!existingStats) {
-        const keywords = product.redditKeyword
+        const keywords = normalizedKeyword
           .split('-')
           .filter(Boolean)
           .map(k => k.trim());
@@ -52,7 +55,7 @@ async function seedProducts() {
 
         existingStats = await prisma.redditStats.create({
           data: {
-            keyword: product.redditKeyword,
+            keyword: normalizedKeyword,
             mentions: redditData.mentions,
             positiveScore: redditData.positiveScore,
             negativeScore: redditData.negativeScore,
@@ -67,7 +70,10 @@ async function seedProducts() {
 
       // Then create product
       const created = await prisma.product.create({
-        data: product,
+        data: {
+          ...product,
+          redditKeyword: normalizedKeyword,
+        },
       });
 
       console.log(`✅ Created product: ${created.name} (${created.brand}) - $${created.price}`);

@@ -11,10 +11,12 @@ import {
 export async function fetchRedditStats(keywords: string | string[]): Promise<RedditStatsResult> {
   try {
     const keys = Array.isArray(keywords) ? keywords : [keywords];
+    // Normalize keywords to lowercase for case-insensitive search
+    const normalizedKeys = keys.map(k => k.toLowerCase().trim()).filter(Boolean);
     const allPosts: RedditPost[] = [];
 
     // Keep the original URL format (as provided)
-    for (const keyword of keys) {
+    for (const keyword of normalizedKeys) {
       const searchUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(keyword)}&limit=100&t=year`;
 
       const response = await fetch(searchUrl, {
@@ -43,7 +45,7 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
       const category = detectCategory(text);
       const fresh = freshnessWeight(post.created_utc);
       const sourceW = sourceWeight();
-      const specificity = calculateSpecificity(text, keys);
+      const specificity = calculateSpecificity(text, normalizedKeys);
 
       const a: AnalyzedComment = {
         sentiment: sentiment.sentiment,
