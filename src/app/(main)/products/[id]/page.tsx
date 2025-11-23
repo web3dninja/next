@@ -1,4 +1,4 @@
-import { getProductById } from '@/lib/data';
+import { getProductById, getProducts } from '@/lib/data';
 import { BackButton } from '@/components/ui/back-button';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -10,9 +10,17 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateStaticParams() {
+  const products = await getProducts();
+
+  return products.map(product => ({
+    id: product.id.toString(),
+  }));
+}
+
 export default async function ProductPage({ params }: PageProps) {
   const { id } = await params;
-  const product = await getProductById(parseInt(id));
+  const product = await getProductById(Number(id));
 
   if (!product) {
     notFound();

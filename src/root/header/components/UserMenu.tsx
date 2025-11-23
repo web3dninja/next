@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -13,9 +13,12 @@ interface UserMenuProps {
 }
 
 export function UserMenu({ user }: UserMenuProps) {
+  const queryClient = useQueryClient();
+
   const logoutMutation = useMutation({
     mutationFn: logoutAction,
     onSuccess: () => {
+      queryClient.setQueryData(['user'], null);
       toast.success('You have been logged out!');
     },
     onError: error => {

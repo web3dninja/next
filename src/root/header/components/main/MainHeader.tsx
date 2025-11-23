@@ -1,15 +1,20 @@
+'use client';
 import { Logo } from '../Logo';
 import { DesktopNav } from '../desktop/desktop-nav';
 import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
 import { ThemeSwitcher } from '../theme-switcher';
 import { routes } from '../../routes';
-import type { User } from '@/types/user.type';
 import AuthModal from '@/components/auth-modal';
 import { getCurrentUserAction } from '@/actions/user';
+import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export async function MainHeader() {
-  const user = await getCurrentUserAction();
+export function MainHeader() {
+  const { data: user, isLoading } = useQuery({
+    queryKey: ['user'],
+    queryFn: getCurrentUserAction,
+  });
 
   return (
     <>
@@ -20,7 +25,13 @@ export async function MainHeader() {
       <div className="flex-1" />
 
       <div className="flex items-center gap-2">
-        {user ? <UserMenu user={user} /> : <AuthModal />}
+        {isLoading ? (
+          <Skeleton className="size-8 rounded-full" />
+        ) : user ? (
+          <UserMenu user={user} />
+        ) : (
+          <AuthModal />
+        )}
         <MobileNav routes={routes} />
         <ThemeSwitcher />
       </div>

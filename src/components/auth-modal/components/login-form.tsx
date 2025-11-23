@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,7 @@ const loginSchema = z.object({
 export type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
+  const queryClient = useQueryClient();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -36,6 +37,7 @@ export function LoginForm() {
   const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: loginAction,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       form.reset();
       toast.success('Successfully logged in!');
     },
