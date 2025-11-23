@@ -34,6 +34,7 @@ export async function updateProductAction(id: number, data: Omit<Product, 'id'>)
   revalidatePath('/admin/products');
   revalidatePath(`/admin/products/${id}`);
   revalidatePath('/products');
+  revalidatePath(`/products/${id}`);
 
   return product;
 }
