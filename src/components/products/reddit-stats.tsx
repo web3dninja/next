@@ -15,8 +15,8 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
   return (
     <div className={cn('flex w-full flex-col gap-1 text-xs', className)}>
       <div className="text-center text-xs">{stats.positiveScore}% positive sentiment</div>
-      <div className="border-border relative h-3 w-full overflow-hidden rounded-md border">
-        <div className="from-destructive to-success absolute inset-0 bg-linear-to-r" />
+      <div className="relative h-3 w-full">
+        <div className="from-destructive to-success absolute inset-0 rounded-md bg-linear-to-r" />
 
         <div
           className="absolute top-0 bottom-0 w-0.5 bg-white shadow-sm"

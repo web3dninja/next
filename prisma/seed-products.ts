@@ -24,7 +24,7 @@ POWERFUL CONVECTION FAN & SMOKELESS`,
     link: 'https://www.amazon.com/dp/B085LT31HP?&linkCode=ll1&tag=techproductsvl-20&linkId=ce86cbdff0fcc44c3973dc7e4d2119d8&language=en_US&ref_=as_li_ss_tl',
     image: 'https://m.media-amazon.com/images/I/81ocyRbwcIL._AC_SL1500_.jpg',
     category: 'Electronics',
-    redditKeyword: 'AirFryer',
+    redditKeyword: 'airfryer-AirFry-air fryer',
   },
 ];
 
@@ -42,7 +42,11 @@ async function seedProducts() {
       });
 
       if (!existingStats) {
-        const redditData = await fetchRedditStats(product.redditKeyword);
+        const keywords = product.redditKeyword
+          .split('-')
+          .filter(Boolean)
+          .map(k => k.trim());
+        const redditData = await fetchRedditStats(keywords);
 
         await prisma.redditStats.create({
           data: {

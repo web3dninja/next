@@ -31,7 +31,6 @@ export async function GET(request: Request) {
 
     for (const stat of stats) {
       try {
-        // Split keywords string into array (format: "tag-tag-tag")
         const keywords = stat.keyword.split('-').filter(Boolean);
         const redditData = await fetchRedditStats(keywords);
 

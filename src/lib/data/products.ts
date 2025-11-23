@@ -69,7 +69,6 @@ export async function addProduct(
   });
 
   if (!existingStats) {
-    // Split keywords string into array (format: "tag-tag-tag")
     const keywords = product.redditKeyword.split('-').filter(Boolean);
     const redditData = await fetchRedditStats(keywords);
 
@@ -96,11 +95,63 @@ export async function updateProduct(
   id: number,
   data: Omit<Product, 'id' | 'redditStats'>,
 ): Promise<Product> {
-  return await prisma.product.update({
+  const currentProduct = await prisma.product.findUnique({
+    where: { id },
+  });
+
+  const oldKeyword = currentProduct?.redditKeyword;
+  const newKeyword = data.redditKeyword;
+
+  if (oldKeyword && newKeyword && oldKeyword !== newKeyword) {
+    const existingStats = await prisma.redditStats.findUnique({
+      where: { keyword: newKeyword },
+    });
+
+    if (!existingStats) {
+      const keywords = newKeyword.split('-').filter(Boolean);
+      const redditData = await fetchRedditStats(keywords);
+
+      await prisma.redditStats.create({
+        data: {
+          keyword: newKeyword,
+          mentions: redditData.mentions,
+          positiveScore: redditData.positiveScore,
+          negativeScore: redditData.negativeScore,
+          rank: redditData.rank,
+        },
+      });
+    }
+  }
+
+  await prisma.product.update({
     where: { id },
     data,
+  });
+
+  if (oldKeyword && newKeyword && oldKeyword !== newKeyword) {
+    const productsWithOldKeyword = await prisma.product.count({
+      where: { redditKeyword: oldKeyword },
+    });
+
+    if (productsWithOldKeyword === 0) {
+      try {
+        await prisma.redditStats.delete({
+          where: { keyword: oldKeyword },
+        });
+      } catch {}
+    }
+  }
+
+  const updatedProduct = await prisma.product.findUnique({
+    where: { id },
     include: { redditStats: true },
   });
+
+  if (!updatedProduct) {
+    throw new Error(`Product with id ${id} not found after update`);
+  }
+
+  return updatedProduct;
 }
 
 export async function deleteProduct(id: number): Promise<Product> {

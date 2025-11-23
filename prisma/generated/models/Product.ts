@@ -266,7 +266,6 @@ export type ProductOrderByWithRelationInput = {
 
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  redditKeyword?: string
   AND?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   OR?: Prisma.ProductWhereInput[]
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
@@ -277,8 +276,9 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   link?: Prisma.StringFilter<"Product"> | string
   image?: Prisma.StringFilter<"Product"> | string
   category?: Prisma.StringFilter<"Product"> | string
+  redditKeyword?: Prisma.StringFilter<"Product"> | string
   redditStats?: Prisma.XOR<Prisma.RedditStatsNullableScalarRelationFilter, Prisma.RedditStatsWhereInput> | null
-}, "id" | "redditKeyword">
+}, "id">
 
 export type ProductOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -320,8 +320,7 @@ export type ProductCreateInput = {
   link: string
   image: string
   category: string
-  redditKeyword: string
-  redditStats?: Prisma.RedditStatsCreateNestedOneWithoutProductInput
+  redditStats?: Prisma.RedditStatsCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateInput = {
@@ -334,7 +333,6 @@ export type ProductUncheckedCreateInput = {
   image: string
   category: string
   redditKeyword: string
-  redditStats?: Prisma.RedditStatsUncheckedCreateNestedOneWithoutProductInput
 }
 
 export type ProductUpdateInput = {
@@ -345,8 +343,7 @@ export type ProductUpdateInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
-  redditStats?: Prisma.RedditStatsUpdateOneWithoutProductNestedInput
+  redditStats?: Prisma.RedditStatsUpdateOneWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateInput = {
@@ -359,7 +356,6 @@ export type ProductUncheckedUpdateInput = {
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
-  redditStats?: Prisma.RedditStatsUncheckedUpdateOneWithoutProductNestedInput
 }
 
 export type ProductCreateManyInput = {
@@ -382,7 +378,6 @@ export type ProductUpdateManyMutationInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProductUncheckedUpdateManyInput = {
@@ -441,23 +436,56 @@ export type ProductSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type ProductScalarRelationFilter = {
-  is?: Prisma.ProductWhereInput
-  isNot?: Prisma.ProductWhereInput
+export type ProductListRelationFilter = {
+  every?: Prisma.ProductWhereInput
+  some?: Prisma.ProductWhereInput
+  none?: Prisma.ProductWhereInput
 }
 
-export type ProductCreateNestedOneWithoutRedditStatsInput = {
-  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
-  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput
-  connect?: Prisma.ProductWhereUniqueInput
+export type ProductOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
-export type ProductUpdateOneRequiredWithoutRedditStatsNestedInput = {
-  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
-  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput
-  upsert?: Prisma.ProductUpsertWithoutRedditStatsInput
-  connect?: Prisma.ProductWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutRedditStatsInput, Prisma.ProductUpdateWithoutRedditStatsInput>, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
+export type ProductCreateNestedManyWithoutRedditStatsInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput> | Prisma.ProductCreateWithoutRedditStatsInput[] | Prisma.ProductUncheckedCreateWithoutRedditStatsInput[]
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput | Prisma.ProductCreateOrConnectWithoutRedditStatsInput[]
+  createMany?: Prisma.ProductCreateManyRedditStatsInputEnvelope
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+}
+
+export type ProductUncheckedCreateNestedManyWithoutRedditStatsInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput> | Prisma.ProductCreateWithoutRedditStatsInput[] | Prisma.ProductUncheckedCreateWithoutRedditStatsInput[]
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput | Prisma.ProductCreateOrConnectWithoutRedditStatsInput[]
+  createMany?: Prisma.ProductCreateManyRedditStatsInputEnvelope
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+}
+
+export type ProductUpdateManyWithoutRedditStatsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput> | Prisma.ProductCreateWithoutRedditStatsInput[] | Prisma.ProductUncheckedCreateWithoutRedditStatsInput[]
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput | Prisma.ProductCreateOrConnectWithoutRedditStatsInput[]
+  upsert?: Prisma.ProductUpsertWithWhereUniqueWithoutRedditStatsInput | Prisma.ProductUpsertWithWhereUniqueWithoutRedditStatsInput[]
+  createMany?: Prisma.ProductCreateManyRedditStatsInputEnvelope
+  set?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  disconnect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  delete?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  update?: Prisma.ProductUpdateWithWhereUniqueWithoutRedditStatsInput | Prisma.ProductUpdateWithWhereUniqueWithoutRedditStatsInput[]
+  updateMany?: Prisma.ProductUpdateManyWithWhereWithoutRedditStatsInput | Prisma.ProductUpdateManyWithWhereWithoutRedditStatsInput[]
+  deleteMany?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
+}
+
+export type ProductUncheckedUpdateManyWithoutRedditStatsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput> | Prisma.ProductCreateWithoutRedditStatsInput[] | Prisma.ProductUncheckedCreateWithoutRedditStatsInput[]
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutRedditStatsInput | Prisma.ProductCreateOrConnectWithoutRedditStatsInput[]
+  upsert?: Prisma.ProductUpsertWithWhereUniqueWithoutRedditStatsInput | Prisma.ProductUpsertWithWhereUniqueWithoutRedditStatsInput[]
+  createMany?: Prisma.ProductCreateManyRedditStatsInputEnvelope
+  set?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  disconnect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  delete?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
+  update?: Prisma.ProductUpdateWithWhereUniqueWithoutRedditStatsInput | Prisma.ProductUpdateWithWhereUniqueWithoutRedditStatsInput[]
+  updateMany?: Prisma.ProductUpdateManyWithWhereWithoutRedditStatsInput | Prisma.ProductUpdateManyWithWhereWithoutRedditStatsInput[]
+  deleteMany?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
 }
 
 export type ProductCreateWithoutRedditStatsInput = {
@@ -468,7 +496,6 @@ export type ProductCreateWithoutRedditStatsInput = {
   link: string
   image: string
   category: string
-  redditKeyword: string
 }
 
 export type ProductUncheckedCreateWithoutRedditStatsInput = {
@@ -480,7 +507,6 @@ export type ProductUncheckedCreateWithoutRedditStatsInput = {
   link: string
   image: string
   category: string
-  redditKeyword: string
 }
 
 export type ProductCreateOrConnectWithoutRedditStatsInput = {
@@ -488,15 +514,51 @@ export type ProductCreateOrConnectWithoutRedditStatsInput = {
   create: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
 }
 
-export type ProductUpsertWithoutRedditStatsInput = {
-  update: Prisma.XOR<Prisma.ProductUpdateWithoutRedditStatsInput, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
-  create: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
-  where?: Prisma.ProductWhereInput
+export type ProductCreateManyRedditStatsInputEnvelope = {
+  data: Prisma.ProductCreateManyRedditStatsInput | Prisma.ProductCreateManyRedditStatsInput[]
+  skipDuplicates?: boolean
 }
 
-export type ProductUpdateToOneWithWhereWithoutRedditStatsInput = {
-  where?: Prisma.ProductWhereInput
+export type ProductUpsertWithWhereUniqueWithoutRedditStatsInput = {
+  where: Prisma.ProductWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProductUpdateWithoutRedditStatsInput, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
+  create: Prisma.XOR<Prisma.ProductCreateWithoutRedditStatsInput, Prisma.ProductUncheckedCreateWithoutRedditStatsInput>
+}
+
+export type ProductUpdateWithWhereUniqueWithoutRedditStatsInput = {
+  where: Prisma.ProductWhereUniqueInput
   data: Prisma.XOR<Prisma.ProductUpdateWithoutRedditStatsInput, Prisma.ProductUncheckedUpdateWithoutRedditStatsInput>
+}
+
+export type ProductUpdateManyWithWhereWithoutRedditStatsInput = {
+  where: Prisma.ProductScalarWhereInput
+  data: Prisma.XOR<Prisma.ProductUpdateManyMutationInput, Prisma.ProductUncheckedUpdateManyWithoutRedditStatsInput>
+}
+
+export type ProductScalarWhereInput = {
+  AND?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
+  OR?: Prisma.ProductScalarWhereInput[]
+  NOT?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
+  id?: Prisma.IntFilter<"Product"> | number
+  name?: Prisma.StringFilter<"Product"> | string
+  brand?: Prisma.StringFilter<"Product"> | string
+  description?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.StringFilter<"Product"> | string
+  link?: Prisma.StringFilter<"Product"> | string
+  image?: Prisma.StringFilter<"Product"> | string
+  category?: Prisma.StringFilter<"Product"> | string
+  redditKeyword?: Prisma.StringFilter<"Product"> | string
+}
+
+export type ProductCreateManyRedditStatsInput = {
+  id?: number
+  name: string
+  brand: string
+  description: string
+  price: string
+  link: string
+  image: string
+  category: string
 }
 
 export type ProductUpdateWithoutRedditStatsInput = {
@@ -507,7 +569,6 @@ export type ProductUpdateWithoutRedditStatsInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProductUncheckedUpdateWithoutRedditStatsInput = {
@@ -519,7 +580,17 @@ export type ProductUncheckedUpdateWithoutRedditStatsInput = {
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type ProductUncheckedUpdateManyWithoutRedditStatsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  brand?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.StringFieldUpdateOperationsInput | string
+  link?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -547,6 +618,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   image?: boolean
   category?: boolean
   redditKeyword?: boolean
+  redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -559,6 +631,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   image?: boolean
   category?: boolean
   redditKeyword?: boolean
+  redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
 export type ProductSelectScalar = {
@@ -577,8 +650,12 @@ export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
 }
-export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ProductIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
+}
+export type ProductIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  redditStats?: boolean | Prisma.Product$redditStatsArgs<ExtArgs>
+}
 
 export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Product"
@@ -1277,6 +1354,10 @@ export type ProductCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    */
   data: Prisma.ProductCreateManyInput | Prisma.ProductCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1347,6 +1428,10 @@ export type ProductUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many Products to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
