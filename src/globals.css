@@ -128,7 +128,7 @@
   }
 
   main {
-    @apply flex w-full flex-1 flex-col items-stretch gap-5 p-4 py-5;
+    @apply relative flex w-full flex-1 flex-col items-stretch gap-5 p-4 py-5;
   }
 
   .container {

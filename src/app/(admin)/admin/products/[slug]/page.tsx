@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getProductsByCategoryIds } from '@/lib/data';
 import { getCategoryBySlug, getCategories } from '@/lib/data/category';
-import { getDescendantCategoryIds } from '@/helper/product.helper';
+import { getDescendantCategoryIds } from '@/helpers/product.helper';
 import { ProductsList } from '@/components/pages';
 
 interface PageProps {

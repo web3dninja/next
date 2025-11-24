@@ -11,20 +11,21 @@ interface SelectOption {
 }
 
 interface SelectInputProps extends Omit<React.ComponentProps<typeof Input>, 'onChange' | 'value'> {
-  value?: string;
+  option?: SelectOption;
   options: SelectOption[];
   onChange?: (option: SelectOption | undefined) => void;
 }
 
-export function SelectInput({ options, onChange = () => {}, value, ...props }: SelectInputProps) {
+export function SelectInput({ option, options, onChange = () => {}, ...props }: SelectInputProps) {
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(value ?? '');
+  const [inputValue, setInputValue] = useState(option?.value ?? '');
+
+  console.log(option);
 
   const onSelect = (value: string) => {
     setInputValue(value);
     setOpen(false);
   };
-
   useEffect(() => {
     const option = options.find(option => option.value.toLowerCase() === inputValue.toLowerCase());
 

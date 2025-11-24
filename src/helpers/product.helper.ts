@@ -14,15 +14,21 @@ export function getDescendantCategoryIds<
   return descendants;
 }
 
-export function generateProductSlug(brand: string, name: string): string {
-  return `${brand} ${name}`
+export function generateSlug(text: string, maxWords?: number): string {
+  let slug = text
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '')
-    .split(/\s+/)
-    .slice(0, 5)
-    .join('-')
-    .replace(/-+/g, '-')
-    .trim();
+    .split(/\s+/);
+
+  if (maxWords) {
+    slug = slug.slice(0, maxWords);
+  }
+
+  return slug.join('-').replace(/-+/g, '-').trim();
+}
+
+export function generateProductSlug(brand: string, name: string): string {
+  return generateSlug(`${brand} ${name}`, 5);
 }
 
 export function getLeafCategories<
