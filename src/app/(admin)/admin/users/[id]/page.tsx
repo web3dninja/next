@@ -17,7 +17,7 @@ export default async function UserPage({ params }: PageProps) {
   return (
     <>
       <div className="container">
-        <BackButton href="/admin/users" label="Back to Users" />
+        <BackButton href="/admin/users" label="Users" />
       </div>
 
       <div className="content">

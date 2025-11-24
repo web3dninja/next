@@ -27,10 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UpdateCategoryPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [category, categories] = await Promise.all([
-    getCategoryBySlug(slug),
-    getCategories(),
-  ]);
+  const [category, categories] = await Promise.all([getCategoryBySlug(slug), getCategories()]);
 
   if (!category) {
     notFound();
@@ -39,7 +36,7 @@ export default async function UpdateCategoryPage({ params }: PageProps) {
   return (
     <>
       <div className="content-header justify-between">
-        <BackButton href="/admin/categories" label="Back to Categories" />
+        <BackButton href="/admin/categories" label="Categories" />
         <DeleteCategoryButton categoryId={category.id} />
       </div>
 
