@@ -25,7 +25,7 @@ export function ProductsList({ products }: ProductsListProps) {
 
       <div className="grid-list">
         {products.map(product => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem key={product.id} product={product} isAdmin />
         ))}
       </div>
 

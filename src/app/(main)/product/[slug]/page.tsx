@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { getProductById, getProducts } from '@/lib/data';
-import { BackButton } from '@/components/ui/back-button';
 import { notFound } from 'next/navigation';
+import { getProducts, getProductBySlug } from '@/lib/data';
+import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { RedditStatsDisplay } from '@/components/products/reddit-stats';
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 3600;
@@ -17,18 +17,20 @@ export const revalidate = 3600;
 export async function generateStaticParams() {
   const products = await getProducts();
 
-  return products.map(product => ({
-    id: product.id.toString(),
-  }));
+  return products
+    .filter(p => p.slug)
+    .map(product => ({
+      slug: product.slug!,
+    }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const product = await getProductById(Number(id));
+  const { slug } = await params;
 
+  const product = await getProductBySlug(slug);
   if (!product) {
     return {
-      title: 'Product Not Found',
+      title: 'Not Found',
     };
   }
 
@@ -46,8 +48,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ProductPage({ params }: PageProps) {
-  const { id } = await params;
-  const product = await getProductById(Number(id));
+  const { slug } = await params;
+
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -93,7 +96,9 @@ export default async function ProductPage({ params }: PageProps) {
                 <span className="text-2xl font-bold text-black dark:text-white">
                   ${product.price}
                 </span>
-                <Badge variant="default">{product.category}</Badge>
+                {product.category && (
+                  <Badge variant="default">{product.category.name}</Badge>
+                )}
               </div>
 
               <p className="whitespace-pre-line text-zinc-600 dark:text-zinc-300">

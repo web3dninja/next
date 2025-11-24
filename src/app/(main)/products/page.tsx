@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { getProducts } from '@/lib/data';
+import { getCategories } from '@/lib/data/category';
 import { BackButton } from '@/components/ui/back-button';
 import { ProductsList } from './components/products-list';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
 
   return (
     <>
@@ -27,7 +28,7 @@ export default async function ProductsPage() {
       </div>
 
       <div className="content">
-        <ProductsList products={products} />
+        <ProductsList products={products} categories={categories} />
 
         <EmptyState show={products.length === 0}>No products found</EmptyState>
       </div>

@@ -1,15 +1,21 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { addProduct, updateProduct, deleteProduct, getProductById, Product } from '@/lib/data';
+import {
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  getProductById,
+  Product,
+  ProductCreateInput,
+  getProductBySlug,
+} from '@/lib/data';
 
-export async function getProductAction(id: number) {
-  return await getProductById(id);
+export async function getProductBySlugAction(slug: string): Promise<Product | null> {
+  return await getProductBySlug(slug);
 }
 
-export async function createProductAction(
-  product: Omit<Product, 'id' | 'redditStats'>,
-): Promise<Product | null> {
+export async function createProductAction(product: ProductCreateInput): Promise<Product | null> {
   if (!product.name || !product.brand || !product.price) {
     throw new Error('Name, brand, and price are required');
   }
@@ -28,7 +34,7 @@ export async function createProductAction(
 
 export async function updateProductAction(
   id: number,
-  data: Omit<Product, 'id' | 'redditStats'>,
+  data: ProductCreateInput,
 ): Promise<Product | null> {
   if (!id) {
     throw new Error('ID is required');

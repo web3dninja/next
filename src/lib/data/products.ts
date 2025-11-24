@@ -1,12 +1,11 @@
 import prisma from '@/lib/prisma';
 import { fetchRedditStats } from '@/lib/services/reddit';
-import type { Category } from './category';
-
-export type { Category };
+import { Category } from './category';
 
 export interface Product {
   id: number;
   name: string;
+  slug: string | null;
   brand: string;
   description: string;
   price: string;
@@ -17,6 +16,8 @@ export interface Product {
   redditKeyword: string;
   redditStats: RedditStats | null;
 }
+
+export type ProductCreateInput = Omit<Product, 'id' | 'redditStats' | 'category'>;
 
 export interface RedditStats {
   id: number;
@@ -41,6 +42,13 @@ export async function getProductById(id: number): Promise<Product | null> {
   });
 }
 
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  return await prisma.product.findUnique({
+    where: { slug },
+    include: { redditStats: true, category: true },
+  });
+}
+
 export async function getProductsByCategory(categoryIdOrSlug: number | string): Promise<Product[]> {
   const where =
     typeof categoryIdOrSlug === 'number'
@@ -53,9 +61,7 @@ export async function getProductsByCategory(categoryIdOrSlug: number | string): 
   });
 }
 
-export async function addProduct(
-  product: Omit<Product, 'id' | 'redditStats' | 'category'>,
-): Promise<Product | null> {
+export async function addProduct(product: ProductCreateInput): Promise<Product | null> {
   const normalizedKeyword = product.redditKeyword.toLowerCase().trim();
 
   const existingStats = await prisma.redditStats.findUnique({
@@ -80,6 +86,7 @@ export async function addProduct(
   const newProduct = await prisma.product.create({
     data: {
       name: product.name,
+      slug: product.slug,
       brand: product.brand,
       description: product.description,
       price: product.price,
@@ -94,10 +101,7 @@ export async function addProduct(
   return newProduct;
 }
 
-export async function updateProduct(
-  id: number,
-  data: Omit<Product, 'id' | 'redditStats' | 'category'>,
-): Promise<Product> {
+export async function updateProduct(id: number, data: ProductCreateInput): Promise<Product> {
   const currentProduct = await prisma.product.findUnique({
     where: { id },
   });
@@ -135,6 +139,7 @@ export async function updateProduct(
       description: data.description,
       price: data.price,
       link: data.link,
+      slug: data.slug,
       image: data.image,
       categoryId: data.categoryId,
       redditKeyword: normalizedKeyword,

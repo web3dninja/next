@@ -19,7 +19,7 @@ import {
 import { ImagePreview } from '@/components/ui/image-preview';
 import { TagsInput } from '@/components/ui/tags-input';
 import { createProductAction, updateProductAction } from '../product.actions';
-import { Product } from '@/lib/data';
+import { Product, ProductCreateInput } from '@/lib/data';
 import Link from 'next/link';
 
 const productSchema = z.object({
@@ -29,7 +29,7 @@ const productSchema = z.object({
   price: z.string().min(1, 'Price is required'),
   link: z.string().min(1, 'Link is required'),
   image: z.string().min(1, 'Image URL is required'),
-  category: z.string().min(1, 'Category is required'),
+  categoryId: z.number().min(1, 'Category is required'),
   redditKeywords: z.array(z.string().min(1)).min(1, 'At least one Reddit keyword is required'),
 });
 
@@ -51,7 +51,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
       price: product?.price ?? '',
       link: product?.link ?? '',
       image: product?.image ?? '',
-      category: product?.category ?? '',
+      categoryId: product?.categoryId ?? undefined,
       redditKeywords: product?.redditKeyword
         ? product.redditKeyword.split('-').filter(Boolean)
         : [],
@@ -61,7 +61,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
   const imageUrl = form.watch('image');
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
-    mutationFn: (data: Omit<Product, 'id' | 'redditStats'>) => createProductAction(data),
+    mutationFn: (data: ProductCreateInput) => createProductAction(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product created successfully!');
@@ -72,8 +72,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
   });
 
   const { mutate: updateMutation, isPending: isUpdating } = useMutation({
-    mutationFn: (data: Omit<Product, 'id' | 'redditStats'>) =>
-      updateProductAction(product!.id, data),
+    mutationFn: (data: ProductCreateInput) => updateProductAction(product!.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       queryClient.invalidateQueries({ queryKey: ['product', product!.id] });
@@ -88,8 +87,9 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
   const onSubmit = (data: ProductFormData) => {
     const { redditKeywords, ...restData } = data;
-    const formattedData: Omit<Product, 'id' | 'redditStats'> = {
+    const formattedData: ProductCreateInput = {
       ...restData,
+      slug: data.name.toLowerCase().replace(/ /g, '-'),
       redditKeyword: redditKeywords.join('-'),
     };
 
@@ -184,10 +184,10 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
             <FormField
               control={form.control}
-              name="category"
+              name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Category ID</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Electronics, Clothing, etc."
