@@ -1,11 +1,7 @@
-import { BackButton } from '@/components/ui/back-button';
-
-// Static route - /contact
 export default function ContactPage() {
   return (
     <>
       <div className="content-header">
-        <BackButton href="/" label="Home" />
         <h1>Contact</h1>
       </div>
 

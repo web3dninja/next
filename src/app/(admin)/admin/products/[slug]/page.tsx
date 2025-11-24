@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getProductsByCategoryIds } from '@/lib/data';
 import { getCategoryBySlug, getCategories } from '@/lib/data/category';
-import { getDescendantCategoryIds } from '@/helper/product.helper';
 import { BackButton } from '@/components/ui/back-button';
 import { ProductsList } from '../components/products-list';
 import { EmptyState } from '@/components/ui/empty-state';
+import { getDescendantCategoryIds } from '@/helper/product.helper';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -57,7 +57,6 @@ export default async function CategoryPage({ params }: PageProps) {
   return (
     <>
       <div className="content-header">
-        <BackButton href="/products" label="All Products" />
         <h1>{category.name}</h1>
         <div className="flex-1" />
       </div>

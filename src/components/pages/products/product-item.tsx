@@ -1,12 +1,12 @@
 'use client';
 
-import { Item } from '../ui/item';
-import { ItemMedia } from '../ui/item';
+import { Item } from '@/components/ui/item';
+import { ItemMedia } from '@/components/ui/item';
 import { Product } from '@/lib/data/products';
 import Link from 'next/link';
-import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '../ui/item';
+import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '@/components/ui/item';
 import Image from 'next/image';
-import { Badge } from '../ui/badge';
+import { Badge } from '@/components/ui/badge';
 import { RedditStatsDisplay } from './reddit-stats';
 
 export function ProductItem({ product, isAdmin = false }: { product: Product; isAdmin?: boolean }) {

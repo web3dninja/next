@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
-import { RedditStatsDisplay } from '@/components/products/reddit-stats';
+import { RedditStatsDisplay } from '@/components/pages/products';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -96,9 +96,7 @@ export default async function ProductPage({ params }: PageProps) {
                 <span className="text-2xl font-bold text-black dark:text-white">
                   ${product.price}
                 </span>
-                {product.category && (
-                  <Badge variant="default">{product.category.name}</Badge>
-                )}
+                {product.category && <Badge variant="default">{product.category.name}</Badge>}
               </div>
 
               <p className="whitespace-pre-line text-zinc-600 dark:text-zinc-300">

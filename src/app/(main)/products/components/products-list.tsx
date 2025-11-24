@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import { Product } from '@/lib/data/products';
-import { ProductItem } from '@/components/products/product-item';
+import { ProductItem } from '@/components/pages/products';
 import { SearchInput } from '@/components/ui/search-input';
 import { EmptyState } from '@/components/ui/empty-state';
-import { CategoryTree } from './category-tree';
 import { Category } from '@/lib/data';
+import { useRouter } from 'next/navigation';
+import { CategoryTree } from '@/components/features/category-tree';
 
 interface ProductsListProps {
   products: Product[];
@@ -15,6 +16,7 @@ interface ProductsListProps {
 
 export function ProductsList({ products, categories }: ProductsListProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   const filteredProducts = products.filter(
     product =>
@@ -22,28 +24,25 @@ export function ProductsList({ products, categories }: ProductsListProps) {
       product.brand.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  const handleSelect = (slug: string) => {
+    router.push(`/products/${slug}`);
+  };
+
   return (
-    <div className="flex gap-6">
-      <aside className="hidden w-64 shrink-0 lg:block">
-        <div className="sticky top-4">
-          <h3 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            Categories
-          </h3>
-          <CategoryTree categories={categories} />
-        </div>
-      </aside>
-
-      <div className="flex-1">
+    <>
+      <div className="content-header">
+        <CategoryTree categories={categories} onSelect={handleSelect} />
+        <div className="flex-1" />
         <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search products..." />
-
-        <div className="grid-list">
-          {filteredProducts.map(product => (
-            <ProductItem key={product.id} product={product} />
-          ))}
-        </div>
-
-        <EmptyState show={filteredProducts.length === 0}>No products found</EmptyState>
       </div>
-    </div>
+
+      <div className="grid-list">
+        {filteredProducts.map(product => (
+          <ProductItem key={product.id} product={product} />
+        ))}
+      </div>
+
+      <EmptyState show={filteredProducts.length === 0}>No products found</EmptyState>
+    </>
   );
 }

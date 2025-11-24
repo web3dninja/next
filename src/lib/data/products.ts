@@ -49,14 +49,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   });
 }
 
-export async function getProductsByCategory(categoryIdOrSlug: number | string): Promise<Product[]> {
-  const where =
-    typeof categoryIdOrSlug === 'number'
-      ? { categoryId: categoryIdOrSlug }
-      : { category: { slug: categoryIdOrSlug } };
-
+export async function getProductsByCategoryIds(categoryIds: number[]): Promise<Product[]> {
   return await prisma.product.findMany({
-    where,
+    where: { categoryId: { in: categoryIds } },
     include: { redditStats: true, category: true },
   });
 }

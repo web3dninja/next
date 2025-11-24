@@ -1,19 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import {
-  addProduct,
-  updateProduct,
-  deleteProduct,
-  getProductById,
-  Product,
-  ProductCreateInput,
-  getProductBySlug,
-} from '@/lib/data';
-
-export async function getProductBySlugAction(slug: string): Promise<Product | null> {
-  return await getProductBySlug(slug);
-}
+import { addProduct, updateProduct, deleteProduct, Product, ProductCreateInput } from '@/lib/data';
 
 export async function createProductAction(product: ProductCreateInput): Promise<Product | null> {
   if (!product.name || !product.brand || !product.price) {

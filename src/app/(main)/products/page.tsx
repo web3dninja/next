@@ -22,7 +22,6 @@ export default async function ProductsPage() {
   return (
     <>
       <div className="content-header">
-        <BackButton href="/" label="Home" />
         <h1>Products</h1>
         <div className="flex-1" />
       </div>

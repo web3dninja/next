@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { ProductsList } from './components/products-list';
-import { getProducts } from '@/lib/data';
+import { getCategories, getProducts } from '@/lib/data';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 
 export default async function AdminProductsPage() {
-  const products = await getProducts();
+  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
 
   return (
     <>
@@ -23,7 +23,7 @@ export default async function AdminProductsPage() {
       </div>
 
       <div className="content">
-        <ProductsList products={products} />
+        <ProductsList products={products} categories={categories} />
       </div>
     </>
   );
