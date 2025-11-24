@@ -36,10 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UpdateProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [product, categories] = await Promise.all([
-    getProductBySlug(slug),
-    getCategories(),
-  ]);
+  const [product, categories] = await Promise.all([getProductBySlug(slug), getCategories()]);
 
   if (!product) {
     notFound();
@@ -48,7 +45,7 @@ export default async function UpdateProductPage({ params }: PageProps) {
   return (
     <>
       <div className="content-header justify-between">
-        <BackButton href="/admin/products" label="Back to Products" />
+        <BackButton href="/admin/products" label="Products" />
         <DeleteProductButton productId={product.id} />
       </div>
 

@@ -8,7 +8,7 @@ export default async function CreateProductPage() {
   return (
     <>
       <div className="content-header">
-        <BackButton href="/admin/products" label="Back to Products" />
+        <BackButton href="/admin/products" label="Products" />
         <h1>Create Product</h1>
       </div>
 
