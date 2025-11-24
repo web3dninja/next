@@ -14,7 +14,7 @@ export default async function AdminPage() {
         </p>
       </div>
 
-      <div className="mt-8 grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="mt-8 grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Item variant="outline" asChild>
           <Link href="admin/users">
             <ItemMedia variant="image">👥</ItemMedia>
@@ -29,9 +29,18 @@ export default async function AdminPage() {
           <Link href="admin/products">
             <ItemMedia variant="image">🛠️</ItemMedia>
             <ItemContent>
-              {' '}
               <ItemTitle>Products</ItemTitle>
-              <ItemDescription>Full CRUD functionality for managing products</ItemDescription>{' '}
+              <ItemDescription>Full CRUD functionality for managing products</ItemDescription>
+            </ItemContent>
+          </Link>
+        </Item>
+
+        <Item variant="outline" asChild>
+          <Link href="admin/categories">
+            <ItemMedia variant="image">📁</ItemMedia>
+            <ItemContent>
+              <ItemTitle>Categories</ItemTitle>
+              <ItemDescription>Manage product categories and hierarchy</ItemDescription>
             </ItemContent>
           </Link>
         </Item>
