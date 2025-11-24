@@ -1,9 +1,7 @@
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env' });
-dotenv.config({ path: '.env.local', override: true });
-
+import 'dotenv/config';
 import { PrismaClient } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { hashPassword } from '../src/components/auth-modal/auth.util';
 import { UserCreateInput } from './generated/models';
 
 if (!process.env.DATABASE_URL) {
@@ -33,7 +31,6 @@ async function seedAdminUser() {
   console.log('🌱 Seeding users...');
 
   try {
-    const { hashPassword } = await import('../src/components/auth-modal/auth.util');
     const hashedPassword = await hashPassword(createAdminUser.password);
     const created = await prisma.user.create({
       data: { ...createAdminUser, password: hashedPassword },

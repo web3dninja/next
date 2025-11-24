@@ -22,6 +22,19 @@ model User {
   @@map("users")
 }
 
+model Category {
+  id       Int        @id @default(autoincrement())
+  name     String
+  slug     String     @unique
+  icon     String?
+  parentId Int?
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryTree")
+  products Product[]
+
+  @@map("categories")
+}
+
 model Product {
   id            Int          @id @default(autoincrement())
   name          String
@@ -30,7 +43,8 @@ model Product {
   price         String
   link          String
   image         String
-  category      String
+  categoryId    Int?
+  category      Category?    @relation(fields: [categoryId], references: [id])
   redditKeyword String
   redditStats   RedditStats? @relation(fields: [redditKeyword], references: [keyword])
 
