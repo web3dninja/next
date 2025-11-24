@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { RedditStatsDisplay } from '@/components/pages/products';
+import { Item, ItemContent, ItemDescription, ItemMedia } from '@/components/ui/item';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -63,48 +64,49 @@ export default async function ProductPage({ params }: PageProps) {
       </div>
 
       <div className="content">
-        <div className="mx-auto max-w-4xl">
-          <div className="flex-start flex flex-wrap gap-8">
-            <div className="mx-auto w-80 sm:w-64">
-              <div className="relative overflow-hidden rounded-lg pb-[100%]">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  sizes="100%"
-                />
-              </div>
+        <Item
+          variant="default"
+          className="flex-start mx-auto flex max-w-4xl flex-wrap items-start gap-8"
+        >
+          <div className="mx-auto w-80 sm:w-64">
+            <ItemMedia className="relative overflow-hidden rounded-lg pb-[100%]">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="100%"
+              />
+            </ItemMedia>
 
-              <Button asChild size="xl" className="mt-4 w-full">
-                <Link href={product.link} target="_blank" rel="noopener noreferrer">
-                  Buy on Amazon
-                </Link>
-              </Button>
-
-              {product.redditStats && (
-                <RedditStatsDisplay stats={product.redditStats} className="mt-4" />
-              )}
-            </div>
-            <div className="flex-1 space-y-4">
-              <div>
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">{product.brand}</p>
-                <h1 className="text-3xl font-bold text-black dark:text-white">{product.name}</h1>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <span className="text-2xl font-bold text-black dark:text-white">
-                  ${product.price}
-                </span>
-                {product.category && <Badge variant="default">{product.category.name}</Badge>}
-              </div>
-
-              <p className="whitespace-pre-line text-zinc-600 dark:text-zinc-300">
-                {product.description}
-              </p>
-            </div>
+            {product.redditStats && (
+              <RedditStatsDisplay stats={product.redditStats} className="mt-4" />
+            )}
           </div>
-        </div>
+          <ItemContent className="flex-1 gap-4">
+            <div>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">{product.brand}</p>
+              <h1 className="text-3xl font-bold text-black dark:text-white">{product.name}</h1>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-2xl font-bold text-black dark:text-white">
+                ${product.price}
+              </span>
+              {product.category && <Badge variant="default">{product.category.name}</Badge>}
+            </div>
+
+            <ItemDescription className="text-sm text-zinc-600 dark:text-zinc-300">
+              {product.description}
+            </ItemDescription>
+
+            <Button asChild size="xl" className="mt-4 w-70">
+              <Link href={product.link} target="_blank" rel="noopener noreferrer">
+                Buy on Amazon
+              </Link>
+            </Button>
+          </ItemContent>
+        </Item>
       </div>
     </>
   );

@@ -13,21 +13,13 @@ interface ProductsListProps {
   products: Product[];
   categories: Category[];
   categoryHrefBase: string;
-  isAdmin?: boolean;
 }
 
-const sanitizeBasePath = (basePath: string): string =>
-  basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
-
-export function ProductsList({
-  products,
-  categories,
-  categoryHrefBase,
-  isAdmin = false,
-}: ProductsListProps) {
+export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
-  const normalizedBase = sanitizeBasePath(categoryHrefBase);
+
+  console.log(categoryHrefBase);
 
   const filteredProducts = useMemo(() => {
     if (!searchTerm) {
@@ -42,7 +34,7 @@ export function ProductsList({
   }, [products, searchTerm]);
 
   const handleSelect = (slug: string) => {
-    router.push(`${normalizedBase}/${slug}`);
+    router.push(`${categoryHrefBase}/${slug}`);
   };
 
   return (
@@ -55,7 +47,7 @@ export function ProductsList({
 
       <div className="grid-list">
         {filteredProducts.map(product => (
-          <ProductItem key={product.id} product={product} isAdmin={isAdmin} />
+          <ProductItem key={product.id} product={product} categoryHrefBase={categoryHrefBase} />
         ))}
       </div>
 

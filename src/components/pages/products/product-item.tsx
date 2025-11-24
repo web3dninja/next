@@ -9,10 +9,16 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { RedditStatsDisplay } from './reddit-stats';
 
-export function ProductItem({ product, isAdmin = false }: { product: Product; isAdmin?: boolean }) {
+export function ProductItem({
+  product,
+  categoryHrefBase,
+}: {
+  product: Product;
+  categoryHrefBase: string;
+}) {
   return (
-    <Item key={product.id} variant="outline" className="flex-col flex-nowrap items-start" asChild>
-      <Link href={isAdmin ? `/admin/product/${product.slug}` : `/product/${product.slug}`}>
+    <Item key={product.id} variant="default" className="flex-col flex-nowrap items-start" asChild>
+      <Link href={`${categoryHrefBase.slice(0, -1)}/${product.slug}`}>
         <ItemMedia variant="image" className="relative w-full pb-[100%]">
           <Image
             src={product.image}
