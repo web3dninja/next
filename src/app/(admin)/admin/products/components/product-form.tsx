@@ -18,23 +18,13 @@ import {
 } from '@/components/ui/form';
 import { ImagePreview } from '@/components/ui/image-preview';
 import { TagsInput } from '@/components/ui/tags-input';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import { Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { createProductAction, updateProductAction } from '../product.actions';
 import { Product, ProductCreateInput } from '@/lib/data';
 import { Category } from '@/lib/data/category';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import { useEffect } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
+import { generateProductSlug, getLeafCategories } from '@/helper/product.helper';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -77,13 +67,16 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
   });
 
   const imageUrl = form.watch('image');
-  const selectedCategoryId = form.watch('categoryId');
-  const selectedCategory = categories.find(c => c.id === selectedCategoryId);
 
-  // Get only leaf categories (those without children)
-  const leafCategories = categories.filter(
-    category => !categories.some(c => c.parentId === category.id),
-  );
+  const watchedName = form.watch('name');
+  const watchedBrand = form.watch('brand');
+
+  const leafCategories = getLeafCategories(categories);
+
+  useEffect(() => {
+    const slug = generateProductSlug(watchedBrand || '', watchedName || '');
+    form.setValue('slug', slug);
+  }, [watchedName, watchedBrand, form]);
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
     mutationFn: (data: ProductCreateInput) => createProductAction(data),
@@ -144,19 +137,34 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
         </div>
 
         <div className="flex-1 space-y-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Product name" disabled={isPending} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex gap-4">
+            <FormField
+              control={form.control}
+              name="brand"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Brand</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Brand name" disabled={isPending} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="flex-2">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Product name" disabled={isPending} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormField
             control={form.control}
@@ -166,20 +174,6 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
                 <FormLabel>Path</FormLabel>
                 <FormControl>
                   <Input placeholder="product-slug" disabled={isPending} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="brand"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Brand</FormLabel>
-                <FormControl>
-                  <Input placeholder="Brand name" disabled={isPending} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -205,12 +199,12 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
             )}
           />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex gap-4">
             <FormField
               control={form.control}
               name="price"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormLabel>Price</FormLabel>
                   <FormControl>
                     <Input placeholder="99.99" disabled={isPending} {...field} />
@@ -224,7 +218,7 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
               control={form.control}
               name="categoryId"
               render={({ field }) => (
-                <FormItem className="relative">
+                <FormItem className="flex-1">
                   <FormLabel>Category</FormLabel>
                   <FormControl>
                     <SelectInput
