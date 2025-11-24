@@ -1,5 +1,8 @@
 import prisma from '@/lib/prisma';
 import { fetchRedditStats } from '@/lib/services/reddit';
+import type { Category } from './category';
+
+export type { Category };
 
 export interface Product {
   id: number;
@@ -9,7 +12,8 @@ export interface Product {
   price: string;
   link: string;
   image: string;
-  category: string;
+  categoryId: number | null;
+  category: Category | null;
   redditKeyword: string;
   redditStats: RedditStats | null;
 }
@@ -26,26 +30,31 @@ export interface RedditStats {
 
 export async function getProducts(): Promise<Product[]> {
   return await prisma.product.findMany({
-    include: { redditStats: true },
+    include: { redditStats: true, category: true },
   });
 }
 
 export async function getProductById(id: number): Promise<Product | null> {
   return await prisma.product.findUnique({
     where: { id },
-    include: { redditStats: true },
+    include: { redditStats: true, category: true },
   });
 }
 
-export async function getProductsByCategory(category: string): Promise<Product[]> {
+export async function getProductsByCategory(categoryIdOrSlug: number | string): Promise<Product[]> {
+  const where =
+    typeof categoryIdOrSlug === 'number'
+      ? { categoryId: categoryIdOrSlug }
+      : { category: { slug: categoryIdOrSlug } };
+
   return await prisma.product.findMany({
-    where: { category },
-    include: { redditStats: true },
+    where,
+    include: { redditStats: true, category: true },
   });
 }
 
 export async function addProduct(
-  product: Omit<Product, 'id' | 'redditStats'>,
+  product: Omit<Product, 'id' | 'redditStats' | 'category'>,
 ): Promise<Product | null> {
   const normalizedKeyword = product.redditKeyword.toLowerCase().trim();
 
@@ -76,10 +85,10 @@ export async function addProduct(
       price: product.price,
       link: product.link,
       image: product.image,
-      category: product.category,
+      categoryId: product.categoryId,
       redditKeyword: normalizedKeyword,
     },
-    include: { redditStats: true },
+    include: { redditStats: true, category: true },
   });
 
   return newProduct;
@@ -87,7 +96,7 @@ export async function addProduct(
 
 export async function updateProduct(
   id: number,
-  data: Omit<Product, 'id' | 'redditStats'>,
+  data: Omit<Product, 'id' | 'redditStats' | 'category'>,
 ): Promise<Product> {
   const currentProduct = await prisma.product.findUnique({
     where: { id },
@@ -121,7 +130,13 @@ export async function updateProduct(
   await prisma.product.update({
     where: { id },
     data: {
-      ...data,
+      name: data.name,
+      brand: data.brand,
+      description: data.description,
+      price: data.price,
+      link: data.link,
+      image: data.image,
+      categoryId: data.categoryId,
       redditKeyword: normalizedKeyword,
     },
   });
@@ -132,7 +147,7 @@ export async function updateProduct(
 
   const updatedProduct = await prisma.product.findUnique({
     where: { id },
-    include: { redditStats: true },
+    include: { redditStats: true, category: true },
   });
 
   if (!updatedProduct) {
@@ -149,7 +164,7 @@ export async function deleteProduct(id: number): Promise<Product> {
 
   const deletedProduct = await prisma.product.delete({
     where: { id },
-    include: { redditStats: true },
+    include: { redditStats: true, category: true },
   });
 
   if (product?.redditKeyword) {
