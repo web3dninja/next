@@ -27,7 +27,6 @@ export default async function AdminProductsPage() {
           products={products}
           categories={categories}
           categoryHrefBase="/admin/products"
-          isAdmin
         />
       </div>
     </>

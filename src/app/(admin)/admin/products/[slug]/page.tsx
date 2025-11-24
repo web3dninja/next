@@ -64,7 +64,6 @@ export default async function CategoryPage({ params }: PageProps) {
           products={products}
           categories={categories}
           categoryHrefBase="/admin/products"
-          isAdmin
         />
       </div>
     </>
