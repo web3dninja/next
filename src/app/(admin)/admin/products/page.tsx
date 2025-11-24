@@ -14,12 +14,12 @@ export default async function AdminProductsPage() {
         <BackButton href="/admin" label="Admin" />
         <h1>Products</h1>
         <div className="flex-1" />
-        <Link href="/admin/products/create">
-          <Button variant="outline" size="sm">
+        <Button variant="outline" size="lg" asChild>
+          <Link href="/admin/products/create">
             <PlusIcon className="mr-2 size-4" />
             Add Product
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       <div className="content">

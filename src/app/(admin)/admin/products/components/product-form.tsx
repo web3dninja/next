@@ -22,9 +22,11 @@ import { createProductAction, updateProductAction } from '../product.actions';
 import { Product, ProductCreateInput } from '@/lib/data';
 import { Category } from '@/lib/data/category';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
-import { generateProductSlug, getLeafCategories } from '@/helper/product.helper';
+import { generateProductSlug, getLeafCategories } from '@/helpers/product.helper';
+import { getCategoryOption } from '@/helper/category.helper';
+import { Card, CardContent } from '@/components/ui/card';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -67,9 +69,13 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
   });
 
   const imageUrl = form.watch('image');
-
+  const watchedCategoryId = form.watch('categoryId');
   const watchedName = form.watch('name');
   const watchedBrand = form.watch('brand');
+
+  const selectedOption = useMemo(() => {
+    return getCategoryOption(categories, watchedCategoryId ?? product?.categoryId ?? null);
+  }, [categories, watchedCategoryId, product?.categoryId]);
 
   const leafCategories = getLeafCategories(categories);
 
@@ -119,180 +125,181 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto flex max-w-4xl gap-6 space-y-4"
-      >
-        <div className="mx-auto w-80 sm:w-64">
-          <ImagePreview
-            value={imageUrl}
-            className="relative w-full overflow-hidden rounded-lg pb-[100%]"
-          />
+      <Card className="mx-auto max-w-4xl">
+        <CardContent>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-6">
+            <div className="mx-auto w-80 sm:w-64">
+              <ImagePreview
+                value={imageUrl}
+                className="relative w-full overflow-hidden rounded-lg pb-[100%]"
+              />
 
-          <Button asChild size="xl" className="mt-4 w-full">
-            <Link href={product?.link ?? ''} target="_blank" rel="noopener noreferrer">
-              Buy on Amazon
-            </Link>
-          </Button>
-        </div>
+              <Button asChild size="xl" className="mt-4 w-full">
+                <Link href={product?.link ?? ''} target="_blank" rel="noopener noreferrer">
+                  Buy on Amazon
+                </Link>
+              </Button>
+            </div>
 
-        <div className="flex-1 space-y-4">
-          <div className="flex gap-4">
-            <FormField
-              control={form.control}
-              name="brand"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Brand</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Brand name" disabled={isPending} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="flex-2">
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Product name" disabled={isPending} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+            <div className="flex-1 space-y-4">
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="brand"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Brand</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Brand name" disabled={isPending} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="flex-2">
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Product name" disabled={isPending} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-          <FormField
-            control={form.control}
-            name="slug"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Path</FormLabel>
-                <FormControl>
-                  <Input placeholder="product-slug" disabled={isPending} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Path</FormLabel>
+                    <FormControl>
+                      <Input placeholder="product-slug" disabled={isPending} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Product description"
-                    disabled={isPending}
-                    {...field}
-                    className="max-h-50"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Product description"
+                        disabled={isPending}
+                        {...field}
+                        className="max-h-50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <div className="flex gap-4">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input placeholder="99.99" disabled={isPending} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Price</FormLabel>
+                      <FormControl>
+                        <Input placeholder="99.99" disabled={isPending} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Category</FormLabel>
-                  <FormControl>
-                    <SelectInput
-                      value={product?.category?.name ?? ''}
-                      placeholder="Select category..."
-                      options={leafCategories.map(category => ({
-                        value: category.name,
-                        key: category.id,
-                      }))}
-                      onChange={option => field.onChange(option?.key)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Category</FormLabel>
+                      <FormControl>
+                        <SelectInput
+                          option={selectedOption}
+                          placeholder="Select category..."
+                          options={leafCategories.map(category => ({
+                            value: category.name,
+                            key: category.id,
+                          }))}
+                          onChange={option => field.onChange(option?.key)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-          <FormField
-            control={form.control}
-            name="link"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Link</FormLabel>
-                <FormControl>
-                  <Input placeholder="https://example.com" disabled={isPending} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Link</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com" disabled={isPending} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Image URL</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="https://example.com/image.jpg"
-                    disabled={isPending}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Image URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://example.com/image.jpg"
+                        disabled={isPending}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <FormField
-            control={form.control}
-            name="redditKeywords"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Reddit Keywords</FormLabel>
-                <FormControl>
-                  <TagsInput
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="Add keywords (e.g., AirFryer, Air Fryer)"
-                    disabled={isPending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormField
+                control={form.control}
+                name="redditKeywords"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Reddit Keywords</FormLabel>
+                    <FormControl>
+                      <TagsInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Add keywords (e.g., AirFryer, Air Fryer)"
+                        disabled={isPending}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <Button type="submit" className="w-full" size="xl" disabled={isPending}>
-            {isPending ? 'Saving...' : 'Save Product'}
-          </Button>
-        </div>
-      </form>
+              <Button type="submit" className="w-full" size="xl" disabled={isPending}>
+                {isPending ? 'Saving...' : 'Save Product'}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </Form>
   );
 }
