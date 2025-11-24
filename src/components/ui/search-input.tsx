@@ -2,6 +2,7 @@
 
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
 import { Label } from './label';
 
@@ -19,18 +20,19 @@ export function SearchInput({
   className,
 }: SearchInputProps) {
   return (
-    <div className={cn('relative', className)}>
-      <Label htmlFor="search" className="absolute top-1/2 left-3 size-4 -translate-y-1/2">
-        <Search className="text-zinc-500 dark:text-zinc-400" />
-      </Label>
-      <Input
+    <InputGroup className={cn('w-full', className)}>
+      <InputGroupAddon>
+        <Label htmlFor="search" className="size-4">
+          <Search />
+        </Label>
+      </InputGroupAddon>
+      <InputGroupInput
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="pl-9"
         id="search"
       />
-    </div>
+    </InputGroup>
   );
 }
