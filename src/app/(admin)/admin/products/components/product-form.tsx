@@ -289,13 +289,7 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
           />
 
           <Button type="submit" className="w-full" size="xl" disabled={isPending}>
-            {mode === 'create'
-              ? isPending
-                ? 'Creating...'
-                : 'Create Product'
-              : isPending
-                ? 'Updating...'
-                : 'Update Product'}
+            {isPending ? 'Saving...' : 'Save Product'}
           </Button>
         </div>
       </form>

@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { ProductsList } from './components/products-list';
 import { getCategories, getProducts } from '@/lib/data';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
+import { ProductsList } from '@/components/pages';
 
 export default async function AdminProductsPage() {
   const [products, categories] = await Promise.all([getProducts(), getCategories()]);
@@ -23,7 +23,12 @@ export default async function AdminProductsPage() {
       </div>
 
       <div className="content">
-        <ProductsList products={products} categories={categories} />
+        <ProductsList
+          products={products}
+          categories={categories}
+          categoryHrefBase="/admin/products"
+          isAdmin
+        />
       </div>
     </>
   );

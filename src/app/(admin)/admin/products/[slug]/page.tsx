@@ -2,10 +2,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getProductsByCategoryIds } from '@/lib/data';
 import { getCategoryBySlug, getCategories } from '@/lib/data/category';
-import { BackButton } from '@/components/ui/back-button';
-import { ProductsList } from '../components/products-list';
-import { EmptyState } from '@/components/ui/empty-state';
 import { getDescendantCategoryIds } from '@/helper/product.helper';
+import { ProductsList } from '@/components/pages';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,9 +60,12 @@ export default async function CategoryPage({ params }: PageProps) {
       </div>
 
       <div className="content">
-        <ProductsList products={products} categories={categories} />
-
-        <EmptyState show={products.length === 0}>No products found in {category.name}</EmptyState>
+        <ProductsList
+          products={products}
+          categories={categories}
+          categoryHrefBase="/admin/products"
+          isAdmin
+        />
       </div>
     </>
   );
