@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { getProducts } from '@/lib/data';
 import { getCategories } from '@/lib/data/category';
-import { BackButton } from '@/components/ui/back-button';
 import { ProductsList } from './components/products-list';
 import { EmptyState } from '@/components/ui/empty-state';
 

@@ -3,6 +3,7 @@ import { ProductForm } from '../../products/components/product-form';
 import DeleteProductButton from '../../products/components/delete-product-button';
 import { Metadata } from 'next';
 import { getProductBySlug } from '@/lib/data';
+import { getCategories } from '@/lib/data/category';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -35,7 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UpdateProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const product = await getProductBySlug(slug);
+  const [product, categories] = await Promise.all([
+    getProductBySlug(slug),
+    getCategories(),
+  ]);
 
   if (!product) {
     notFound();
@@ -49,7 +53,7 @@ export default async function UpdateProductPage({ params }: PageProps) {
       </div>
 
       <div className="content">
-        <ProductForm mode="update" product={product} />
+        <ProductForm mode="update" product={product} categories={categories} />
       </div>
     </>
   );

@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, ChevronDown, User } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,15 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import {
-  HorizontalNavMenuItem,
-  HorizontalNavMenuSubButton,
-  HorizontalNavMenuSubItem,
-  HorizontalNavMenuSub,
-  HorizontalNavMenuButton,
-  HorizontalNavMenu,
-} from '@/components/ui/horizontal-nav';
 import { type RouteWithDropdown } from '@/types/header.type';
 import { HorizontalRoutes } from '@/components/features/horizontal-routes';
 

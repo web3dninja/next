@@ -18,12 +18,27 @@ import {
 } from '@/components/ui/form';
 import { ImagePreview } from '@/components/ui/image-preview';
 import { TagsInput } from '@/components/ui/tags-input';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import { Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { createProductAction, updateProductAction } from '../product.actions';
 import { Product, ProductCreateInput } from '@/lib/data';
+import { Category } from '@/lib/data/category';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import { SelectInput } from '@/components/ui/inputs/select-input';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Name is required'),
+  slug: z.string().min(1, 'Slug is required'),
   brand: z.string().min(1, 'Brand is required'),
   description: z.string().min(1, 'Description is required'),
   price: z.string().min(1, 'Price is required'),
@@ -38,14 +53,17 @@ type ProductFormData = z.infer<typeof productSchema>;
 interface ProductFormProps {
   mode: 'create' | 'update';
   product?: Product;
+  categories: Category[];
 }
 
-export function ProductForm({ mode, product }: ProductFormProps) {
+export function ProductForm({ mode, product, categories }: ProductFormProps) {
   const queryClient = useQueryClient();
+
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name ?? '',
+      slug: product?.slug ?? '',
       brand: product?.brand ?? '',
       description: product?.description ?? '',
       price: product?.price ?? '',
@@ -59,6 +77,13 @@ export function ProductForm({ mode, product }: ProductFormProps) {
   });
 
   const imageUrl = form.watch('image');
+  const selectedCategoryId = form.watch('categoryId');
+  const selectedCategory = categories.find(c => c.id === selectedCategoryId);
+
+  // Get only leaf categories (those without children)
+  const leafCategories = categories.filter(
+    category => !categories.some(c => c.parentId === category.id),
+  );
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
     mutationFn: (data: ProductCreateInput) => createProductAction(data),
@@ -89,7 +114,6 @@ export function ProductForm({ mode, product }: ProductFormProps) {
     const { redditKeywords, ...restData } = data;
     const formattedData: ProductCreateInput = {
       ...restData,
-      slug: data.name.toLowerCase().replace(/ /g, '-'),
       redditKeyword: redditKeywords.join('-'),
     };
 
@@ -128,6 +152,20 @@ export function ProductForm({ mode, product }: ProductFormProps) {
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Product name" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Path</FormLabel>
+                <FormControl>
+                  <Input placeholder="product-slug" disabled={isPending} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -186,13 +224,17 @@ export function ProductForm({ mode, product }: ProductFormProps) {
               control={form.control}
               name="categoryId"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category ID</FormLabel>
+                <FormItem className="relative">
+                  <FormLabel>Category</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Electronics, Clothing, etc."
-                      disabled={isPending}
-                      {...field}
+                    <SelectInput
+                      value={product?.category?.name ?? ''}
+                      placeholder="Select category..."
+                      options={leafCategories.map(category => ({
+                        value: category.name,
+                        key: category.id,
+                      }))}
+                      onChange={option => field.onChange(option?.key)}
                     />
                   </FormControl>
                   <FormMessage />

@@ -1,9 +1,10 @@
-'use client';
-
 import { BackButton } from '@/components/ui/back-button';
 import { ProductForm } from '../components/product-form';
+import { getCategories } from '@/lib/data/category';
 
-export default function CreateProductPage() {
+export default async function CreateProductPage() {
+  const categories = await getCategories();
+
   return (
     <>
       <div className="content-header">
@@ -13,7 +14,7 @@ export default function CreateProductPage() {
 
       <div className="content">
         <div className="mx-auto space-y-4">
-          <ProductForm mode="create" />
+          <ProductForm mode="create" categories={categories} />
         </div>
       </div>
     </>
