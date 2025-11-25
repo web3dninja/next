@@ -7,6 +7,7 @@ import type {
   UpdateAllResult,
 } from './types';
 import prisma from '@/lib/prisma/prisma';
+import { REDDIT_KEYWORD_DELIMITER } from './constants';
 import {
   analyzeSentimentAdvanced,
   detectCategory,
@@ -117,7 +118,10 @@ export async function updateAllRedditStats(): Promise<UpdateAllResult> {
 
   for (const stat of stats) {
     try {
-      const keywords = stat.keyword.split('-').filter(Boolean);
+      const keywords = stat.keyword
+        .split(REDDIT_KEYWORD_DELIMITER)
+        .map(keyword => keyword.trim())
+        .filter(Boolean);
       const redditData = await fetchRedditStats(keywords);
 
       await prisma.redditStats.update({

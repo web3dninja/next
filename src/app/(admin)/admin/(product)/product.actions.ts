@@ -49,8 +49,10 @@ export async function deleteProductAction(id: number): Promise<Product | null> {
     throw new Error('ID is required');
   }
 
-  return await deleteProduct(id);
+  const deletedProduct = await deleteProduct(id);
 
   revalidatePath('/admin/products');
   revalidatePath('/products');
+
+  return deletedProduct;
 }
