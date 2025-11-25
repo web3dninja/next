@@ -3,6 +3,7 @@ import { PrismaClient } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { hashPassword } from '../src/components/auth-modal/auth.util';
 import { UserCreateInput } from './generated/models';
+import { RoleEnum } from '@/types/user.type';
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not set in environment variables');
@@ -26,6 +27,13 @@ const createAdminUser: UserCreateInput = {
   password: process.env.ADMIN_PASSWORD,
   role: 'ADMIN',
 };
+
+// const createAdminUser: UserCreateInput = {
+//   username: 'modarator',
+//   email: 'modarator@example.com',
+//   password: 'password',
+//   role: RoleEnum.MODERATOR,
+// };
 
 async function seedAdminUser() {
   console.log('🌱 Seeding users...');

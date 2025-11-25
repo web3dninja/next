@@ -53,7 +53,7 @@ export function freshnessWeight(createdUtc: number): number {
 }
 
 export function sourceWeight(): number {
-  return 1; // for Reddit specifically
+  return 1;
 }
 
 export function calculateSpecificity(text: string, keywords: string[]): number {

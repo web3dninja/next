@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma';
+import basePrisma, { withAdmin, withModeratorOrAdmin } from '@/lib/prisma';
 
 export interface Category {
   id: number;
@@ -19,7 +19,7 @@ export interface CategoryWithRelations extends Category {
 }
 
 export async function getCategories(includeChildren = false): Promise<Category[]> {
-  return await prisma.category.findMany({
+  return await basePrisma.category.findMany({
     include: {
       parent: true,
       children: includeChildren,
@@ -29,7 +29,7 @@ export async function getCategories(includeChildren = false): Promise<Category[]
 }
 
 export async function getCategoryById(id: number): Promise<Category | null> {
-  return await prisma.category.findUnique({
+  return await basePrisma.category.findUnique({
     where: { id },
     include: {
       parent: true,
@@ -39,7 +39,7 @@ export async function getCategoryById(id: number): Promise<Category | null> {
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  return await prisma.category.findUnique({
+  return await basePrisma.category.findUnique({
     where: { slug },
     include: {
       parent: true,
@@ -49,7 +49,7 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 }
 
 export async function getRootCategories(): Promise<Category[]> {
-  return await prisma.category.findMany({
+  return await basePrisma.category.findMany({
     where: { parentId: null },
     include: {
       children: true,
@@ -59,7 +59,7 @@ export async function getRootCategories(): Promise<Category[]> {
 }
 
 export async function getCategoryChildren(parentId: number): Promise<Category[]> {
-  return await prisma.category.findMany({
+  return await basePrisma.category.findMany({
     where: { parentId },
     include: {
       children: true,
@@ -71,17 +71,19 @@ export async function getCategoryChildren(parentId: number): Promise<Category[]>
 export async function createCategory(
   data: Omit<Category, 'id' | 'parent' | 'children'>,
 ): Promise<Category> {
-  return await prisma.category.create({
-    data: {
-      name: data.name,
-      slug: data.slug,
-      icon: data.icon,
-      parentId: data.parentId,
-    },
-    include: {
-      parent: true,
-      children: true,
-    },
+  return await withModeratorOrAdmin(async prisma => {
+    return await prisma.category.create({
+      data: {
+        name: data.name,
+        slug: data.slug,
+        icon: data.icon,
+        parentId: data.parentId,
+      },
+      include: {
+        parent: true,
+        children: true,
+      },
+    });
   });
 }
 
@@ -89,33 +91,37 @@ export async function updateCategory(
   id: number,
   data: Partial<Omit<Category, 'id' | 'parent' | 'children'>>,
 ): Promise<Category> {
-  return await prisma.category.update({
-    where: { id },
-    data: {
-      name: data.name,
-      slug: data.slug,
-      icon: data.icon,
-      parentId: data.parentId,
-    },
-    include: {
-      parent: true,
-      children: true,
-    },
+  return await withAdmin(async prisma => {
+    return await prisma.category.update({
+      where: { id },
+      data: {
+        name: data.name,
+        slug: data.slug,
+        icon: data.icon,
+        parentId: data.parentId,
+      },
+      include: {
+        parent: true,
+        children: true,
+      },
+    });
   });
 }
 
 export async function deleteCategory(id: number): Promise<Category> {
-  return await prisma.category.delete({
-    where: { id },
-    include: {
-      parent: true,
-      children: true,
-    },
+  return await withAdmin(async prisma => {
+    return await prisma.category.delete({
+      where: { id },
+      include: {
+        parent: true,
+        children: true,
+      },
+    });
   });
 }
 
 export async function getCategoriesWithProductCount(): Promise<CategoryWithRelations[]> {
-  return await prisma.category.findMany({
+  return await basePrisma.category.findMany({
     include: {
       parent: true,
       children: true,

@@ -44,16 +44,12 @@ export async function updateProductAction(
   return updatedProduct;
 }
 
-export async function deleteProductAction(id: number) {
+export async function deleteProductAction(id: number): Promise<Product | null> {
   if (!id) {
     throw new Error('ID is required');
   }
 
-  try {
-    await deleteProduct(id);
-  } catch (error) {
-    throw new Error('Failed to delete product');
-  }
+  return await deleteProduct(id);
 
   revalidatePath('/admin/products');
   revalidatePath('/products');

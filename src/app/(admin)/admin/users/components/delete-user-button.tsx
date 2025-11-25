@@ -7,15 +7,18 @@ import type { User } from '@/types/user.type';
 import { Spinner } from '@/components/ui/spinner';
 import { TrashIcon } from 'lucide-react';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface DeleteUserButtonProps {
   userId: number;
@@ -32,6 +35,10 @@ export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
         old.filter(user => user.id !== userId),
       );
       setOpen(false);
+      toast.success('User deleted successfully');
+    },
+    onError: error => {
+      toast.error(error.message);
     },
   });
 
@@ -40,37 +47,43 @@ export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
         <Button
           variant="outline"
           size="icon"
           disabled={mutation.isPending}
           onClick={e => {
             setOpen(true);
-            e.stopPropagation();
             e.preventDefault();
+            e.stopPropagation();
           }}
         >
           {mutation.isPending ? <Spinner /> : <TrashIcon className="size-4" />}
         </Button>
-      </DialogTrigger>
-      <DialogContent onClick={e => e.stopPropagation()}>
-        <DialogHeader>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete the user.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)} disabled={mutation.isPending}>
-            Cancel
-          </Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={mutation.isPending}>
+      </AlertDialogTrigger>
+      <AlertDialogContent onClick={e => e.stopPropagation()}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete the user account and remove
+            their data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={mutation.isPending}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={e => {
+              e.preventDefault();
+              handleDelete();
+            }}
+            disabled={mutation.isPending}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
             {mutation.isPending ? <Spinner /> : 'Delete'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

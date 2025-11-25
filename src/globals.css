@@ -148,7 +148,7 @@
   }
 
   .toast-success {
-    order-color: var(--success);
+    border-color: var(--success);
   }
 
   .toast-error {
