@@ -5,7 +5,7 @@ import { MobileNav } from '../mobile/MobileNav';
 import { UserMenu } from '../UserMenu';
 import { ThemeSwitcher } from '../theme-switcher';
 import { routes } from '../../routes';
-import AuthModal from '@/components/auth-modal';
+import { AuthModalButton } from '@/components/auth-modal/index';
 import { getCurrentUserAction } from '@/actions/user';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -30,7 +30,7 @@ export function MainHeader() {
         ) : user ? (
           <UserMenu user={user} />
         ) : (
-          <AuthModal />
+          <AuthModalButton />
         )}
         <MobileNav routes={routes} />
         <ThemeSwitcher />

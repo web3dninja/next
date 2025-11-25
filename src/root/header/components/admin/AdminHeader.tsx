@@ -1,4 +1,3 @@
-import AuthModal from '@/components/auth-modal/index';
 import { ThemeSwitcher } from '@/root/header/components/theme-switcher';
 import { DesktopNav } from '../desktop/desktop-nav';
 import { MobileNav } from '../mobile/MobileNav';
@@ -9,6 +8,7 @@ import { routes } from '../../routes';
 import { Logo } from '../Logo';
 import { getCurrentUserAction } from '@/actions/user';
 import { notFound } from 'next/navigation';
+import { AuthModalButton } from '@/components/auth-modal/index';
 
 export async function AdminHeader() {
   const user = await getCurrentUserAction();
@@ -27,7 +27,7 @@ export async function AdminHeader() {
       <div className="flex-1" />
 
       <div className="flex items-center gap-2">
-        {user ? <UserMenu user={user} /> : <AuthModal />}
+        {user ? <UserMenu user={user} /> : <AuthModalButton />}
         <MobileNav routes={routes} title="Navigation" />
         <ThemeSwitcher />
       </div>

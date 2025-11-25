@@ -4,21 +4,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoginForm } from './components/login-form';
 import { RegisterForm } from './components/register-form';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 
 interface AuthTabsProps {
   defaultValue?: 'login' | 'register';
   onAuthSuccess?: () => void;
   className?: string;
-}
-
-export function AuthModalButton() {
-  return (
-    <Button variant="outline" size="sm" asChild>
-      <Link href="/login">Login</Link>
-    </Button>
-  );
 }
 
 export function AuthTabs({ defaultValue = 'login', onAuthSuccess, className }: AuthTabsProps) {
