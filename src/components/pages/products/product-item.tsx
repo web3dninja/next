@@ -34,7 +34,7 @@ export function ProductItem({
           )}
         </ItemMedia>
         <ItemContent>
-          <ItemTitle className="line-clamp-2 min-h-10">{product.name}</ItemTitle>
+          <ItemTitle className="line-clamp-1">{product.name}</ItemTitle>
           <ItemDescription>{product.description}</ItemDescription>
           <span className="font-semibold text-black dark:text-white">${product.price}</span>
         </ItemContent>
