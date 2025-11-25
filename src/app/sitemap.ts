@@ -6,12 +6,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const products = await getProducts();
 
-  const productUrls = products.map(product => ({
-    url: `${baseUrl}/product/${product.slug || product.id}`,
-    lastModified: product.redditStats?.updatedAt || new Date(),
-    changeFrequency: 'daily' as const,
-    priority: 0.8,
-  }));
+  const productUrls = products
+    .filter(product => product.slug)
+    .map(product => ({
+      url: `${baseUrl}/product/${product.slug}`,
+      lastModified: product.redditStats?.updatedAt || new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.8,
+    }));
 
   return [
     {
