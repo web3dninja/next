@@ -1,9 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { deleteUserById } from '@/lib/data/users';
+import { deleteUserById, User } from '@/lib/data/users';
 
-export async function deleteUserAction(id: number) {
+export async function deleteUserAction(id: number): Promise<User | null> {
   if (!id) {
     throw new Error('ID is required');
   }

@@ -13,7 +13,7 @@ import { notFound } from 'next/navigation';
 export async function AdminHeader() {
   const user = await getCurrentUserAction();
 
-  if (!user || user.role !== RoleEnum.ADMIN) {
+  if (!user || user.role === RoleEnum.USER) {
     notFound();
   }
 

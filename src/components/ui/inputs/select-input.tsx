@@ -20,8 +20,6 @@ export function SelectInput({ option, options, onChange = () => {}, ...props }: 
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(option?.value ?? '');
 
-  console.log(option);
-
   const onSelect = (value: string) => {
     setInputValue(value);
     setOpen(false);

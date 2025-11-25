@@ -10,14 +10,16 @@ import { Spinner } from '@/components/ui/spinner';
 import { TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface DeleteCategoryButtonProps {
   categoryId: number;
@@ -40,7 +42,7 @@ export default function DeleteCategoryButton({ categoryId }: DeleteCategoryButto
       router.push('/admin/categories');
     },
     onError: error => {
-      toast.error(error instanceof Error ? error.message : 'Failed to delete category');
+      toast.error((error as Error).message);
     },
   });
 
@@ -49,25 +51,30 @@ export default function DeleteCategoryButton({ categoryId }: DeleteCategoryButto
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
         <Button variant="destructive" size="icon">
           <TrashIcon className="size-4" />
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the category. Products in
             this category will need to be reassigned.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)} disabled={mutation.isPending}>
-            Cancel
-          </Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={mutation.isPending}>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={mutation.isPending}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={e => {
+              e.preventDefault();
+              handleDelete();
+            }}
+            disabled={mutation.isPending}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
             {mutation.isPending ? (
               <>
                 <Spinner className="mr-2" />
@@ -76,9 +83,9 @@ export default function DeleteCategoryButton({ categoryId }: DeleteCategoryButto
             ) : (
               'Delete'
             )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

@@ -6,7 +6,7 @@ import type {
   UpdateResult,
   UpdateAllResult,
 } from './types';
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma/prisma';
 import {
   analyzeSentimentAdvanced,
   detectCategory,
@@ -19,11 +19,9 @@ import {
 export async function fetchRedditStats(keywords: string | string[]): Promise<RedditStatsResult> {
   try {
     const keys = Array.isArray(keywords) ? keywords : [keywords];
-    // Normalize keywords to lowercase for case-insensitive search
     const normalizedKeys = keys.map(k => k.toLowerCase().trim()).filter(Boolean);
     const allPosts: RedditPost[] = [];
 
-    // Keep the original URL format (as provided)
     for (const keyword of normalizedKeys) {
       const searchUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(keyword)}&limit=100&t=year`;
 
@@ -138,7 +136,6 @@ export async function updateAllRedditStats(): Promise<UpdateAllResult> {
         data: redditData,
       });
 
-      // Rate limiting - wait 1 second between requests
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (error) {
       results.push({
@@ -157,7 +154,6 @@ export async function updateAllRedditStats(): Promise<UpdateAllResult> {
   };
 }
 
-// Re-export types for convenience
 export type {
   RedditPost,
   RedditSearchResponse,

@@ -19,8 +19,6 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
 
-  console.log(categoryHrefBase);
-
   const filteredProducts = useMemo(() => {
     if (!searchTerm) {
       return products;

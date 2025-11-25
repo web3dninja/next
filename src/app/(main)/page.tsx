@@ -34,7 +34,39 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Key Features */}
+      <div className="mt-12">
+        <Item variant="default" className="border-primary/20 bg-primary/5 border-2">
+          <ItemMedia variant="image" className="text-4xl">
+            🔑
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Try the Admin Dashboard</ItemTitle>
+            <ItemDescription className="mb-4">
+              Explore the full-featured admin panel with role-based access control. Login as a
+              moderator to see what you can do!
+            </ItemDescription>
+            <div className="mb-4 rounded-md bg-black/5 p-3 font-mono text-sm dark:bg-white/5">
+              <div className="mb-1">
+                <span className="text-muted-foreground">Email:</span>{' '}
+                <span className="font-semibold">modarator@example.com</span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Password:</span>{' '}
+                <span className="font-semibold">password</span>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button asChild>
+                <Link href="/admin">Open Admin Panel</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/login">Login Page</Link>
+              </Button>
+            </div>
+          </ItemContent>
+        </Item>
+      </div>
+
       <div className="mt-12">
         <h2 className="mb-6 text-2xl font-bold text-black dark:text-white">Key Features</h2>
         <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -96,7 +128,6 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Tech Stack */}
       <div className="mt-12 w-full rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-900">
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">Tech Stack</h2>
         <div className="grid gap-6 md:grid-cols-2">
@@ -166,7 +197,6 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Architecture Highlights */}
       <div className="mt-12 w-full rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-900">
         <h2 className="mb-4 text-2xl font-bold text-black dark:text-white">
           Architecture Highlights

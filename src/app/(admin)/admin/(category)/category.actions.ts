@@ -58,16 +58,12 @@ export async function updateCategoryAction(
   return updatedCategory;
 }
 
-export async function deleteCategoryAction(id: number) {
+export async function deleteCategoryAction(id: number): Promise<Category | null> {
   if (!id) {
     throw new Error('ID is required');
   }
 
-  try {
-    await deleteCategory(id);
-  } catch (error) {
-    throw new Error('Failed to delete category');
-  }
+  return await deleteCategory(id);
 
   revalidatePath('/admin/categories');
   revalidatePath('/products');
