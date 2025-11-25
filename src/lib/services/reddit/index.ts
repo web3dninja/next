@@ -99,18 +99,28 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
   }
 }
 
-export async function updateAllRedditStats(): Promise<UpdateAllResult> {
+interface UpdateAllOptions {
+  force?: boolean;
+}
+
+export async function updateAllRedditStats(
+  options: UpdateAllOptions = {},
+): Promise<UpdateAllResult> {
+  const { force = false } = options;
+
   const stats = await prisma.redditStats.findMany({
-    where: {
-      OR: [
-        { mentions: 0 },
-        {
-          updatedAt: {
-            lt: new Date(Date.now() - 24 * 60 * 60 * 1000),
-          },
+    where: force
+      ? undefined
+      : {
+          OR: [
+            { mentions: 0 },
+            {
+              updatedAt: {
+                lt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+              },
+            },
+          ],
         },
-      ],
-    },
   });
 
   const results: UpdateResult[] = [];

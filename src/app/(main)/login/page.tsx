@@ -1,4 +1,3 @@
-import { BackButton } from '@/components/ui/back-button';
 import { AuthTabs } from '@/components/auth-modal/auth-tabs';
 import { Card, CardContent } from '@/components/ui/card';
 
