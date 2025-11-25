@@ -140,7 +140,7 @@
   }
 
   .content-header {
-    @apply container mx-auto flex items-center gap-4;
+    @apply container mx-auto flex items-center gap-3;
   }
 
   .grid-list {
@@ -157,5 +157,9 @@
 
   .toast-warning {
     border-color: var(--warning);
+  }
+
+  .text-price {
+    @apply text-shadow-primary-foreground font-semibold text-amber-300;
   }
 }

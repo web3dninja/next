@@ -90,9 +90,7 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-2xl font-bold text-black dark:text-white">
-                ${product.price}
-              </span>
+              <span className="text-price text-2xl">${product.price}</span>
               {product.category && <Badge variant="default">{product.category.name}</Badge>}
             </div>
 
