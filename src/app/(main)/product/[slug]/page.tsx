@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: PageProps) {
   return (
     <>
       <div className="container">
-        <BackButton href="/products" label="Back to Products" />
+        <BackButton href="/products" label="Products" />
       </div>
 
       <div className="content">
