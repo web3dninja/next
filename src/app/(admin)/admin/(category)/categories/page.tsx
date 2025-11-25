@@ -1,4 +1,4 @@
-import { CategoriesList } from './components/categories-list';
+import { CategoriesList } from '../components/categories-list';
 import { getCategoriesWithProductCount } from '@/lib/data';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';

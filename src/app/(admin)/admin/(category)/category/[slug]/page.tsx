@@ -1,6 +1,6 @@
 import { BackButton } from '@/components/ui/back-button';
-import { CategoryForm } from '../../categories/components/category-form';
-import DeleteCategoryButton from '../../categories/components/delete-category-button';
+import { CategoryForm } from '../../components/category-form';
+import DeleteCategoryButton from '../../components/delete-category-button';
 import { Metadata } from 'next';
 import { getCategoryBySlug, getCategories } from '@/lib/data/category';
 import { notFound } from 'next/navigation';
