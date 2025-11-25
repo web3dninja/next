@@ -1,5 +1,5 @@
 import { BackButton } from '@/components/ui/back-button';
-import { CategoryForm } from '../components/category-form';
+import { CategoryForm } from '../../components/category-form';
 import { getCategories } from '@/lib/data/category';
 
 export default async function CreateCategoryPage() {

@@ -1,5 +1,5 @@
 import { BackButton } from '@/components/ui/back-button';
-import { ProductForm } from '../components/product-form';
+import { ProductForm } from '../../components/product-form';
 import { getCategories } from '@/lib/data/category';
 
 export default async function CreateProductPage() {

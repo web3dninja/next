@@ -1,10 +1,10 @@
 import { BackButton } from '@/components/ui/back-button';
-import { ProductForm } from '../../products/components/product-form';
-import DeleteProductButton from '../../products/components/delete-product-button';
 import { Metadata } from 'next';
 import { getProductBySlug } from '@/lib/data';
 import { getCategories } from '@/lib/data/category';
 import { notFound } from 'next/navigation';
+import DeleteProductButton from '../../components/delete-product-button';
+import { ProductForm } from '../../components/product-form';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
