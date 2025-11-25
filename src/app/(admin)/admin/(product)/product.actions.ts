@@ -2,11 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 import { addProduct, updateProduct, deleteProduct, Product, ProductCreateInput } from '@/lib/data';
+import { validateProductData, validateProductId } from '@/lib/products/validation';
+import { PRODUCT_CONFIG } from '@/lib/products/config';
 
 export async function createProductAction(product: ProductCreateInput): Promise<Product | null> {
-  if (!product.name || !product.brand || !product.price) {
-    throw new Error('Name, brand, and price are required');
-  }
+  validateProductData(product);
 
   const newProduct = await addProduct(product);
 
@@ -14,8 +14,8 @@ export async function createProductAction(product: ProductCreateInput): Promise<
     throw new Error('Failed to create product');
   }
 
-  revalidatePath('/admin/products');
-  revalidatePath('/products');
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.PUBLIC_LIST);
 
   return newProduct;
 }
@@ -24,9 +24,7 @@ export async function updateProductAction(
   id: number,
   data: ProductCreateInput,
 ): Promise<Product | null> {
-  if (!id) {
-    throw new Error('ID is required');
-  }
+  validateProductId(id);
 
   const { redditStats, id: _, ...productData } = data as Product;
 
@@ -36,23 +34,21 @@ export async function updateProductAction(
     throw new Error('Failed to update product');
   }
 
-  revalidatePath('/admin/products');
-  revalidatePath(`/admin/products/${id}`);
-  revalidatePath('/products');
-  revalidatePath(`/products/${id}`);
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.getAdminDetail(id));
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.PUBLIC_LIST);
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.getPublicDetail(id));
 
   return updatedProduct;
 }
 
 export async function deleteProductAction(id: number): Promise<Product | null> {
-  if (!id) {
-    throw new Error('ID is required');
-  }
+  validateProductId(id);
 
   const deletedProduct = await deleteProduct(id);
 
-  revalidatePath('/admin/products');
-  revalidatePath('/products');
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+  revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.PUBLIC_LIST);
 
   return deletedProduct;
 }
