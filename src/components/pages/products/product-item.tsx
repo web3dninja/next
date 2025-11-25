@@ -19,12 +19,12 @@ export function ProductItem({
   return (
     <Item key={product.id} variant="default" className="flex-col flex-nowrap items-start" asChild>
       <Link href={`${categoryHrefBase.slice(0, -1)}/${product.slug}`}>
-        <ItemMedia variant="image" className="relative w-full pb-[100%]">
+        <ItemMedia variant="image" className="relative w-full pb-[90%]">
           <Image
             src={product.image}
             alt={product.name}
             fill
-            className="shadow-inset object-cover"
+            className="shadow-inset"
             sizes="100%"
           />
           <div className="bg-background/70 absolute right-0 bottom-0 left-0 flex justify-between p-2">
