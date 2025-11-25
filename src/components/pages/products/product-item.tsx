@@ -24,19 +24,17 @@ export function ProductItem({
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover"
+            className="shadow-inset object-cover"
             sizes="100%"
           />
-          {product.category && (
-            <Badge variant="default" className="absolute right-2 bottom-2">
-              {product.category?.name}
-            </Badge>
-          )}
+          <div className="bg-background/70 absolute right-0 bottom-0 left-0 flex justify-between p-2">
+            <span className="text-price">${product.price}</span>
+            {product.category && <Badge variant="default">{product.category?.name}</Badge>}
+          </div>
         </ItemMedia>
         <ItemContent>
           <ItemTitle className="line-clamp-1">{product.name}</ItemTitle>
           <ItemDescription>{product.description}</ItemDescription>
-          <span className="font-semibold text-black dark:text-white">${product.price}</span>
         </ItemContent>
         <ItemFooter className="mt-auto w-full basis-auto flex-col items-start gap-2">
           {product.redditStats && <RedditStatsDisplay stats={product.redditStats} />}
