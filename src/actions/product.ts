@@ -2,13 +2,15 @@
 
 import { revalidatePath } from 'next/cache';
 import { addProduct, updateProduct, deleteProduct, Product, ProductCreateInput } from '@/lib/data';
-import { validateProductData, validateProductId } from '@/lib/products/validation';
 import { PRODUCT_CONFIG } from '@/lib/products/config';
+import { ProductFormData } from '@/lib/products';
+import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
 
-export async function createProductAction(product: ProductCreateInput): Promise<Product | null> {
-  validateProductData(product);
-
-  const newProduct = await addProduct(product);
+export async function createProductAction(data: ProductFormData): Promise<Product | null> {
+  const newProduct = await addProduct({
+    ...data,
+    redditKeyword: data.redditKeywords.join(REDDIT_KEYWORD_DELIMITER),
+  });
 
   if (!newProduct) {
     throw new Error('Failed to create product');
@@ -22,13 +24,12 @@ export async function createProductAction(product: ProductCreateInput): Promise<
 
 export async function updateProductAction(
   id: number,
-  data: ProductCreateInput,
+  data: ProductFormData,
 ): Promise<Product | null> {
-  validateProductId(id);
-
-  const { redditStats, id: _, ...productData } = data as Product;
-
-  const updatedProduct = await updateProduct(id, productData);
+  const updatedProduct = await updateProduct(id, {
+    ...data,
+    redditKeyword: data.redditKeywords.join(REDDIT_KEYWORD_DELIMITER),
+  });
 
   if (!updatedProduct) {
     throw new Error('Failed to update product');
@@ -43,7 +44,9 @@ export async function updateProductAction(
 }
 
 export async function deleteProductAction(id: number): Promise<Product | null> {
-  validateProductId(id);
+  if (!id) {
+    throw new Error('ID is required');
+  }
 
   const deletedProduct = await deleteProduct(id);
 

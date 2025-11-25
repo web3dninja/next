@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -20,21 +19,13 @@ import {
   createCategoryAction,
   updateCategoryAction,
   CategoryCreateInput,
-} from '../category.actions';
+} from '@/actions/category';
 import { Category } from '@/lib/data/category';
 import { useEffect, useMemo } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
 import { generateSlug, getDescendantCategoryIds } from '@/helpers/product.helper';
 import { getCategoryOption } from '@/helper/category.helper';
-
-const categorySchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  slug: z.string().min(1, 'Slug is required'),
-  icon: z.string().nullable(),
-  parentId: z.number().nullable(),
-});
-
-type CategoryFormData = z.infer<typeof categorySchema>;
+import { categorySchema, type CategoryFormData } from '@/lib/categories/schemas';
 
 interface CategoryFormProps {
   mode: 'create' | 'update';

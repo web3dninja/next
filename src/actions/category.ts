@@ -9,6 +9,8 @@ import {
   getCategoryBySlug,
   Category,
 } from '@/lib/data/category';
+import { CATEGORY_CONFIG } from '@/lib/categories/config';
+import type { CategoryFormData } from '@/lib/categories/schemas';
 
 export type CategoryCreateInput = Omit<Category, 'id' | 'parent' | 'children'>;
 
@@ -20,51 +22,41 @@ export async function getCategoryBySlugAction(slug: string): Promise<Category | 
   return await getCategoryBySlug(slug);
 }
 
-export async function createCategoryAction(data: CategoryCreateInput): Promise<Category | null> {
-  if (!data.name || !data.slug) {
-    throw new Error('Name and slug are required');
-  }
-
+export async function createCategoryAction(data: CategoryFormData): Promise<Category | null> {
   const newCategory = await createCategory(data);
 
   if (!newCategory) {
     throw new Error('Failed to create category');
   }
 
-  revalidatePath('/admin/categories');
-  revalidatePath('/products');
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.PUBLIC_PRODUCTS);
 
   return newCategory;
 }
 
 export async function updateCategoryAction(
   id: number,
-  data: CategoryCreateInput,
+  data: CategoryFormData,
 ): Promise<Category | null> {
-  if (!id) {
-    throw new Error('ID is required');
-  }
-
   const updatedCategory = await updateCategory(id, data);
 
   if (!updatedCategory) {
     throw new Error('Failed to update category');
   }
 
-  revalidatePath('/admin/categories');
-  revalidatePath(`/admin/categories/${id}`);
-  revalidatePath('/products');
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.getAdminDetail(id));
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.PUBLIC_PRODUCTS);
 
   return updatedCategory;
 }
 
 export async function deleteCategoryAction(id: number): Promise<Category | null> {
-  if (!id) {
-    throw new Error('ID is required');
-  }
+  const deletedCategory = await deleteCategory(id);
 
-  return await deleteCategory(id);
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+  revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.PUBLIC_PRODUCTS);
 
-  revalidatePath('/admin/categories');
-  revalidatePath('/products');
+  return deletedCategory;
 }

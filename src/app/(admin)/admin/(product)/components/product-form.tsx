@@ -17,8 +17,8 @@ import {
 } from '@/components/ui/form';
 import { ImagePreview } from '@/components/ui/image-preview';
 import { TagsInput } from '@/components/ui/tags-input';
-import { createProductAction, updateProductAction } from '../product.actions';
-import { Product, ProductCreateInput } from '@/lib/data';
+import { createProductAction, updateProductAction } from '@/actions/product';
+import { Product } from '@/lib/data';
 import { Category } from '@/lib/data/category';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -67,7 +67,7 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
   const leafCategories = getLeafCategories(categories);
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
-    mutationFn: (data: ProductCreateInput) => createProductAction(data),
+    mutationFn: (data: ProductFormData) => createProductAction(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product created successfully!');
@@ -78,7 +78,7 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
   });
 
   const { mutate: updateMutation, isPending: isUpdating } = useMutation({
-    mutationFn: (data: ProductCreateInput) => updateProductAction(product!.id, data),
+    mutationFn: (data: ProductFormData) => updateProductAction(product!.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       queryClient.invalidateQueries({ queryKey: ['product', product!.id] });
@@ -92,16 +92,10 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
   const isPending = isCreating || isUpdating;
 
   const onSubmit = (data: ProductFormData) => {
-    const { redditKeywords, ...restData } = data;
-    const formattedData: ProductCreateInput = {
-      ...restData,
-      redditKeyword: redditKeywords.join(REDDIT_KEYWORD_DELIMITER),
-    };
-
     if (mode === 'create') {
-      createMutation(formattedData);
+      createMutation(data);
     } else {
-      updateMutation(formattedData);
+      updateMutation(data);
     }
   };
 
