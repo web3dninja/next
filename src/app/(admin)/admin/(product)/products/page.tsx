@@ -10,7 +10,7 @@ export default async function AdminProductsPage() {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <BackButton href="/admin" label="Admin" />
         <h1>Products</h1>
         <div className="flex-1" />
@@ -22,7 +22,7 @@ export default async function AdminProductsPage() {
         </Button>
       </div>
 
-      <div className="content">
+      <div className="content container">
         <ProductsList
           products={products}
           categories={categories}

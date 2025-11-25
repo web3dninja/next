@@ -20,7 +20,7 @@ export default async function UserPage({ params }: PageProps) {
         <BackButton href="/admin/users" label="Users" />
       </div>
 
-      <div className="content">
+      <div className="content container">
         <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-700">
           <h1 className="mb-4 text-2xl font-semibold text-black dark:text-zinc-50">
             {user.username}

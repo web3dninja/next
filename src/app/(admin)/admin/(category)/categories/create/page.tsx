@@ -7,12 +7,12 @@ export default async function CreateCategoryPage() {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <BackButton href="/admin/categories" label="Categories" />
         <h1>Create Category</h1>
       </div>
 
-      <div className="content">
+      <div className="content container">
         <CategoryForm mode="create" categories={categories} />
       </div>
     </>

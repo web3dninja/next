@@ -54,12 +54,12 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <h1>{category.name}</h1>
         <div className="flex-1" />
       </div>
 
-      <div className="content">
+      <div className="content container">
         <ProductsList
           products={products}
           categories={categories}

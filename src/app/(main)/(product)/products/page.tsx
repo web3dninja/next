@@ -19,12 +19,12 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <h1>Products</h1>
         <div className="flex-1" />
       </div>
 
-      <div className="content">
+      <div className="content container">
         <ProductsList products={products} categories={categories} categoryHrefBase="/products" />
       </div>
     </>

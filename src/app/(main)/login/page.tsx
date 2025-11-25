@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export default function LoginPage() {
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <h1>Authentication</h1>
       </div>
       <div className="content items-center">

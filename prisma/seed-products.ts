@@ -44,7 +44,7 @@ async function seedProducts() {
 
       if (!existingStats) {
         const keywords = normalizedKeyword
-          .split('-')
+          .split('&')
           .filter(Boolean)
           .map(k => k.trim());
 

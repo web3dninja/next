@@ -49,7 +49,7 @@ export default async function UpdateProductPage({ params }: PageProps) {
         <DeleteProductButton productId={product.id} />
       </div>
 
-      <div className="content">
+      <div className="content container">
         <ProductForm mode="update" product={product} categories={categories} />
       </div>
     </>

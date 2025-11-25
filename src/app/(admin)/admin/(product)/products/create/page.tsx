@@ -7,12 +7,12 @@ export default async function CreateProductPage() {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <BackButton href="/admin/products" label="Products" />
         <h1>Create Product</h1>
       </div>
 
-      <div className="content">
+      <div className="content container">
         <div className="mx-auto space-y-4">
           <ProductForm mode="create" categories={categories} />
         </div>

@@ -6,7 +6,7 @@ import { Github, ExternalLink } from 'lucide-react';
 
 export default async function Home() {
   return (
-    <div className="content">
+    <div className="content container">
       <div className="w-full text-center sm:text-left">
         <div className="mb-4 inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
           Portfolio Project

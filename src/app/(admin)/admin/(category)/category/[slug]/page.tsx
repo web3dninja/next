@@ -40,7 +40,7 @@ export default async function UpdateCategoryPage({ params }: PageProps) {
         <DeleteCategoryButton categoryId={category.id} />
       </div>
 
-      <div className="content">
+      <div className="content container">
         <CategoryForm mode="update" category={category} categories={categories} />
       </div>
     </>

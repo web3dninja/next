@@ -37,7 +37,7 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <CategoryTree categories={categories} onSelect={handleSelect} />
         <div className="flex-1" />
         <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search products..." />

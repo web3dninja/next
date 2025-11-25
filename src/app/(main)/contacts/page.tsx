@@ -38,11 +38,11 @@ const contacts = [
 export default function ContactPage() {
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <h1>Contacts</h1>
       </div>
 
-      <div className="content">
+      <div className="content container">
         <Card className="mx-auto w-full max-w-2xl">
           <CardHeader>
             <CardTitle>Let&apos;s get in touch</CardTitle>

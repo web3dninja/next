@@ -66,10 +66,7 @@ export async function addProduct(product: ProductCreateInput): Promise<Product |
     });
 
     if (!existingStats) {
-      const keywords = normalizedKeyword
-        .split(REDDIT_KEYWORD_DELIMITER)
-        .map(keyword => keyword.trim())
-        .filter(Boolean);
+      const keywords = normalizedKeyword.split(REDDIT_KEYWORD_DELIMITER).filter(Boolean);
       const redditData = await fetchRedditStats(keywords);
 
       await prisma.redditStats.create({

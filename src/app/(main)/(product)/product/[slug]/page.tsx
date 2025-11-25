@@ -63,7 +63,7 @@ export default async function ProductPage({ params }: PageProps) {
         <BackButton href="/products" label="Products" />
       </div>
 
-      <div className="content">
+      <div className="content container">
         <Item
           variant="default"
           className="flex-start mx-auto flex max-w-4xl flex-wrap items-start gap-8"

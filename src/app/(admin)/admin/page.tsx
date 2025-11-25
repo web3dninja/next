@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default async function AdminPage() {
   return (
-    <div className="content">
+    <div className="content container">
       <div className="w-full text-center sm:text-left">
         <h1 className="mb-4 text-4xl font-bold text-black sm:text-5xl dark:text-white">
           Welcome to the admin dashboard! 🚀

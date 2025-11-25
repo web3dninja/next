@@ -7,12 +7,12 @@ export default async function UsersPage() {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <BackButton href="/admin" label="Admin" />
         <h1>Users</h1>
       </div>
 
-      <div className="content">
+      <div className="content container">
         <UsersList users={users} />
       </div>
     </>

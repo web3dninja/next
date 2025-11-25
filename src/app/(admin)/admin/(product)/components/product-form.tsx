@@ -72,21 +72,13 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
     },
   });
 
-  const imageUrl = form.watch('image');
-  const watchedCategoryId = form.watch('categoryId');
-  const watchedName = form.watch('name');
-  const watchedBrand = form.watch('brand');
+  const [imageUrl, link, categoryId] = form.watch(['image', 'link', 'categoryId']);
 
   const selectedOption = useMemo(() => {
-    return getCategoryOption(categories, watchedCategoryId ?? product?.categoryId ?? null);
-  }, [categories, watchedCategoryId, product?.categoryId]);
+    return getCategoryOption(categories, categoryId ?? product?.categoryId ?? null);
+  }, [categories, categoryId, product?.categoryId]);
 
   const leafCategories = getLeafCategories(categories);
-
-  useEffect(() => {
-    const slug = generateProductSlug(watchedBrand || '', watchedName || '');
-    form.setValue('slug', slug);
-  }, [watchedName, watchedBrand, form]);
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
     mutationFn: (data: ProductCreateInput) => createProductAction(data),
@@ -139,7 +131,7 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
               />
 
               <Button asChild size="xl" className="mt-4 w-full">
-                <Link href={product?.link ?? ''} target="_blank" rel="noopener noreferrer">
+                <Link href={link ?? ''} target="_blank" rel="noopener noreferrer">
                   Buy on Amazon
                 </Link>
               </Button>

@@ -10,7 +10,7 @@ export default async function CategoriesPage() {
 
   return (
     <>
-      <div className="content-header">
+      <div className="content-header container">
         <BackButton href="/admin" label="Admin" />
         <h1>Categories</h1>
         <div className="flex-1" />
@@ -22,7 +22,7 @@ export default async function CategoriesPage() {
         </Button>
       </div>
 
-      <div className="content">
+      <div className="content container">
         <CategoriesList categories={categories} />
       </div>
     </>
