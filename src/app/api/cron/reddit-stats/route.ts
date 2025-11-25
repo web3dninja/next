@@ -5,9 +5,6 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const force = searchParams.get('force') === '1' || searchParams.get('force') === 'true';
-
   const isProduction = process.env.NODE_ENV === 'production';
   const cronHeader = request.headers.get('x-vercel-cron');
 
@@ -23,7 +20,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const result = await updateAllRedditStats({ force });
+    const result = await updateAllRedditStats();
     return NextResponse.json(result);
   } catch (error) {
     console.error('Cron job error:', error);
