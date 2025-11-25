@@ -26,6 +26,7 @@ import { useEffect, useMemo } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
 import { generateProductSlug, getLeafCategories } from '@/helpers/product.helper';
 import { getCategoryOption } from '@/helper/category.helper';
+import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
 import { Card, CardContent } from '@/components/ui/card';
 
 const productSchema = z.object({
@@ -63,7 +64,10 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
       image: product?.image ?? '',
       categoryId: product?.categoryId ?? undefined,
       redditKeywords: product?.redditKeyword
-        ? product.redditKeyword.split('-').filter(Boolean)
+        ? product.redditKeyword
+            .split(REDDIT_KEYWORD_DELIMITER)
+            .map(keyword => keyword.trim())
+            .filter(Boolean)
         : [],
     },
   });
@@ -113,7 +117,7 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
     const { redditKeywords, ...restData } = data;
     const formattedData: ProductCreateInput = {
       ...restData,
-      redditKeyword: redditKeywords.join('-'),
+      redditKeyword: redditKeywords.join(REDDIT_KEYWORD_DELIMITER),
     };
 
     if (mode === 'create') {

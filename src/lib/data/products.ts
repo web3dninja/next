@@ -1,6 +1,7 @@
 import basePrisma, { withAdmin } from '@/lib/prisma';
 import { fetchRedditStats } from '@/lib/services/reddit';
 import { Category } from './category';
+import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
 
 export interface Product {
   id: number;
@@ -65,7 +66,10 @@ export async function addProduct(product: ProductCreateInput): Promise<Product |
     });
 
     if (!existingStats) {
-      const keywords = normalizedKeyword.split('-').filter(Boolean);
+      const keywords = normalizedKeyword
+        .split(REDDIT_KEYWORD_DELIMITER)
+        .map(keyword => keyword.trim())
+        .filter(Boolean);
       const redditData = await fetchRedditStats(keywords);
 
       await prisma.redditStats.create({
@@ -114,7 +118,10 @@ export async function updateProduct(id: number, data: ProductCreateInput): Promi
       });
 
       if (!existingStats) {
-        const keywords = newKeyword.split('-').filter(Boolean);
+        const keywords = newKeyword
+          .split(REDDIT_KEYWORD_DELIMITER)
+          .map(keyword => keyword.trim())
+          .filter(Boolean);
         const redditData = await fetchRedditStats(keywords);
 
         await prisma.redditStats.create({

@@ -55,9 +55,9 @@ export function SelectInput({ option, options, onChange = () => {}, ...props }: 
           <CommandList className="w-full">
             {options
               .filter(option => option.value.toLowerCase().includes(inputValue.toLowerCase()))
-              .map(option => (
+              .map((option, index) => (
                 <CommandItem
-                  key={option.key}
+                  key={`${option.key}-${index}`}
                   value={option.value}
                   onMouseDown={e => e.preventDefault()}
                   onSelect={() => onSelect(option.value)}

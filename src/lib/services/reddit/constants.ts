@@ -17,3 +17,4 @@ export const CATEGORY_WEIGHTS: Record<string, number> = {
   emotion: 1.0,
 };
 
+export const REDDIT_KEYWORD_DELIMITER = '&';
