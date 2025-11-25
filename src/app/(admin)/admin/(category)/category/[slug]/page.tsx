@@ -35,7 +35,7 @@ export default async function UpdateCategoryPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="content-header justify-between">
+      <div className="content-header container justify-between">
         <BackButton href="/admin/categories" label="Categories" />
         <DeleteCategoryButton categoryId={category.id} />
       </div>

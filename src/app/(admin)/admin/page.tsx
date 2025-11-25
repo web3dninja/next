@@ -44,31 +44,6 @@ export default async function AdminPage() {
           </Link>
         </Item>
       </div>
-
-      <div className="mt-8 w-full rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-900">
-        <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">
-          🛠️ Technical stack
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {[
-            'Next.js 16',
-            'React 19',
-            'TypeScript',
-            'Prisma',
-            'PostgreSQL',
-            'Tailwind CSS',
-            'React Query',
-            'React Hook Form',
-          ].map(tech => (
-            <span
-              key={tech}
-              className="rounded-full bg-zinc-100 px-3 py-1 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

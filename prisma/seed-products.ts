@@ -25,8 +25,7 @@ POWERFUL CONVECTION FAN & SMOKELESS`,
     link: 'https://www.amazon.com/dp/B085LT31HP?&linkCode=ll1&tag=techproductsvl-20&linkId=ce86cbdff0fcc44c3973dc7e4d2119d8&language=en_US&ref_=as_li_ss_tl',
     image: 'https://m.media-amazon.com/images/I/81ocyRbwcIL._AC_SL1500_.jpg',
     categoryId: 3,
-    redditKeyword:
-      'nuwave air fryer-airfryer nuwave-air fryer nuwave-nuwave airfryer-nuwave fryer-fryer nuwave-nuwave brio airfryer-nuwave brio',
+    redditKeyword: 'nuwave airfryer&nuwave-air&fryer&nuwave nuwave',
   },
 ];
 
