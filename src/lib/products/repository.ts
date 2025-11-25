@@ -50,10 +50,7 @@ export async function createProduct(data: ProductCreateInput): Promise<Product |
   });
 }
 
-export async function updateProductById(
-  id: number,
-  data: ProductCreateInput,
-): Promise<Product> {
+export async function updateProductById(id: number, data: ProductCreateInput): Promise<Product> {
   return await withAdmin(async prisma => {
     const currentProduct = await basePrisma.product.findUnique({
       where: { id },

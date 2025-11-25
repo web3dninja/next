@@ -4,7 +4,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { CategoryForm } from '../../../(category)/components/category-form';
 import { useQuery } from '@tanstack/react-query';
-import { getCategoriesAction, getCategoryBySlugAction } from '../../../(category)/category.actions';
+import { getCategoriesAction, getCategoryBySlugAction } from '@/actions/category';
 
 export default function EditCategoryModal() {
   const router = useRouter();

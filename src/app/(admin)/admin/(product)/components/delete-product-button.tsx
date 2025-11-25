@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { deleteProductAction } from '../product.actions';
+import { deleteProductAction } from '@/actions/product';
 import type { Product } from '@/lib/data/products';
 import { Spinner } from '@/components/ui/spinner';
 import { TrashIcon } from 'lucide-react';

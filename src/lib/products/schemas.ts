@@ -9,8 +9,8 @@ export const productSchema = z.object({
     .string()
     .min(PRODUCT_CONFIG.VALIDATION.DESCRIPTION_MIN_LENGTH, 'Description is required'),
   price: z.string().min(PRODUCT_CONFIG.VALIDATION.PRICE_MIN_LENGTH, 'Price is required'),
-  link: z.string().url('Invalid URL').min(1, 'Link is required'),
-  image: z.string().url('Invalid image URL').min(1, 'Image URL is required'),
+  link: z.url('Invalid URL').min(1, 'Link is required'),
+  image: z.url('Invalid image URL').min(1, 'Image URL is required'),
   categoryId: z.number().min(1, 'Category is required'),
   redditKeywords: z
     .array(z.string().min(1))
