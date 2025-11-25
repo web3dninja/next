@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -22,26 +21,13 @@ import { createProductAction, updateProductAction } from '../product.actions';
 import { Product, ProductCreateInput } from '@/lib/data';
 import { Category } from '@/lib/data/category';
 import Link from 'next/link';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
-import { generateProductSlug, getLeafCategories } from '@/helpers/product.helper';
+import { getLeafCategories } from '@/helpers/product.helper';
 import { getCategoryOption } from '@/helper/category.helper';
 import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
 import { Card, CardContent } from '@/components/ui/card';
-
-const productSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  slug: z.string().min(1, 'Slug is required'),
-  brand: z.string().min(1, 'Brand is required'),
-  description: z.string().min(1, 'Description is required'),
-  price: z.string().min(1, 'Price is required'),
-  link: z.string().min(1, 'Link is required'),
-  image: z.string().min(1, 'Image URL is required'),
-  categoryId: z.number().min(1, 'Category is required'),
-  redditKeywords: z.array(z.string().min(1)).min(1, 'At least one Reddit keyword is required'),
-});
-
-type ProductFormData = z.infer<typeof productSchema>;
+import { productSchema, type ProductFormData } from '@/lib/products/schemas';
 
 interface ProductFormProps {
   mode: 'create' | 'update';
