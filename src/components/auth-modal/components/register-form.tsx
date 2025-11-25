@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -18,23 +17,7 @@ import {
 } from '@/components/ui/form';
 import { registerUserAction } from '@/actions/user';
 import { RoleEnum } from '@/types/user.type';
-
-const registerSchema = z
-  .object({
-    username: z
-      .string()
-      .min(2, 'Username must be at least 2 characters')
-      .regex(/^\S+$/, 'Username must be a single word without spaces'),
-    email: z.email('Invalid email address'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  });
-
-export type RegisterFormData = z.infer<typeof registerSchema>;
+import { registerSchema, type RegisterFormData } from '@/lib/auth/schemas';
 
 interface RegisterFormProps {
   onSuccess?: () => void;

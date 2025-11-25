@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -16,13 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { loginAction } from '@/actions/user';
-
-const loginSchema = z.object({
-  email: z.email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
-});
-
-export type LoginFormData = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginFormData } from '@/lib/auth/schemas';
 
 interface LoginFormProps {
   onSuccess?: () => void;
