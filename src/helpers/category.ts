@@ -25,3 +25,12 @@ export function getCategoryOption(
       }
     : null;
 }
+
+export function buildCategoryTree(categories: Category[], parentId: number | null = null): Category[] {
+  return categories
+    .filter(category => category.parentId === parentId)
+    .map(category => ({
+      ...category,
+      children: buildCategoryTree(categories, category.id),
+    }));
+}

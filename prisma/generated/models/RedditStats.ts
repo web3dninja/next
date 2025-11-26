@@ -375,9 +375,9 @@ export type RedditStatsUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type RedditStatsNullableScalarRelationFilter = {
-  is?: Prisma.RedditStatsWhereInput | null
-  isNot?: Prisma.RedditStatsWhereInput | null
+export type RedditStatsScalarRelationFilter = {
+  is?: Prisma.RedditStatsWhereInput
+  isNot?: Prisma.RedditStatsWhereInput
 }
 
 export type RedditStatsCountOrderByAggregateInput = {
@@ -432,12 +432,10 @@ export type RedditStatsCreateNestedOneWithoutProductsInput = {
   connect?: Prisma.RedditStatsWhereUniqueInput
 }
 
-export type RedditStatsUpdateOneWithoutProductsNestedInput = {
+export type RedditStatsUpdateOneRequiredWithoutProductsNestedInput = {
   create?: Prisma.XOR<Prisma.RedditStatsCreateWithoutProductsInput, Prisma.RedditStatsUncheckedCreateWithoutProductsInput>
   connectOrCreate?: Prisma.RedditStatsCreateOrConnectWithoutProductsInput
   upsert?: Prisma.RedditStatsUpsertWithoutProductsInput
-  disconnect?: Prisma.RedditStatsWhereInput | boolean
-  delete?: Prisma.RedditStatsWhereInput | boolean
   connect?: Prisma.RedditStatsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.RedditStatsUpdateToOneWithWhereWithoutProductsInput, Prisma.RedditStatsUpdateWithoutProductsInput>, Prisma.RedditStatsUncheckedUpdateWithoutProductsInput>
 }

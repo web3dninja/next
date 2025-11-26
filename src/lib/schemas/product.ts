@@ -28,6 +28,6 @@ export const DEFAULT_PRODUCT_FORM_DATA: ProductFormData = {
   price: '',
   link: '',
   image: '',
-  categoryId: 0,
+  categoryId: 1,
   redditKeyword: '',
 };

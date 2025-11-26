@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
@@ -12,18 +12,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  parentId: number | null;
-  children?: Category[];
-}
+import type { Category } from '@/types/category';
+import { buildCategoryTree } from '@/helpers/category';
 
 interface CategoryTreeProps {
   categories: Category[];
   onSelect: (slug: string) => void;
+  currentSlug?: string;
 }
 
 function CategoryMenuItem({
@@ -55,24 +50,12 @@ function CategoryMenuItem({
   );
 }
 
-export function CategoryTree({ categories, onSelect }: CategoryTreeProps) {
-  const pathname = usePathname();
-
-  const match = pathname.match(/\/products\/([^/]+)/);
-  const currentSlug = match ? match[1] : '';
-
-  const currentCategory = categories.find(c => c.slug === currentSlug);
-
-  const buildTree = (items: Category[], parentId: number | null = null): Category[] => {
-    return items
-      .filter(item => item.parentId === parentId)
-      .map(item => ({
-        ...item,
-        children: buildTree(items, item.id),
-      }));
-  };
-
-  const tree = buildTree(categories);
+export function CategoryTree({ categories, currentSlug, onSelect }: CategoryTreeProps) {
+  const tree = useMemo(() => buildCategoryTree(categories), [categories]);
+  const currentCategory = useMemo(
+    () => categories.find(category => (currentSlug ? category.slug === currentSlug : false)),
+    [categories, currentSlug],
+  );
 
   const handleSelect = (slug: string) => {
     onSelect(slug);

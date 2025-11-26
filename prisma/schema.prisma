@@ -39,16 +39,16 @@ model Category {
 model Product {
   id            Int          @id @default(autoincrement())
   name          String
-  slug          String?      @unique
+  slug          String       @unique
   brand         String
   description   String
   price         String
   link          String
   image         String
-  categoryId    Int?
-  category      Category?    @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  category      Category     @relation(fields: [categoryId], references: [id])
   redditKeyword String
-  redditStats   RedditStats? @relation(fields: [redditKeyword], references: [keyword])
+  redditStats   RedditStats @relation(fields: [redditKeyword], references: [keyword])
 
   @@map("products")
 }
