@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { getProducts } from '@/lib/data';
-import { getCategories } from '@/lib/data/category';
+import { findAllProducts } from '@/lib/db/product';
+import { findAllCategories } from '@/lib/db/category';
 import { ProductsList } from '@/components/pages';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+  const [products, categories] = await Promise.all([findAllProducts(), findAllCategories()]);
 
   return (
     <>

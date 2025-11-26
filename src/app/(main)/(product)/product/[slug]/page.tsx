@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProducts, getProductBySlug } from '@/lib/data';
+import { findAllProducts, findProductBySlug } from '@/lib/db/product';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ interface PageProps {
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const products = await getProducts();
+  const products = await findAllProducts();
 
   return products
     .filter(p => p.slug)
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const product = await getProductBySlug(slug);
+  const product = await findProductBySlug(slug);
   if (!product) {
     return {
       title: 'Not Found',
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const product = await getProductBySlug(slug);
+  const product = await findProductBySlug(slug);
 
   if (!product) {
     notFound();

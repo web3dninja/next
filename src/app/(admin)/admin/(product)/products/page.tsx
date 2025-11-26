@@ -1,12 +1,13 @@
 import Link from 'next/link';
-import { getCategories, getProducts } from '@/lib/data';
+import { findAllCategories } from '@/lib/db/category';
+import { findAllProducts } from '@/lib/db/product';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import { ProductsList } from '@/components/pages';
 
 export default async function AdminProductsPage() {
-  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+  const [products, categories] = await Promise.all([findAllProducts(), findAllCategories()]);
 
   return (
     <>

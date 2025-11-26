@@ -1,5 +1,4 @@
-import type { Category } from '@/lib/data/category';
-import { getCategoryById } from '@/lib/data/category';
+import type { Category } from '@/types/category';
 
 export function getCategoryPath<T extends Category>(category: T): string {
   const path: string[] = [];

@@ -16,18 +16,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { ImagePreview } from '@/components/ui/image-preview';
-import { TagsInput } from '@/components/ui/tags-input';
 import { createProductAction, updateProductAction } from '@/actions/product';
-import { Product } from '@/lib/data';
-import { Category } from '@/lib/data/category';
+import type { Product } from '@/types/product';
+import type { Category } from '@/types/category';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
+import { TagsInput } from '@/components/ui/tags-input';
 import { getLeafCategories } from '@/helpers/product.helper';
-import { getCategoryOption } from '@/helper/category.helper';
-import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
+import { getCategoryOption } from '@/helpers/category';
 import { Card, CardContent } from '@/components/ui/card';
-import { productSchema, type ProductFormData } from '@/lib/products/schemas';
+import { productSchema, type ProductFormData } from '@/lib/schemas/product';
+import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
 
 interface ProductFormProps {
   mode: 'create' | 'update';
@@ -49,14 +49,19 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
       link: product?.link ?? '',
       image: product?.image ?? '',
       categoryId: product?.categoryId ?? undefined,
-      redditKeywords: product?.redditKeyword
-        ? product.redditKeyword
-            .split(REDDIT_KEYWORD_DELIMITER)
-            .map(keyword => keyword.trim())
-            .filter(Boolean)
-        : [],
+      redditKeyword: product?.redditKeyword ?? '',
     },
   });
+
+  const [tags, setTags] = useState<string[]>(() => {
+    const keyword = product?.redditKeyword ?? '';
+    return keyword ? keyword.split(REDDIT_KEYWORD_DELIMITER).map(tag => tag.trim()) : [];
+  });
+
+  useEffect(() => {
+    const tagsString = tags.join(REDDIT_KEYWORD_DELIMITER);
+    form.setValue('redditKeyword', tagsString);
+  }, [tags, form]);
 
   const [imageUrl, link, categoryId] = form.watch(['image', 'link', 'categoryId']);
 
@@ -250,24 +255,13 @@ export function ProductForm({ mode, product, categories }: ProductFormProps) {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="redditKeywords"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Reddit Keywords</FormLabel>
-                    <FormControl>
-                      <TagsInput
-                        value={field.value}
-                        onChange={field.onChange}
-                        placeholder="Add keywords (e.g., AirFryer, Air Fryer)"
-                        disabled={isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <FormItem>
+                <FormLabel>Reddit Keywords</FormLabel>
+                <FormControl>
+                  <TagsInput value={tags} onChange={setTags} disabled={isPending} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
 
               <Button type="submit" className="w-full" size="xl" disabled={isPending}>
                 {isPending ? 'Saving...' : 'Save Product'}

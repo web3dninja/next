@@ -1,6 +1,6 @@
-import basePrisma, { withAdmin, withModeratorOrAdmin } from '@/lib/prisma';
-import { Category, CategoryWithRelations } from '@/lib/data/category';
-import type { CategoryFormData } from './schemas';
+import basePrisma, { withAdmin, withModeratorOrAdmin } from '@/utils/prisma';
+import type { Category, CategoryWithRelations } from '@/types/category';
+import type { CategoryFormData } from '@/lib/schemas/category';
 
 const includeRelations = {
   include: {
@@ -53,9 +53,7 @@ export async function findCategoryChildren(parentId: number): Promise<Category[]
   });
 }
 
-export async function createCategoryInDb(
-  data: CategoryFormData,
-): Promise<Category> {
+export async function createCategoryInDb(data: CategoryFormData): Promise<Category> {
   return await withModeratorOrAdmin(async prisma => {
     return await prisma.category.create({
       data: {
@@ -69,10 +67,7 @@ export async function createCategoryInDb(
   });
 }
 
-export async function updateCategoryInDb(
-  id: number,
-  data: CategoryFormData,
-): Promise<Category> {
+export async function updateCategoryInDb(id: number, data: CategoryFormData): Promise<Category> {
   return await withModeratorOrAdmin(async prisma => {
     return await prisma.category.update({
       where: { id },

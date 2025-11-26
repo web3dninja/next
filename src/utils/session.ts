@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
-import { signToken, verifyToken, type JWTPayload } from './utils';
-import { AUTH_CONFIG } from './config';
-import { getUserById, type User } from '@/lib/data/users';
+import { signToken, verifyToken, type JWTPayload } from './auth';
+import { AUTH_CONFIG } from '@/configs/auth';
+import { findUserById } from '@/lib/db/user';
+import type { User } from '@/types/user.type';
 
 export async function createSession(user: User): Promise<void> {
   const token = signToken({
@@ -32,7 +33,7 @@ export async function getCurrentUser(): Promise<User | null> {
     return null;
   }
 
-  const user = await getUserById(payload.userId);
+  const user = await findUserById(payload.userId);
   return user;
 }
 

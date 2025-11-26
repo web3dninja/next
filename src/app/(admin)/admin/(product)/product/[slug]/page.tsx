@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/back-button';
 import { Metadata } from 'next';
-import { getProductBySlug } from '@/lib/data';
-import { getCategories } from '@/lib/data/category';
+import { findProductBySlug } from '@/lib/db/product';
+import { findAllCategories } from '@/lib/db/category';
 import { notFound } from 'next/navigation';
 import DeleteProductButton from '../../components/delete-product-button';
 import { ProductForm } from '../../components/product-form';
@@ -13,7 +13,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const product = await getProductBySlug(slug);
+  const product = await findProductBySlug(slug);
   if (!product) {
     return {
       title: 'Not Found',
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UpdateProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [product, categories] = await Promise.all([getProductBySlug(slug), getCategories()]);
+  const [product, categories] = await Promise.all([findProductBySlug(slug), findAllCategories()]);
 
   if (!product) {
     notFound();

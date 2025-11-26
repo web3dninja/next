@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import prisma from '../src/lib/prisma/prisma';
+import prisma from '../src/utils/prisma/prisma';
 
 async function seedCategories() {
   console.log('🌱 Seeding categories...');

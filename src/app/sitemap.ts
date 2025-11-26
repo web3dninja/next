@@ -1,10 +1,13 @@
 import { MetadataRoute } from 'next';
-import { getProducts } from '@/lib/data';
+import { findAllProducts } from '@/lib/db/product';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://example.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_BASE_URL is not set');
+  }
 
-  const products = await getProducts();
+  const products = await findAllProducts();
 
   const productUrls = products
     .filter(product => product.slug)

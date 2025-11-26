@@ -1,6 +1,6 @@
-import basePrisma, { withAdmin } from '@/lib/prisma';
-import type { User, UserWithPassword, CreateUserInput } from '@/types/user.type';
-import type { UserCreateFormData, UserUpdateFormData } from './schemas';
+import basePrisma, { withAdmin } from '@/utils/prisma';
+import type { User, UserWithPassword } from '@/types/user.type';
+import type { UserCreateFormData, UserUpdateFormData } from '@/lib/schemas/user';
 
 export async function findAllUsers(): Promise<User[]> {
   return await basePrisma.user.findMany({ omit: { password: true } });

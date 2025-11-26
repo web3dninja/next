@@ -15,8 +15,6 @@ export interface Product {
   redditStats: RedditStats | null;
 }
 
-export type ProductCreateInput = Omit<Product, 'id' | 'redditStats' | 'category'>;
-
 export interface RedditStats {
   id: number;
   keyword: string;
@@ -26,13 +24,3 @@ export interface RedditStats {
   rank: number;
   updatedAt: Date;
 }
-
-export {
-  findAllProducts as getProducts,
-  findProductById as getProductById,
-  findProductBySlug as getProductBySlug,
-  findProductsByCategoryIds as getProductsByCategoryIds,
-  createProduct as addProduct,
-  updateProductById as updateProduct,
-  deleteProductById as deleteProduct,
-} from '@/lib/products/repository';

@@ -3,11 +3,7 @@ import type {
   RedditSearchResponse,
   RedditStatsResult,
   AnalyzedComment,
-  UpdateResult,
-  UpdateAllResult,
 } from './types';
-import prisma from '@/lib/prisma/prisma';
-import { REDDIT_KEYWORD_DELIMITER } from './constants';
 import {
   analyzeSentimentAdvanced,
   detectCategory,
@@ -100,68 +96,11 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
   }
 }
 
-export async function updateAllRedditStats(): Promise<UpdateAllResult> {
-  const stats = await prisma.redditStats.findMany({
-    where: {
-      OR: [
-        { mentions: 0 },
-        {
-          updatedAt: {
-            lt: new Date(Date.now() - 24 * 60 * 60 * 1000),
-          },
-        },
-      ],
-    },
-  });
-
-  const results: UpdateResult[] = [];
-
-  for (const stat of stats) {
-    try {
-      const keywords = stat.keyword
-        .split(REDDIT_KEYWORD_DELIMITER)
-        .map(keyword => keyword.trim())
-        .filter(Boolean);
-      const redditData = await fetchRedditStats(keywords);
-
-      await prisma.redditStats.update({
-        where: { keyword: stat.keyword },
-        data: {
-          mentions: redditData.mentions,
-          positiveScore: redditData.positiveScore,
-          negativeScore: redditData.negativeScore,
-          rank: redditData.rank,
-        },
-      });
-
-      results.push({
-        keyword: stat.keyword,
-        status: 'updated',
-        data: redditData,
-      });
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (error) {
-      results.push({
-        keyword: stat.keyword,
-        status: 'error',
-        error: String(error),
-      });
-    }
-  }
-
-  return {
-    success: true,
-    updated: results.filter(r => r.status === 'updated').length,
-    errors: results.filter(r => r.status === 'error').length,
-    results,
-  };
-}
-
 export type {
   RedditPost,
   RedditSearchResponse,
   RedditStatsResult,
+  AnalyzedComment,
   UpdateResult,
   UpdateAllResult,
 } from './types';

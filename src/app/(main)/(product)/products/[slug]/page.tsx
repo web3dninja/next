@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProductsByCategoryIds } from '@/lib/data';
-import { getCategoryBySlug, getCategories } from '@/lib/data/category';
+import { findProductsByCategoryIds } from '@/lib/db/product';
+import { findCategoryBySlug, findAllCategories } from '@/lib/db/category';
 import { getDescendantCategoryIds } from '@/helpers/product.helper';
 import { ProductsList } from '@/components/pages';
 
@@ -12,7 +12,7 @@ interface PageProps {
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const categories = await getCategories();
+  const categories = await findAllCategories();
 
   return categories.map(category => ({
     slug: category.slug,
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const category = await getCategoryBySlug(slug);
+  const category = await findCategoryBySlug(slug);
   if (!category) {
     return {
       title: 'Not Found',
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [category, categories] = await Promise.all([getCategoryBySlug(slug), getCategories()]);
+  const [category, categories] = await Promise.all([findCategoryBySlug(slug), findAllCategories()]);
 
   if (!category) {
     notFound();
@@ -50,7 +50,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const categoryIds = getDescendantCategoryIds(categories, category.id);
 
-  const products = await getProductsByCategoryIds(categoryIds);
+  const products = await findProductsByCategoryIds(categoryIds);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CATEGORY_CONFIG } from './config';
+import { CATEGORY_CONFIG } from '@/configs/category';
 
 export const categorySchema = z.object({
   name: z.string().min(CATEGORY_CONFIG.VALIDATION.NAME_MIN_LENGTH, 'Name is required'),

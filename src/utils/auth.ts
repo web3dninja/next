@@ -8,6 +8,7 @@ if (!JWT_SECRET) {
 }
 
 const JWT_SECRET_KEY: string = JWT_SECRET;
+
 export interface JWTPayload {
   userId: number;
   email: string;

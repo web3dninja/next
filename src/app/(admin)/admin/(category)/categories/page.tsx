@@ -1,12 +1,12 @@
 import { CategoriesList } from '../components/categories-list';
-import { getCategoriesWithProductCount } from '@/lib/data';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
+import { findCategoriesWithProductCount } from '@/lib/db/category';
 
 export default async function CategoriesPage() {
-  const categories = await getCategoriesWithProductCount();
+  const categories = await findCategoriesWithProductCount();
 
   return (
     <>

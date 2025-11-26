@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PRODUCT_CONFIG } from './config';
+import { PRODUCT_CONFIG } from '@/configs/product';
 
 export const productSchema = z.object({
   name: z.string().min(PRODUCT_CONFIG.VALIDATION.NAME_MIN_LENGTH, 'Name is required'),
@@ -12,9 +12,7 @@ export const productSchema = z.object({
   link: z.url('Invalid URL').min(1, 'Link is required'),
   image: z.url('Invalid image URL').min(1, 'Image URL is required'),
   categoryId: z.number().min(1, 'Category is required'),
-  redditKeywords: z
-    .array(z.string().min(1))
-    .min(PRODUCT_CONFIG.VALIDATION.MIN_REDDIT_KEYWORDS, 'At least one Reddit keyword is required'),
+  redditKeyword: z.string().min(1, 'Reddit keyword is required'),
 });
 
 export const productCreateSchema = productSchema;

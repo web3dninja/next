@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { AuthTabs } from '@/components/auth-modal';
+import { AuthTabs } from '@/components/auth-form';
 
 export default function LoginModal() {
   const router = useRouter();

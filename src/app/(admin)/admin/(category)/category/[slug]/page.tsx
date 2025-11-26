@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/back-button';
 import { CategoryForm } from '../../components/category-form';
 import DeleteCategoryButton from '../../components/delete-category-button';
 import { Metadata } from 'next';
-import { getCategoryBySlug, getCategories } from '@/lib/data/category';
+import { findCategoryBySlug, findAllCategories } from '@/lib/db/category';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -12,7 +12,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const category = await getCategoryBySlug(slug);
+  const category = await findCategoryBySlug(slug);
   if (!category) {
     return {
       title: 'Not Found',
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UpdateCategoryPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [category, categories] = await Promise.all([getCategoryBySlug(slug), getCategories()]);
+  const [category, categories] = await Promise.all([findCategoryBySlug(slug), findAllCategories()]);
 
   if (!category) {
     notFound();

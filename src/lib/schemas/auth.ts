@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AUTH_CONFIG } from './config';
+import { AUTH_CONFIG } from '@/configs/auth';
 
 export const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -10,10 +10,18 @@ export const registerSchema = z
   .object({
     username: z
       .string()
-      .min(AUTH_CONFIG.USERNAME_MIN_LENGTH, `Username must be at least ${AUTH_CONFIG.USERNAME_MIN_LENGTH} characters`)
+      .min(
+        AUTH_CONFIG.USERNAME_MIN_LENGTH,
+        `Username must be at least ${AUTH_CONFIG.USERNAME_MIN_LENGTH} characters`,
+      )
       .regex(/^\S+$/, 'Username must be a single word without spaces'),
     email: z.string().email('Invalid email address'),
-    password: z.string().min(AUTH_CONFIG.PASSWORD_MIN_LENGTH, `Password must be at least ${AUTH_CONFIG.PASSWORD_MIN_LENGTH} characters`),
+    password: z
+      .string()
+      .min(
+        AUTH_CONFIG.PASSWORD_MIN_LENGTH,
+        `Password must be at least ${AUTH_CONFIG.PASSWORD_MIN_LENGTH} characters`,
+      ),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
   })
   .refine(data => data.password === data.confirmPassword, {

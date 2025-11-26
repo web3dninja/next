@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { USER_CONFIG } from './config';
+import { USER_CONFIG } from '@/configs/user';
 
 export const userSchema = z.object({
   username: z.string().min(USER_CONFIG.VALIDATION.USERNAME_MIN_LENGTH, 'Username is required'),
@@ -17,19 +17,9 @@ export const userCreateSchema = userSchema.extend({
 });
 
 export const userUpdateSchema = userSchema.extend({
-  password: z
-    .string()
-    .min(USER_CONFIG.VALIDATION.PASSWORD_MIN_LENGTH)
-    .optional()
-    .or(z.literal('')),
-});
-
-export const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string().min(USER_CONFIG.VALIDATION.PASSWORD_MIN_LENGTH).optional().or(z.literal('')),
 });
 
 export type UserFormData = z.infer<typeof userSchema>;
 export type UserCreateFormData = z.infer<typeof userCreateSchema>;
 export type UserUpdateFormData = z.infer<typeof userUpdateSchema>;
-export type LoginFormData = z.infer<typeof loginSchema>;

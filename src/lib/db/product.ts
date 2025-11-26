@@ -1,7 +1,8 @@
-import basePrisma, { withAdmin } from '@/lib/prisma';
-import { Product, ProductCreateInput } from '@/lib/data/products';
-import { ensureRedditStats, cleanupOrphanRedditStats, updateRedditKeyword } from './reddit';
-import { normalizeRedditKeyword } from './validation';
+import basePrisma, { withAdmin } from '@/utils/prisma';
+import { Product } from '@/types/product';
+import type { ProductFormData } from '@/lib/schemas/product';
+import { normalizeRedditKeyword } from '@/lib/validations/product';
+import { ensureRedditStats, cleanupOrphanRedditStats, updateRedditKeyword } from './reddit-stats';
 
 const includeRelations = {
   include: { redditStats: true, category: true },
@@ -32,7 +33,7 @@ export async function findProductsByCategoryIds(categoryIds: number[]): Promise<
   });
 }
 
-export async function createProduct(data: ProductCreateInput): Promise<Product | null> {
+export async function createProduct(data: ProductFormData): Promise<Product | null> {
   const normalizedKeyword = normalizeRedditKeyword(data.redditKeyword);
 
   return await withAdmin(async prisma => {
@@ -40,7 +41,14 @@ export async function createProduct(data: ProductCreateInput): Promise<Product |
 
     const newProduct = await prisma.product.create({
       data: {
-        ...data,
+        name: data.name,
+        slug: data.slug,
+        brand: data.brand,
+        description: data.description,
+        price: data.price,
+        link: data.link,
+        image: data.image,
+        categoryId: data.categoryId,
         redditKeyword: normalizedKeyword,
       },
       ...includeRelations,
@@ -50,7 +58,7 @@ export async function createProduct(data: ProductCreateInput): Promise<Product |
   });
 }
 
-export async function updateProductById(id: number, data: ProductCreateInput): Promise<Product> {
+export async function updateProductById(id: number, data: ProductFormData): Promise<Product> {
   return await withAdmin(async prisma => {
     const currentProduct = await basePrisma.product.findUnique({
       where: { id },
@@ -63,7 +71,14 @@ export async function updateProductById(id: number, data: ProductCreateInput): P
     await prisma.product.update({
       where: { id },
       data: {
-        ...data,
+        name: data.name,
+        slug: data.slug,
+        brand: data.brand,
+        description: data.description,
+        price: data.price,
+        link: data.link,
+        image: data.image,
+        categoryId: data.categoryId,
         redditKeyword: normalizedKeyword,
       },
     });

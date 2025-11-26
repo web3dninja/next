@@ -2,7 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,29 +15,32 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { loginAction } from '@/actions/user';
-import { loginSchema, type LoginFormData } from '@/lib/auth/schemas';
+import { registerUserAction } from '@/actions/user';
+import { RoleEnum } from '@/types/user.type';
+import { registerSchema, type RegisterFormData } from '@/lib/schemas/auth';
 
-interface LoginFormProps {
+interface RegisterFormProps {
   onSuccess?: () => void;
 }
 
-export function LoginForm({ onSuccess }: LoginFormProps = {}) {
-  const queryClient = useQueryClient();
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+export function RegisterForm({ onSuccess }: RegisterFormProps = {}) {
+  const router = useRouter();
+  const form = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      username: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
-  const { mutate: loginMutation, isPending } = useMutation({
-    mutationFn: loginAction,
+  const { mutate: registerMutation, isPending } = useMutation({
+    mutationFn: registerUserAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
       form.reset();
-      toast.success('Successfully logged in!');
+      router.refresh();
+      toast.success('Successfully registered!');
       onSuccess?.();
     },
     onError: error => {
@@ -44,19 +48,32 @@ export function LoginForm({ onSuccess }: LoginFormProps = {}) {
       form.setError('root.serverError', { message: String(error) });
     },
   });
-
-  const onSubmit = (data: LoginFormData) => {
-    loginMutation(data);
+  const onSubmit = (data: RegisterFormData) => {
+    registerMutation({ ...data, role: RoleEnum.USER });
   };
 
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h2 className="font-semibold">Welcome back</h2>
-        <p className="text-muted-foreground text-sm">Enter your credentials to sign in.</p>
+        <h2 className="font-semibold">Create an account</h2>
+        <p className="text-muted-foreground text-sm">Join the community in a few seconds.</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="johndoe" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="email"
@@ -90,8 +107,22 @@ export function LoginForm({ onSuccess }: LoginFormProps = {}) {
             )}
           />
 
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Repeat Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="••••••••" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? 'Logging in...' : 'Login'}
+            {isPending ? 'Registering...' : 'Register'}
           </Button>
         </form>
       </Form>
