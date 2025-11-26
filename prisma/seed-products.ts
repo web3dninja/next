@@ -17,6 +17,7 @@ const prisma = new PrismaClient({
 const products = [
   {
     name: 'Nuwave Brio 15.5Qt Air Fryer',
+    slug: 'nuwave-brio-15-5qt-air-fryer',
     brand: 'Nuwave',
     description: `10-IN-1 FUNCTIONALITY & 100 PRE-PROGRAMMED MENU PRESETS – Brio provides versatile functionality: Air Fry, Rotisserie, Grill, Roast, Reheat, Broil, Defrost, Dehydrate, Bake, Keep Warm, Proof. It is also programmed with 100 pre-programmed menu presets and additional 50 memory slots where you can save and recall your own favorite recipes. Perfect for busy households on the go!
 LARGE CAPACITY FOR FAMILY SIZE - Features 4 rack positions and 7 cooking accessories, including Reversible Non-Stick Grill & Griddle, Rotisserie Basket & Skewer, Stainless-Steel Mesh Rack & Mesh Tray, Digital Temperature Probe, Drip Tray. The 15.5Qt large capacity makes cooking delicious meals for the entire family now easy. It’s the perfect combination of large capacity and function versatility.
