@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import type { CategoryWithRelations } from '@/lib/data/category';
+import type { CategoryWithRelations } from '@/types/category';
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
 import { SearchInput } from '@/components/ui/search-input';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Badge } from '@/components/ui/badge';
 import { FolderIcon, FolderTreeIcon } from 'lucide-react';
-import { getCategoryPath } from '@/helper/category.helper';
+import { getCategoryPath } from '@/helpers/category';
 
 interface CategoriesListProps {
   categories: CategoryWithRelations[];

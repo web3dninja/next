@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { updateAllRedditStats } from '@/lib/services/reddit';
+import { updateAllRedditStats } from '@/lib/db/reddit-stats';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;

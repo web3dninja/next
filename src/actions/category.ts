@@ -2,28 +2,28 @@
 
 import { revalidatePath } from 'next/cache';
 import {
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  getCategories,
-  getCategoryBySlug,
-  Category,
-} from '@/lib/data/category';
-import { CATEGORY_CONFIG } from '@/lib/categories/config';
-import type { CategoryFormData } from '@/lib/categories/schemas';
-
-export type CategoryCreateInput = Omit<Category, 'id' | 'parent' | 'children'>;
+  createCategoryInDb,
+  updateCategoryInDb,
+  deleteCategoryFromDb,
+  findAllCategories,
+  findCategoryBySlug,
+} from '@/lib/db/category';
+import { validateCategoryCreate, validateCategoryUpdate } from '@/lib/validations/category';
+import { CATEGORY_CONFIG } from '@/configs/category';
+import type { Category } from '@/types/category';
 
 export async function getCategoriesAction(): Promise<Category[]> {
-  return await getCategories();
+  return await findAllCategories();
 }
 
 export async function getCategoryBySlugAction(slug: string): Promise<Category | null> {
-  return await getCategoryBySlug(slug);
+  return await findCategoryBySlug(slug);
 }
 
-export async function createCategoryAction(data: CategoryFormData): Promise<Category | null> {
-  const newCategory = await createCategory(data);
+export async function createCategoryAction(data: unknown): Promise<Category | null> {
+  const validated = await validateCategoryCreate(data);
+
+  const newCategory = await createCategoryInDb(validated);
 
   if (!newCategory) {
     throw new Error('Failed to create category');
@@ -35,11 +35,14 @@ export async function createCategoryAction(data: CategoryFormData): Promise<Cate
   return newCategory;
 }
 
-export async function updateCategoryAction(
-  id: number,
-  data: CategoryFormData,
-): Promise<Category | null> {
-  const updatedCategory = await updateCategory(id, data);
+export async function updateCategoryAction(id: number, data: unknown): Promise<Category | null> {
+  if (!id) {
+    throw new Error('ID is required');
+  }
+
+  const validated = await validateCategoryUpdate(data);
+
+  const updatedCategory = await updateCategoryInDb(id, validated);
 
   if (!updatedCategory) {
     throw new Error('Failed to update category');
@@ -53,7 +56,11 @@ export async function updateCategoryAction(
 }
 
 export async function deleteCategoryAction(id: number): Promise<Category | null> {
-  const deletedCategory = await deleteCategory(id);
+  if (!id) {
+    throw new Error('ID is required');
+  }
+
+  const deletedCategory = await deleteCategoryFromDb(id);
 
   revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
   revalidatePath(CATEGORY_CONFIG.REVALIDATION_PATHS.PUBLIC_PRODUCTS);

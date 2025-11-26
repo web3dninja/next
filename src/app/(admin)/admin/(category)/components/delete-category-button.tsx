@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { deleteCategoryAction } from '@/actions/category';
-import type { Category } from '@/lib/data/category';
+import type { Category } from '@/types/category';
 import { Spinner } from '@/components/ui/spinner';
 import { TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';

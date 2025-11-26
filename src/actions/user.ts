@@ -1,24 +1,27 @@
 'use server';
 
-import { hashPassword, verifyPassword } from '@/lib/auth/utils';
-import { createSession, getCurrentUser, destroySession } from '@/lib/auth/session';
-import { validateRegistrationData, validateLoginData } from '@/lib/auth/validation';
-import { createUser, type CreateUserInput, type User } from '@/lib/data/users';
+import { revalidatePath } from 'next/cache';
+import { hashPassword, verifyPassword } from '@/utils/auth';
+import { createSession, getCurrentUser, destroySession } from '@/utils/session';
+import { createUser, findUserByEmail, deleteUserById } from '@/lib/db/user';
+import { validateRegister, validateLogin } from '@/lib/validations/auth';
+import { USER_CONFIG } from '@/configs/user';
+import type { User } from '@/types/user.type';
 
 export async function getCurrentUserAction(): Promise<User | null> {
   return await getCurrentUser();
 }
 
-export async function registerUserAction(data: CreateUserInput) {
-  await validateRegistrationData(data);
+export async function registerUserAction(data: unknown) {
+  const validated = await validateRegister(data);
 
-  const hashedPassword = await hashPassword(data.password);
+  const hashedPassword = await hashPassword(validated.password);
 
   const user = await createUser({
-    username: data.username,
-    email: data.email,
+    username: validated.username,
+    email: validated.email,
     password: hashedPassword,
-    role: data.role,
+    role: 'USER',
   });
 
   await createSession(user);
@@ -34,16 +37,38 @@ export async function registerUserAction(data: CreateUserInput) {
   };
 }
 
-export async function loginAction(data: { email: string; password: string }) {
-  const user = await validateLoginData(data);
+export async function loginAction(data: unknown) {
+  const validated = await validateLogin(data);
 
-  const isValid = await verifyPassword(data.password, user.password);
+  const user = await findUserByEmail(validated.email, true);
+
+  if (!user) {
+    throw new Error('Invalid email or password');
+  }
+
+  const isValid = await verifyPassword(validated.password, user.password);
 
   if (!isValid) {
     throw new Error('Invalid email or password');
   }
 
   await createSession(user);
+}
+
+export async function deleteUserAction(id: number): Promise<User | null> {
+  if (!id) {
+    throw new Error('ID is required');
+  }
+
+  const user = await deleteUserById(id);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  revalidatePath(USER_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
+
+  return user;
 }
 
 export async function logoutAction() {

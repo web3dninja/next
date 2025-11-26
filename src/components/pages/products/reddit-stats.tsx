@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import { RedditStats } from '@/lib/data/products';
+import type { RedditStats } from '@/types/product';
 import { cn } from '@/lib/utils';
 
 interface RedditStatsProps {

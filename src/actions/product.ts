@@ -1,16 +1,16 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { addProduct, updateProduct, deleteProduct, Product, ProductCreateInput } from '@/lib/data';
-import { PRODUCT_CONFIG } from '@/lib/products/config';
-import { ProductFormData } from '@/lib/products';
-import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
+import { createProduct, updateProductById, deleteProductById } from '@/lib/db/product';
+import { validateProductCreate, validateProductUpdate } from '@/lib/validations/product';
+import { PRODUCT_CONFIG } from '@/configs/product';
+import type { Product } from '@/types/product';
+import { ProductFormData } from '@/lib/schemas/product';
 
 export async function createProductAction(data: ProductFormData): Promise<Product | null> {
-  const newProduct = await addProduct({
-    ...data,
-    redditKeyword: data.redditKeywords.join(REDDIT_KEYWORD_DELIMITER),
-  });
+  const validated = await validateProductCreate(data);
+
+  const newProduct = await createProduct(validated);
 
   if (!newProduct) {
     throw new Error('Failed to create product');
@@ -26,10 +26,13 @@ export async function updateProductAction(
   id: number,
   data: ProductFormData,
 ): Promise<Product | null> {
-  const updatedProduct = await updateProduct(id, {
-    ...data,
-    redditKeyword: data.redditKeywords.join(REDDIT_KEYWORD_DELIMITER),
-  });
+  if (!id) {
+    throw new Error('ID is required');
+  }
+
+  const validated = await validateProductUpdate(data);
+
+  const updatedProduct = await updateProductById(id, validated);
 
   if (!updatedProduct) {
     throw new Error('Failed to update product');
@@ -48,7 +51,7 @@ export async function deleteProductAction(id: number): Promise<Product | null> {
     throw new Error('ID is required');
   }
 
-  const deletedProduct = await deleteProduct(id);
+  const deletedProduct = await deleteProductById(id);
 
   revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.ADMIN_LIST);
   revalidatePath(PRODUCT_CONFIG.REVALIDATION_PATHS.PUBLIC_LIST);

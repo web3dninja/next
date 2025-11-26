@@ -8,7 +8,7 @@ import { routes } from '../../routes';
 import { Logo } from '../Logo';
 import { getCurrentUserAction } from '@/actions/user';
 import { notFound } from 'next/navigation';
-import { AuthModalButton } from '@/components/auth-modal/index';
+import { AuthModalButton } from '@/components/auth-form/index';
 
 export async function AdminHeader() {
   const user = await getCurrentUserAction();

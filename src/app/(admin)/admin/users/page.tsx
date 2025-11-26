@@ -1,9 +1,9 @@
 import { UsersList } from './components/users-list';
-import { getUsers } from '@/lib/data';
+import { findAllUsers } from '@/lib/db/user';
 import { BackButton } from '@/components/ui/back-button';
 
 export default async function UsersPage() {
-  const users = await getUsers();
+  const users = await findAllUsers();
 
   return (
     <>

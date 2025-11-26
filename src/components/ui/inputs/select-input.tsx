@@ -11,7 +11,7 @@ interface SelectOption {
 }
 
 interface SelectInputProps extends Omit<React.ComponentProps<typeof Input>, 'onChange' | 'value'> {
-  option?: SelectOption;
+  option: SelectOption | null;
   options: SelectOption[];
   onChange?: (option: SelectOption | undefined) => void;
 }

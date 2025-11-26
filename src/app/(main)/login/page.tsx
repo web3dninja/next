@@ -1,4 +1,4 @@
-import { AuthTabs } from '@/components/auth-modal';
+import { AuthTabs } from '@/components/auth-form';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function LoginPage() {

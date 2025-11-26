@@ -2,7 +2,7 @@
 
 import { Item } from '@/components/ui/item';
 import { ItemMedia } from '@/components/ui/item';
-import { Product } from '@/lib/data/products';
+import type { Product } from '@/types/product';
 import Link from 'next/link';
 import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '@/components/ui/item';
 import Image from 'next/image';

@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Product } from '@/lib/data/products';
-import { Category } from '@/lib/data/category';
+import { Product } from '@/types/product';
+import { Category } from '@/types/category';
 import { CategoryTree } from '@/components/features/category-tree';
 import { SearchInput } from '@/components/ui/search-input';
 import { EmptyState } from '@/components/ui/empty-state';

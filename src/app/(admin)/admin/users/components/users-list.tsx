@@ -15,6 +15,7 @@ import {
 import { usePathname } from 'next/navigation';
 import { SearchInput } from '@/components/ui/search-input';
 import { EmptyState } from '@/components/ui/empty-state';
+import { useFilteredUsers } from '../[id]/hooks/useFilteredUsers';
 
 interface UsersListProps {
   users: User[];
@@ -24,11 +25,7 @@ export function UsersList({ users }: UsersListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const lacation = usePathname();
 
-  const filteredUsers = users.filter(
-    user =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredUsers = useFilteredUsers(users, searchTerm);
 
   return (
     <>

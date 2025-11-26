@@ -15,17 +15,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  createCategoryAction,
-  updateCategoryAction,
-  CategoryCreateInput,
-} from '@/actions/category';
-import { Category } from '@/lib/data/category';
+import { createCategoryAction, updateCategoryAction } from '@/actions/category';
+import type { Category } from '@/types/category';
 import { useEffect, useMemo } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
 import { generateSlug, getDescendantCategoryIds } from '@/helpers/product.helper';
-import { getCategoryOption } from '@/helper/category.helper';
-import { categorySchema, type CategoryFormData } from '@/lib/categories/schemas';
+import { getCategoryOption } from '@/helpers/category';
+import { categorySchema, type CategoryFormData } from '@/lib/schemas/category';
 
 interface CategoryFormProps {
   mode: 'create' | 'update';
@@ -64,7 +60,7 @@ export function CategoryForm({ mode, category, categories, onSuccess }: Category
   const availableParents = categories.filter(c => !excludedIds.includes(c.id));
 
   const { mutate: createMutation, isPending: isCreating } = useMutation({
-    mutationFn: (data: CategoryCreateInput) => createCategoryAction(data),
+    mutationFn: (data: CategoryFormData) => createCategoryAction(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Category created successfully!');
@@ -76,7 +72,7 @@ export function CategoryForm({ mode, category, categories, onSuccess }: Category
   });
 
   const { mutate: updateMutation, isPending: isUpdating } = useMutation({
-    mutationFn: (data: CategoryCreateInput) => updateCategoryAction(category!.id, data),
+    mutationFn: (data: CategoryFormData) => updateCategoryAction(category!.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       queryClient.invalidateQueries({ queryKey: ['category', category!.id] });
