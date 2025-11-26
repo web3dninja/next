@@ -1,6 +1,6 @@
 import basePrisma, { withAdmin, withModeratorOrAdmin } from '@/utils/prisma';
 import type { Category, CategoryWithRelations } from '@/types/category';
-import type { CategoryFormData } from '@/lib/schemas/category';
+import type { CategoryFormData } from '@/lib/schemas';
 
 const includeRelations = {
   include: {

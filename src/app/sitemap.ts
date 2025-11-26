@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { findAllProducts } from '@/lib/db/product';
+import { findAllProducts } from '@/lib/db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

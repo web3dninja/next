@@ -1,7 +1,7 @@
 import basePrisma, { withAdmin } from '@/utils/prisma';
 import { Product } from '@/types/product';
-import type { ProductFormData } from '@/lib/schemas/product';
-import { normalizeRedditKeyword } from '@/lib/validations/product';
+import type { ProductFormData } from '@/lib/schemas';
+import { normalizeRedditKeyword } from '@/lib/validations';
 import { ensureRedditStats, cleanupOrphanRedditStats, updateRedditKeyword } from './reddit-stats';
 
 const includeRelations = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { DEFAULT_PRODUCT_FORM_DATA, ProductFormData, productSchema } from '@/lib/schemas/product';
+import { DEFAULT_PRODUCT_FORM_DATA, ProductFormData, productSchema } from '@/lib/schemas';
 import { useCreateMutation } from '../hooks/useCreateMutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';

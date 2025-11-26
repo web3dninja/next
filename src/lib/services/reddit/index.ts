@@ -104,3 +104,5 @@ export type {
   UpdateResult,
   UpdateAllResult,
 } from './types';
+
+export { REDDIT_KEYWORD_DELIMITER } from './constants';

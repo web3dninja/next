@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/back-button';
 import { Metadata } from 'next';
-import { findProductBySlug } from '@/lib/db/product';
-import { findAllCategories } from '@/lib/db/category';
+import { findProductBySlug } from '@/lib/db';
+import { findAllCategories } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { DeleteButton } from '../../components/delete-button';
 import { UpdateProductForm } from '../../components/update';

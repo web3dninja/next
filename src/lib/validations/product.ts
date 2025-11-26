@@ -1,4 +1,4 @@
-import { productCreateSchema, productUpdateSchema, type ProductFormData } from '@/lib/schemas/product';
+import { productCreateSchema, productUpdateSchema, type ProductFormData } from '@/lib/schemas';
 
 export async function validateProductCreate(data: unknown): Promise<ProductFormData> {
   return productCreateSchema.parseAsync(data);

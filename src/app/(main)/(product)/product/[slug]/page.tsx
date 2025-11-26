@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { findAllProducts, findProductBySlug } from '@/lib/db/product';
+import { findAllProducts, findProductBySlug } from '@/lib/db';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';

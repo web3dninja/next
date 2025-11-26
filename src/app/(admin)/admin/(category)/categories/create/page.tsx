@@ -1,6 +1,6 @@
 import { BackButton } from '@/components/ui/back-button';
 import { CategoryForm } from '../../components/category-form';
-import { findAllCategories } from '@/lib/db/category';
+import { findAllCategories } from '@/lib/db';
 
 export default async function CreateCategoryPage() {
   const categories = await findAllCategories();

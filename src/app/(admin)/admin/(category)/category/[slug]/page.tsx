@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/back-button';
 import { CategoryForm } from '../../components/category-form';
 import DeleteCategoryButton from '../../components/delete-category-button';
 import { Metadata } from 'next';
-import { findCategoryBySlug, findAllCategories } from '@/lib/db/category';
+import { findCategoryBySlug, findAllCategories } from '@/lib/db';
 import { notFound } from 'next/navigation';
 
 interface PageProps {

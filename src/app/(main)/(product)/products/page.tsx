@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { findAllProducts } from '@/lib/db/product';
-import { findAllCategories } from '@/lib/db/category';
+import { findAllProducts } from '@/lib/db';
+import { findAllCategories } from '@/lib/db';
 import { ProductsList } from '@/components/pages';
 
 export const metadata: Metadata = {

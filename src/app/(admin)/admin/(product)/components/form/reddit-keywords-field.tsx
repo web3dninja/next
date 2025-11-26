@@ -1,6 +1,6 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { TagsInput } from '@/components/ui/tags-input';
-import { ProductFormData } from '@/lib/schemas/product';
+import { ProductFormData } from '@/lib/schemas';
 import { UseFormReturn } from 'react-hook-form';
 import { useRedditKeywordTags } from '../../hooks/useRedditKeywordTags';
 

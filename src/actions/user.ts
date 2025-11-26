@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { hashPassword, verifyPassword } from '@/utils/auth';
 import { createSession, getCurrentUser, destroySession } from '@/utils/session';
-import { createUser, findUserByEmail, deleteUserById } from '@/lib/db/user';
-import { validateRegister, validateLogin } from '@/lib/validations/auth';
+import { createUser, findUserByEmail, deleteUserById } from '@/lib/db';
+import { validateRegister, validateLogin } from '@/lib/validations';
 import { USER_CONFIG } from '@/configs/user';
 import { type User, RoleEnum } from '@/types/user';
 

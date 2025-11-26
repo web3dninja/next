@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { createProductAction, updateProductAction } from '@/actions/product';
-import type { ProductFormData } from '@/lib/schemas/product';
+import type { ProductFormData } from '@/lib/schemas';
 import type { Product } from '@/types/product';
 
 interface UseUpdateMutationProps {

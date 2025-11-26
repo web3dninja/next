@@ -3,7 +3,7 @@
 import { useUpdateMutation } from '../hooks/useUpdateMutation';
 import { Category } from '@/types/category';
 import { Product } from '@/types/product';
-import { ProductFormData, productSchema } from '@/lib/schemas/product';
+import { ProductFormData, productSchema } from '@/lib/schemas';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { findAllCategories } from '@/lib/db/category';
-import { findAllProducts } from '@/lib/db/product';
+import { findAllCategories } from '@/lib/db';
+import { findAllProducts } from '@/lib/db';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';

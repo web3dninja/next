@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { findUserById } from '@/lib/db/user';
+import { findUserById } from '@/lib/db';
 import { BackButton } from '@/components/ui/back-button';
 
 interface PageProps {

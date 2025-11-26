@@ -1,7 +1,7 @@
 import basePrisma from '@/utils/prisma';
-import { fetchRedditStats } from '@/lib/services/reddit';
-import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services/reddit/constants';
-import type { UpdateResult, UpdateAllResult } from '@/lib/services/reddit/types';
+import { fetchRedditStats } from '@/lib/services';
+import { REDDIT_KEYWORD_DELIMITER } from '@/lib/services';
+import type { UpdateResult, UpdateAllResult } from '@/lib/services';
 
 type PrismaClient = typeof basePrisma;
 type RedditStats = {

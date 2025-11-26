@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { loginAction } from '@/actions/user';
-import { loginSchema, type LoginFormData } from '@/lib/schemas/auth';
+import { loginSchema, type LoginFormData } from '@/lib/schemas';
 
 interface LoginFormProps {
   onSuccess?: () => void;

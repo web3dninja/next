@@ -21,7 +21,7 @@ import { useEffect, useMemo } from 'react';
 import { SelectInput } from '@/components/ui/inputs/select-input';
 import { generateSlug, getDescendantCategoryIds } from '@/helpers/product.helper';
 import { getCategoryOption } from '@/helpers/category';
-import { categorySchema, type CategoryFormData } from '@/lib/schemas/category';
+import { categorySchema, type CategoryFormData } from '@/lib/schemas';
 
 interface CategoryFormProps {
   mode: 'create' | 'update';

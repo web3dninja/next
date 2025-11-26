@@ -3,8 +3,8 @@ import {
   userUpdateSchema,
   type UserCreateFormData,
   type UserUpdateFormData,
-} from '@/lib/schemas/user';
-import { findUserByEmail, findUserByUsername } from '@/lib/db/user';
+} from '@/lib/schemas';
+import { findUserByEmail, findUserByUsername } from '@/lib/db';
 
 export async function validateUserCreate(data: unknown): Promise<UserCreateFormData> {
   const validated = await userCreateSchema.parseAsync(data);

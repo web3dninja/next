@@ -7,8 +7,8 @@ import {
   deleteCategoryFromDb,
   findAllCategories,
   findCategoryBySlug,
-} from '@/lib/db/category';
-import { validateCategoryCreate, validateCategoryUpdate } from '@/lib/validations/category';
+} from '@/lib/db';
+import { validateCategoryCreate, validateCategoryUpdate } from '@/lib/validations';
 import { CATEGORY_CONFIG } from '@/configs/category';
 import type { Category } from '@/types/category';
 

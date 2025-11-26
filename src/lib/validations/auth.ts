@@ -3,8 +3,8 @@ import {
   registerSchema,
   type LoginFormData,
   type RegisterFormData,
-} from '@/lib/schemas/auth';
-import { findUserByEmail, findUserByUsername } from '@/lib/db/user';
+} from '@/lib/schemas';
+import { findUserByEmail, findUserByUsername } from '@/lib/db';
 
 export async function validateLogin(data: unknown): Promise<LoginFormData> {
   return loginSchema.parseAsync(data);

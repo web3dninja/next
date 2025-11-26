@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { findProductsByCategoryIds } from '@/lib/db/product';
-import { findCategoryBySlug, findAllCategories } from '@/lib/db/category';
+import { findProductsByCategoryIds } from '@/lib/db';
+import { findCategoryBySlug, findAllCategories } from '@/lib/db';
 import { getDescendantCategoryIds } from '@/helpers/product.helper';
 import { ProductsList } from '@/components/pages';
 

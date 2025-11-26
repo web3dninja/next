@@ -2,7 +2,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { SelectInput } from '@/components/ui/inputs/select-input';
-import type { ProductFormData } from '@/lib/schemas/product';
+import type { ProductFormData } from '@/lib/schemas';
 import type { Category } from '@/types/category';
 
 interface PriceCategoryFieldsProps {

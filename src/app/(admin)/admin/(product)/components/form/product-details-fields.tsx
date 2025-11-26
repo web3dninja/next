@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import type { ProductFormData } from '@/lib/schemas/product';
+import type { ProductFormData } from '@/lib/schemas';
 
 interface ProductDetailsFieldsProps {
   form: UseFormReturn<ProductFormData>;

@@ -1,11 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { createProduct, updateProductById, deleteProductById } from '@/lib/db/product';
-import { validateProductCreate, validateProductUpdate } from '@/lib/validations/product';
+import { createProduct, updateProductById, deleteProductById } from '@/lib/db';
+import { validateProductCreate, validateProductUpdate } from '@/lib/validations';
 import { PRODUCT_CONFIG } from '@/configs/product';
 import type { Product } from '@/types/product';
-import { ProductFormData } from '@/lib/schemas/product';
+import { ProductFormData } from '@/lib/schemas';
 
 export async function createProductAction(data: ProductFormData): Promise<Product | null> {
   const validated = await validateProductCreate(data);

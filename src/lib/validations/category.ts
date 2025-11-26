@@ -1,4 +1,4 @@
-import { categoryCreateSchema, categoryUpdateSchema, type CategoryFormData } from '@/lib/schemas/category';
+import { categoryCreateSchema, categoryUpdateSchema, type CategoryFormData } from '@/lib/schemas';
 
 export async function validateCategoryCreate(data: unknown): Promise<CategoryFormData> {
   return categoryCreateSchema.parseAsync(data);
