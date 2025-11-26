@@ -2,8 +2,13 @@
 
 import { hashPassword, verifyPassword } from '@/lib/auth/utils';
 import { createSession, getCurrentUser, destroySession } from '@/lib/auth/session';
-import { validateRegistrationData, validateLoginData } from '@/lib/auth/validation';
-import { createUser, type CreateUserInput, type User } from '@/lib/data/users';
+import {
+  createUser,
+  findUserByEmail,
+  findUserByUsername,
+  type UserCreateFormData,
+} from '@/lib/users';
+import type { User } from '@/types/user.type';
 
 export async function getCurrentUserAction(): Promise<User | null> {
   return await getCurrentUser();
