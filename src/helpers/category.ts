@@ -15,7 +15,7 @@ export function getCategoryPath<T extends Category>(category: T): string {
 export function getCategoryOption(
   categories: Category[],
   id: number | null,
-): { value: string; key: string | number } | undefined {
+): { value: string; key: string | number } | null {
   const selectedCategory = id ? categories.find(cat => cat.id === id) : null;
 
   return selectedCategory
@@ -23,5 +23,5 @@ export function getCategoryOption(
         value: selectedCategory.name,
         key: selectedCategory.id,
       }
-    : undefined;
+    : null;
 }
