@@ -74,7 +74,6 @@ export function TagsInput({
           />
         </div>
       </div>
-      <p className="text-muted-foreground text-xs">Press Enter or comma to add a tag</p>
     </div>
   );
 }

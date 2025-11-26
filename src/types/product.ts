@@ -3,16 +3,16 @@ import { Category } from './category';
 export interface Product {
   id: number;
   name: string;
-  slug: string | null;
+  slug: string;
   brand: string;
   description: string;
   price: string;
   link: string;
   image: string;
-  categoryId: number | null;
-  category: Category | null;
+  categoryId: number;
+  category: Category;
   redditKeyword: string;
-  redditStats: RedditStats | null;
+  redditStats: RedditStats;
 }
 
 export interface RedditStats {

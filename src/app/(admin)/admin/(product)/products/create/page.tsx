@@ -1,6 +1,6 @@
 import { BackButton } from '@/components/ui/back-button';
-import { ProductForm } from '../../components/product-form';
 import { findAllCategories } from '@/lib/db/category';
+import { CreateProductForm } from '../../components/create';
 
 export default async function CreateProductPage() {
   const categories = await findAllCategories();
@@ -14,7 +14,7 @@ export default async function CreateProductPage() {
 
       <div className="content container">
         <div className="mx-auto space-y-4">
-          <ProductForm mode="create" categories={categories} />
+          <CreateProductForm categories={categories} />
         </div>
       </div>
     </>

@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { findProductBySlug } from '@/lib/db/product';
 import { findAllCategories } from '@/lib/db/category';
 import { notFound } from 'next/navigation';
-import DeleteProductButton from '../../components/delete-product-button';
-import { ProductForm } from '../../components/product-form';
+import { DeleteButton } from '../../components/delete-button';
+import { UpdateProductForm } from '../../components/update';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -46,11 +46,11 @@ export default async function UpdateProductPage({ params }: PageProps) {
     <>
       <div className="content-header justify-between">
         <BackButton href="/admin/products" label="Products" />
-        <DeleteProductButton productId={product.id} />
+        <DeleteButton productId={product.id} />
       </div>
 
       <div className="content container">
-        <ProductForm mode="update" product={product} categories={categories} />
+        <UpdateProductForm product={product} categories={categories} />
       </div>
     </>
   );

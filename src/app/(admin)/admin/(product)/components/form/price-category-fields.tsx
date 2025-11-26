@@ -1,12 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { SelectInput } from '@/components/ui/inputs/select-input';
 import type { ProductFormData } from '@/lib/schemas/product';
 import type { Category } from '@/types/category';
@@ -48,6 +42,7 @@ export function PriceCategoryFields({
             <FormLabel>Category</FormLabel>
             <FormControl>
               <SelectInput
+                disabled={isPending}
                 option={selectedOption}
                 placeholder="Select category..."
                 options={leafCategories.map(category => ({

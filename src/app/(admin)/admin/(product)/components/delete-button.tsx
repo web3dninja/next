@@ -21,11 +21,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-interface DeleteProductButtonProps {
+interface DeleteButtonProps {
   productId: number;
 }
 
-export default function DeleteProductButton({ productId }: DeleteProductButtonProps) {
+export function DeleteButton({ productId }: DeleteButtonProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [open, setOpen] = useState(false);
