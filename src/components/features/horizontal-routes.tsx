@@ -12,7 +12,7 @@ import { HorizontalNavMenuSub } from '../ui/horizontal-nav';
 import { HorizontalNavMenuSubItem } from '../ui/horizontal-nav';
 import { HorizontalNavMenuSubButton } from '../ui/horizontal-nav';
 import { usePathname } from 'next/navigation';
-import { RouteWithDropdown } from '@/types/header.type';
+import { RouteWithDropdown } from '@/types/header';
 import Link from 'next/link';
 
 export const HorizontalRoutes = ({ routes }: Readonly<{ routes: RouteWithDropdown[] }>) => {

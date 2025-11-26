@@ -1,6 +1,6 @@
-import { RouteWithDropdown } from '@/types/header.type';
+import { RouteWithDropdown } from '@/types/header';
 
-export const adminRoutes: RouteWithDropdown[] = [
+export const routes: RouteWithDropdown[] = [
   { href: '/admin/users', label: 'Users' },
   { href: '/admin/products', label: 'Products' },
   { href: '/admin/categories', label: 'Categories' },

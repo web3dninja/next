@@ -1,39 +1,18 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { logoutAction } from '@/actions/user';
-import type { User } from '@/types/user.type';
-import { toast } from 'sonner';
+import type { User } from '@/types/user';
+import { useLogoutMutation } from '../useLogoutMutation';
+import { userInitials } from '@/utils/user';
 
 interface UserMenuProps {
   user: User;
 }
 
 export function UserMenu({ user }: UserMenuProps) {
-  const queryClient = useQueryClient();
-
-  const logoutMutation = useMutation({
-    mutationFn: logoutAction,
-    onSuccess: () => {
-      queryClient.setQueryData(['user'], null);
-      toast.success('You have been logged out!');
-    },
-    onError: error => {
-      toast.error(String(error));
-    },
-  });
-
-  const getInitials = (username: string) => {
-    return username
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+  const { mutate, isPending } = useLogoutMutation();
 
   return (
     <Popover>
@@ -41,7 +20,7 @@ export function UserMenu({ user }: UserMenuProps) {
         <button className="ring-offset-background focus-visible:ring-ring cursor-pointer rounded-full ring-offset-2 outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
           <Avatar>
             <AvatarFallback className="bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100">
-              {getInitials(user.username)}
+              {userInitials(user.username)}
             </AvatarFallback>
           </Avatar>
         </button>
@@ -55,11 +34,11 @@ export function UserMenu({ user }: UserMenuProps) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => logoutMutation.mutate()}
-            disabled={logoutMutation.isPending}
+            onClick={() => mutate()}
+            disabled={isPending}
             className="w-full"
           >
-            {logoutMutation.isPending ? 'Logging out...' : 'Logout'}
+            {isPending ? 'Logging out...' : 'Logout'}
           </Button>
         </div>
       </PopoverContent>

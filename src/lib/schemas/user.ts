@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import { USER_CONFIG } from '@/configs/user';
+import { RoleEnum } from '@/types/user';
 
 export const userSchema = z.object({
   username: z.string().min(USER_CONFIG.VALIDATION.USERNAME_MIN_LENGTH, 'Username is required'),
-  email: z.string().email('Invalid email address'),
-  role: z.enum(['USER', 'MODERATOR', 'ADMIN']),
+  email: z.email('Invalid email address'),
+  role: z.enum(RoleEnum),
 });
 
 export const userCreateSchema = userSchema.extend({

@@ -1,9 +1,9 @@
 import { Sidebar, SidebarContent, SidebarProvider } from '@/components/ui/sidebar';
 import { SheetHeader } from '@/components/ui/sheet';
-import { Header } from '@/root';
-import { AdminHeader } from '@/root/header/components/admin/AdminHeader';
+import { Header } from '@/components/root';
+import { AdminHeader } from '@/components/root/header/components/AdminHeader';
 import { HorizontalRoutes } from '@/components/features/horizontal-routes';
-import { adminRoutes } from '@/root/header/components/admin/routes';
+import { routes } from '@/configs/admin-routes';
 
 export default function AdminLayout({
   children,
@@ -18,7 +18,7 @@ export default function AdminLayout({
         <SidebarContent>
           <SheetHeader>Admin</SheetHeader>
           <div className="p-4">
-            <HorizontalRoutes routes={adminRoutes} />
+            <HorizontalRoutes routes={routes} />
           </div>
         </SidebarContent>
       </Sidebar>

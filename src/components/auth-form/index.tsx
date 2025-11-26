@@ -1,8 +1,8 @@
 'use client';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LoginForm } from './components/login-form';
-import { RegisterForm } from './components/register-form';
+import { LoginForm } from './login-form';
+import { RegisterForm } from './register-form';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';

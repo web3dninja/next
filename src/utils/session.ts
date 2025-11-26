@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { signToken, verifyToken, type JWTPayload } from './auth';
 import { AUTH_CONFIG } from '@/configs/auth';
 import { findUserById } from '@/lib/db/user';
-import type { User } from '@/types/user.type';
+import type { User } from '@/types/user';
 
 export async function createSession(user: User): Promise<void> {
   const token = signToken({

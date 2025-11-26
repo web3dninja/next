@@ -2,7 +2,7 @@ import { PrismaClient } from '../../../prisma/generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { requireAdmin, requireModeratorOrAdmin, checkAccess } from './permissions';
 import { getCurrentUserAction } from '@/actions/user';
-import { Role } from '@/types/user.type';
+import { Role } from '@/types/user';
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient;

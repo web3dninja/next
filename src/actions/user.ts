@@ -6,7 +6,7 @@ import { createSession, getCurrentUser, destroySession } from '@/utils/session';
 import { createUser, findUserByEmail, deleteUserById } from '@/lib/db/user';
 import { validateRegister, validateLogin } from '@/lib/validations/auth';
 import { USER_CONFIG } from '@/configs/user';
-import type { User } from '@/types/user.type';
+import { type User, RoleEnum } from '@/types/user';
 
 export async function getCurrentUserAction(): Promise<User | null> {
   return await getCurrentUser();
@@ -21,7 +21,7 @@ export async function registerUserAction(data: unknown) {
     username: validated.username,
     email: validated.email,
     password: hashedPassword,
-    role: 'USER',
+    role: RoleEnum.USER,
   });
 
   await createSession(user);

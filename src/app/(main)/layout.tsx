@@ -1,6 +1,6 @@
-import { Header } from '@/root';
+import { Header } from '@/components/root';
 
-import { MainHeader } from '@/root/header/components/main/MainHeader';
+import { MainHeader } from '@/components/root/header/components/MainHeader';
 
 export default function MainLayout({
   children,

@@ -1,2 +1,4 @@
-export * from './user.type';
-export * from './header.type';
+export * from './user';
+export * from './header';
+export * from './product';
+export * from './category';

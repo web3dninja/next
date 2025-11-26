@@ -1,10 +1,10 @@
 'use client';
-import { Logo } from '../Logo';
-import { DesktopNav } from '../desktop/desktop-nav';
-import { MobileNav } from '../mobile/MobileNav';
-import { UserMenu } from '../UserMenu';
-import { ThemeSwitcher } from '../theme-switcher';
-import { routes } from '../../routes';
+import { Logo } from './Logo';
+import { DesktopNav } from './desktop/desktop-nav';
+import { MobileNav } from './mobile/MobileNav';
+import { UserMenu } from './UserMenu';
+import { ThemeSwitcher } from './theme-switcher';
+import { routes } from '@/configs/site-routes';
 import { AuthModalButton } from '@/components/auth-form/index';
 import { getCurrentUserAction } from '@/actions/user';
 import { useQuery } from '@tanstack/react-query';

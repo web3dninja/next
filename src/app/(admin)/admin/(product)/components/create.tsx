@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductFormData, productSchema } from '@/lib/schemas/product';
+import { DEFAULT_PRODUCT_FORM_DATA, ProductFormData, productSchema } from '@/lib/schemas/product';
 import { useCreateMutation } from '../hooks/useCreateMutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -22,17 +22,7 @@ interface CreateProductFormProps {
 export function CreateProductForm({ categories }: CreateProductFormProps) {
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: {
-      name: '',
-      slug: '',
-      brand: '',
-      description: '',
-      price: '',
-      link: '',
-      image: '',
-      categoryId: 0,
-      redditKeyword: '',
-    },
+    defaultValues: DEFAULT_PRODUCT_FORM_DATA,
   });
 
   const { mutate, isPending } = useCreateMutation();

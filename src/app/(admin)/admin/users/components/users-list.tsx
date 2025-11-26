@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import DeleteUserButton from './delete-user-button';
-import type { User } from '@/types/user.type';
+import type { User } from '@/types/user';
 import {
   Item,
   ItemActions,

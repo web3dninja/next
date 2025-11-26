@@ -1,5 +1,5 @@
 import { PrismaClient } from '../../../prisma/generated/client';
-import { Role, RoleEnum } from '@/types/user.type';
+import { Role, RoleEnum } from '@/types/user';
 
 export async function checkAccess<T>(
   prisma: PrismaClient,

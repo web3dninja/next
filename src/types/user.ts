@@ -4,7 +4,7 @@ export enum RoleEnum {
   ADMIN = 'ADMIN',
 }
 
-export type Role = 'USER' | 'MODERATOR' | 'ADMIN';
+export type Role = RoleEnum.ADMIN | RoleEnum.MODERATOR | RoleEnum.USER;
 
 export interface User {
   id: number;

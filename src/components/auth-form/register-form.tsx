@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { registerUserAction } from '@/actions/user';
-import { RoleEnum } from '@/types/user.type';
+import { RoleEnum } from '@/types/user';
 import { registerSchema, type RegisterFormData } from '@/lib/schemas/auth';
 
 interface RegisterFormProps {

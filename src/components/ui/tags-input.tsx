@@ -70,7 +70,7 @@ export function TagsInput({
             onKeyDown={handleKeyDown}
             placeholder={value.length === 0 ? placeholder : ''}
             disabled={disabled}
-            className="inline-flex min-w-[120px] flex-1 border-0 bg-transparent! p-0 shadow-none focus-visible:ring-0"
+            className="-my-2 inline-flex min-w-[120px] flex-1 border-0 bg-transparent! p-0 shadow-none focus-visible:ring-0"
           />
         </div>
       </div>

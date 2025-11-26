@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { DropdownItem } from './dropdown-item';
-import { RouteWithDropdown } from '@/types/header.type';
+import { RouteWithDropdown } from '@/types/header';
 
 export function DesktopNav({ routes }: Readonly<{ routes: RouteWithDropdown[] }>) {
   const pathname = usePathname();

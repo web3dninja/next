@@ -19,3 +19,15 @@ export const productCreateSchema = productSchema;
 export const productUpdateSchema = productSchema;
 
 export type ProductFormData = z.infer<typeof productSchema>;
+
+export const DEFAULT_PRODUCT_FORM_DATA: ProductFormData = {
+  name: '',
+  slug: '',
+  brand: '',
+  description: '',
+  price: '',
+  link: '',
+  image: '',
+  categoryId: 0,
+  redditKeyword: '',
+};

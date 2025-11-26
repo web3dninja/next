@@ -4,7 +4,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
-import { RouteWithDropdown } from '@/types/header.type';
+import { RouteWithDropdown } from '@/types/header';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
