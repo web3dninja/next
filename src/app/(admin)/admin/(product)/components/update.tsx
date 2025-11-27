@@ -14,8 +14,9 @@ import { PriceCategoryFields } from './form/price-category-fields';
 import { RedditKeywordsField } from './form/reddit-keywords-field';
 import { Button } from '@/components/ui/button';
 import { getCategoryOption } from '@/helpers/category';
-import { useRedditKeywordTags } from '../hooks/useRedditKeywordTags';
 import { FormWrapper } from './form/wrapper';
+import { generateProductSlug } from '@/helpers/product.helper';
+import { useEffect } from 'react';
 
 interface UpdateProductFormProps {
   product: Product;
@@ -39,6 +40,11 @@ export function UpdateProductForm({ product, categories }: UpdateProductFormProp
   });
 
   const { mutate, isPending } = useUpdateMutation({ product });
+
+  useEffect(() => {
+    const nextSlug = generateProductSlug(product.brand, product.name);
+    form.setValue('slug', nextSlug);
+  }, [product.brand, product.name]);
 
   return (
     <Form {...form}>
