@@ -29,8 +29,8 @@ const contacts = [
   },
   {
     label: 'LinkedIn',
-    value: 'linkedin.com/in/vlad-turok-a00194276/',
-    href: 'https://www.linkedin.com/in/vlad-turok-a00194276/',
+    value: 'linkedin.com/in/web3dninja',
+    href: 'https://www.linkedin.com/in/web3dninja',
     icon: Linkedin,
   },
 ];
