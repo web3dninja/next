@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Product } from '@/types/product';
 import { Category } from '@/types/category';
@@ -8,6 +7,11 @@ import { CategoryTree } from '@/components/features/category-tree';
 import { SearchInput } from '@/components/ui/search-input';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ProductItem } from './product-item';
+import { ProductFiltersDrawer } from './product-filters-drawer';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { FilterIcon } from 'lucide-react';
 
 interface ProductsListProps {
   products: Product[];
@@ -16,40 +20,52 @@ interface ProductsListProps {
 }
 
 export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
-  const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
-
-  const filteredProducts = useMemo(() => {
-    if (!searchTerm) {
-      return products;
-    }
-
-    const term = searchTerm.toLowerCase();
-    return products.filter(
-      product =>
-        product.name.toLowerCase().includes(term) || product.brand.toLowerCase().includes(term),
-    );
-  }, [products, searchTerm]);
 
   const handleSelect = (slug: string) => {
     router.push(`${categoryHrefBase}/${slug}`);
   };
 
   return (
-    <>
-      <div className="content-header container">
-        <CategoryTree categories={categories} onSelect={handleSelect} />
-        <div className="flex-1" />
-        <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search products..." />
-      </div>
+    <ProductFiltersDrawer products={products}>
+      {(filteredProducts, searchValue, onSearchChange, sheetContent, activeFiltersCount) => (
+        <>
+          <div className="content-header container">
+            <CategoryTree categories={categories} onSelect={handleSelect} />
+            <div className="flex-1" />
 
-      <div className="grid-list">
-        {filteredProducts.map(product => (
-          <ProductItem key={product.id} product={product} categoryHrefBase={categoryHrefBase} />
-        ))}
-      </div>
+            <SearchInput
+              value={searchValue}
+              onChange={onSearchChange}
+              placeholder="Search products... (fuzzy)"
+            />
 
-      <EmptyState show={filteredProducts.length === 0}>No products found</EmptyState>
-    </>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="md" className="relative">
+                  <FilterIcon className="mr-2 size-4" />
+                  Filters
+                  {activeFiltersCount > 0 && (
+                    <Badge variant="default" className="ml-2 h-5 px-1.5">
+                      {activeFiltersCount}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+
+              {sheetContent}
+            </Sheet>
+          </div>
+
+          <div className="grid-list">
+            {filteredProducts.map(product => (
+              <ProductItem key={product.id} product={product} categoryHrefBase={categoryHrefBase} />
+            ))}
+          </div>
+
+          <EmptyState show={filteredProducts.length === 0}>No products found</EmptyState>
+        </>
+      )}
+    </ProductFiltersDrawer>
   );
 }
