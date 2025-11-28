@@ -11,9 +11,6 @@ export interface ProductMetadata {
   priceRange: { min: number; max: number };
 }
 
-/**
- * Витягує метадані з масиву продуктів
- */
 export function useProductMetadata(products: Product[]): ProductMetadata {
   const allBrands = useMemo(() => {
     const brands = products.map(p => p.brand);
@@ -21,7 +18,7 @@ export function useProductMetadata(products: Product[]): ProductMetadata {
   }, [products]);
 
   const priceRange = useMemo(() => {
-    const prices = products.map(p => parseFloat(p.price)).filter(p => !isNaN(p));
+    const prices = products.map(p => p.price).filter(p => !isNaN(p));
 
     if (prices.length === 0) {
       return { min: 0, max: 0 };

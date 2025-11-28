@@ -1,14 +1,9 @@
-/**
- * Окремі фільтри - кожен відповідає за одну річ (Single Responsibility)
- */
-
 import Fuse from 'fuse.js';
 import sift from 'sift';
-import { max, min, sort } from 'radash';
+import { sort } from 'radash';
 import { parseAsString, parseAsArrayOf, parseAsInteger } from 'nuqs';
 import { Product } from '@/types/product';
 
-// ============= SEARCH FILTER =============
 const FUSE_OPTIONS = {
   keys: [
     { name: 'name', weight: 0.7 },
@@ -54,13 +49,15 @@ export const brandsFilter = {
 export const priceRangeFilter = {
   key: 'priceRange',
   fn: (products: Product[], range: [number, number]) => {
-    console.log(range);
+    const query = {
+      price: {
+        $gte: range[0],
+        $lte: range[1],
+      },
+    };
 
-    const filterMax = products.filter(sift({ price: { $lte: range[1] } }));
-
-    const filteredItems = filterMax.filter(sift({ price: { $gte: range[0] } }));
-
-    return filteredItems;
+    const filter = sift(query);
+    return products.filter(filter);
   },
   parse: parseAsArrayOf(parseAsInteger).withDefault([]),
 } as const;
@@ -85,7 +82,7 @@ export const priceSort = {
   key: 'price' as const,
   label: 'Price',
   fn: (products: Product[], direction: 'asc' | 'desc') =>
-    sort(products, p => parseFloat(p.price), direction === 'desc'),
+    sort(products, p => p.price, direction === 'desc'),
 } as const;
 
 export const popularitySort = {
@@ -95,7 +92,6 @@ export const popularitySort = {
     sort(products, p => p.redditStats.mentions, direction === 'desc'),
 } as const;
 
-// ============= ЗБІРКА В ОБ'ЄКТИ =============
 export const sortConfig = {
   price: priceSort,
   popularity: popularitySort,

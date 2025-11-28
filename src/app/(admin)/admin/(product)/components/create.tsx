@@ -15,7 +15,7 @@ import { getCategoryOption } from '@/helpers/category';
 import { ProductBuyButton } from './form/buy-button';
 import { ImagePreview } from '@/components/ui/image-preview';
 import { FormWrapper } from './form/wrapper';
-import { generateProductSlug } from '@/helpers/product.helper';
+import { generateProductSlug } from '@/helpers/product';
 
 interface CreateProductFormProps {
   categories: Category[];

@@ -8,44 +8,16 @@ import { Slider } from '@/components/ui/slider';
 import { XIcon, ArrowUpIcon, ArrowDownIcon } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { Product } from '@/types/product';
-import { useProductFilters } from '@/hooks/use-product-filters';
+import { useFiltersContext } from '@/contexts/filters-context';
+import { sortConfig } from '@/utils/filters';
 import { useProductMetadata } from '@/hooks/use-product-metadata';
-import { sortConfig } from '@/lib/filters/filters-config';
+import { Brands } from './brands';
 
-interface ProductFiltersDrawerProps {
-  products: Product[];
-  children?: (
-    filteredProducts: Product[],
-    searchValue: string,
-    onSearchChange: (value: string) => void,
-    sheetContent: React.ReactNode,
-    activeFiltersCount: number,
-    hasActiveFilters: boolean,
-    reset: () => void,
-  ) => React.ReactNode;
-}
+export function ProductFilters() {
+  const { filters, onFilterChange, reset, hasActiveFilters, data } = useFiltersContext();
+  const { allBrands, priceRange } = useProductMetadata(data);
 
-export function ProductFiltersDrawer({ products, children }: ProductFiltersDrawerProps) {
-  // Generic хук для фільтрації
-  const {
-    filters,
-    products: filteredProducts,
-    onFilterChange,
-    reset,
-    hasActiveFilters,
-  } = useProductFilters(products);
-
-  // Хук для метаданих продуктів
-  const { allBrands, priceRange } = useProductMetadata(products);
-
-  const activeFiltersCount =
-    (filters.brands?.length || 0) +
-    (filters.priceRange && (filters.priceRange[0] !== null || filters.priceRange[1] !== null)
-      ? 1
-      : 0);
-
-  const sheetContent = (
+  return (
     <SheetContent className="w-[400px] overflow-y-auto sm:w-[540px]">
       <SheetHeader>
         <div className="flex items-center justify-between">
@@ -62,7 +34,7 @@ export function ProductFiltersDrawer({ products, children }: ProductFiltersDrawe
         </SheetDescription>
       </SheetHeader>
 
-      <div className="mt-6 space-y-6">
+      <div className="mt-6 flex flex-col gap-4 px-3">
         {/* Sort By */}
         <div className="space-y-3">
           <Label className="text-base font-semibold">Sort By</Label>
@@ -141,50 +113,13 @@ export function ProductFiltersDrawer({ products, children }: ProductFiltersDrawe
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label className="text-base font-semibold">Brands</Label>
-            {(filters.brands?.length || 0) > 0 && (
-              <Badge variant="secondary">{filters.brands?.length} selected</Badge>
-            )}
           </div>
 
           <div className="max-h-[300px] space-y-2 overflow-y-auto pr-2">
-            {allBrands.map(brand => (
-              <div key={brand} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`brand-${brand}`}
-                  checked={filters.brands?.includes(brand)}
-                  onCheckedChange={() => {
-                    const currentBrands = filters.brands || [];
-                    const newBrands = currentBrands.includes(brand)
-                      ? currentBrands.filter(b => b !== brand)
-                      : [...currentBrands, brand];
-                    onFilterChange('brands', newBrands);
-                  }}
-                />
-                <label
-                  htmlFor={`brand-${brand}`}
-                  className="flex-1 cursor-pointer text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {brand}
-                </label>
-              </div>
-            ))}
+            <Brands allBrands={allBrands} onFilterChange={onFilterChange} filters={filters} />
           </div>
         </div>
       </div>
     </SheetContent>
-  );
-
-  return (
-    <>
-      {children?.(
-        filteredProducts,
-        filters.search || '',
-        (value: string) => onFilterChange('search', value),
-        sheetContent,
-        activeFiltersCount,
-        hasActiveFilters,
-        reset,
-      )}
-    </>
   );
 }

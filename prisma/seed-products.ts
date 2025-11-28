@@ -70,6 +70,7 @@ async function seedProducts() {
       const created = await prisma.product.create({
         data: {
           ...product,
+          price: parseFloat(product.price),
           redditKeyword: normalizedKeyword,
         },
       });

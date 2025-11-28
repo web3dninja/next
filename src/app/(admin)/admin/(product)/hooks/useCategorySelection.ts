@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getLeafCategories } from '@/helpers/product.helper';
+import { getLeafCategories } from '@/helpers/product';
 import { getCategoryOption } from '@/helpers/category';
 import type { Category } from '@/types/category';
 

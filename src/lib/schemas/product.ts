@@ -8,7 +8,7 @@ export const productSchema = z.object({
   description: z
     .string()
     .min(PRODUCT_CONFIG.VALIDATION.DESCRIPTION_MIN_LENGTH, 'Description is required'),
-  price: z.string().min(PRODUCT_CONFIG.VALIDATION.PRICE_MIN_LENGTH, 'Price is required'),
+  price: z.number().positive('Price must be a positive number'),
   link: z.url('Invalid URL').min(1, 'Link is required'),
   image: z.url('Invalid image URL').min(1, 'Image URL is required'),
   categoryId: z.number().min(1, 'Category is required'),
@@ -25,7 +25,7 @@ export const DEFAULT_PRODUCT_FORM_DATA: ProductFormData = {
   slug: '',
   brand: '',
   description: '',
-  price: '',
+  price: 0,
   link: '',
   image: '',
   categoryId: 1,

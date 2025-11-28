@@ -42,7 +42,7 @@ model Product {
   slug          String       @unique
   brand         String
   description   String
-  price         String
+  price         Float
   link          String
   image         String
   categoryId    Int

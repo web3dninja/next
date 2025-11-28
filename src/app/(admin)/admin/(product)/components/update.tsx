@@ -15,7 +15,7 @@ import { RedditKeywordsField } from './form/reddit-keywords-field';
 import { Button } from '@/components/ui/button';
 import { getCategoryOption } from '@/helpers/category';
 import { FormWrapper } from './form/wrapper';
-import { generateProductSlug } from '@/helpers/product.helper';
+import { generateProductSlug } from '@/helpers/product';
 import { useEffect } from 'react';
 
 interface UpdateProductFormProps {

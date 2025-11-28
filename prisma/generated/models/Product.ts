@@ -28,11 +28,13 @@ export type AggregateProduct = {
 
 export type ProductAvgAggregateOutputType = {
   id: number | null
+  price: number | null
   categoryId: number | null
 }
 
 export type ProductSumAggregateOutputType = {
   id: number | null
+  price: number | null
   categoryId: number | null
 }
 
@@ -42,7 +44,7 @@ export type ProductMinAggregateOutputType = {
   slug: string | null
   brand: string | null
   description: string | null
-  price: string | null
+  price: number | null
   link: string | null
   image: string | null
   categoryId: number | null
@@ -55,7 +57,7 @@ export type ProductMaxAggregateOutputType = {
   slug: string | null
   brand: string | null
   description: string | null
-  price: string | null
+  price: number | null
   link: string | null
   image: string | null
   categoryId: number | null
@@ -79,11 +81,13 @@ export type ProductCountAggregateOutputType = {
 
 export type ProductAvgAggregateInputType = {
   id?: true
+  price?: true
   categoryId?: true
 }
 
 export type ProductSumAggregateInputType = {
   id?: true
+  price?: true
   categoryId?: true
 }
 
@@ -219,7 +223,7 @@ export type ProductGroupByOutputType = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   categoryId: number
@@ -255,7 +259,7 @@ export type ProductWhereInput = {
   slug?: Prisma.StringFilter<"Product"> | string
   brand?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringFilter<"Product"> | string
-  price?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.FloatFilter<"Product"> | number
   link?: Prisma.StringFilter<"Product"> | string
   image?: Prisma.StringFilter<"Product"> | string
   categoryId?: Prisma.IntFilter<"Product"> | number
@@ -288,7 +292,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Product"> | string
   brand?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringFilter<"Product"> | string
-  price?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.FloatFilter<"Product"> | number
   link?: Prisma.StringFilter<"Product"> | string
   image?: Prisma.StringFilter<"Product"> | string
   categoryId?: Prisma.IntFilter<"Product"> | number
@@ -324,7 +328,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Product"> | string
   brand?: Prisma.StringWithAggregatesFilter<"Product"> | string
   description?: Prisma.StringWithAggregatesFilter<"Product"> | string
-  price?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  price?: Prisma.FloatWithAggregatesFilter<"Product"> | number
   link?: Prisma.StringWithAggregatesFilter<"Product"> | string
   image?: Prisma.StringWithAggregatesFilter<"Product"> | string
   categoryId?: Prisma.IntWithAggregatesFilter<"Product"> | number
@@ -336,7 +340,7 @@ export type ProductCreateInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   category: Prisma.CategoryCreateNestedOneWithoutProductsInput
@@ -349,7 +353,7 @@ export type ProductUncheckedCreateInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   categoryId: number
@@ -361,7 +365,7 @@ export type ProductUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutProductsNestedInput
@@ -374,7 +378,7 @@ export type ProductUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -387,7 +391,7 @@ export type ProductCreateManyInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   categoryId: number
@@ -399,7 +403,7 @@ export type ProductUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -410,7 +414,7 @@ export type ProductUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -442,6 +446,7 @@ export type ProductCountOrderByAggregateInput = {
 
 export type ProductAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -473,6 +478,7 @@ export type ProductMinOrderByAggregateInput = {
 
 export type ProductSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -516,6 +522,14 @@ export type ProductUncheckedUpdateManyWithoutCategoryNestedInput = {
   update?: Prisma.ProductUpdateWithWhereUniqueWithoutCategoryInput | Prisma.ProductUpdateWithWhereUniqueWithoutCategoryInput[]
   updateMany?: Prisma.ProductUpdateManyWithWhereWithoutCategoryInput | Prisma.ProductUpdateManyWithWhereWithoutCategoryInput[]
   deleteMany?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
+}
+
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type ProductCreateNestedManyWithoutRedditStatsInput = {
@@ -565,7 +579,7 @@ export type ProductCreateWithoutCategoryInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   redditStats: Prisma.RedditStatsCreateNestedOneWithoutProductsInput
@@ -577,7 +591,7 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   redditKeyword: string
@@ -618,7 +632,7 @@ export type ProductScalarWhereInput = {
   slug?: Prisma.StringFilter<"Product"> | string
   brand?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringFilter<"Product"> | string
-  price?: Prisma.StringFilter<"Product"> | string
+  price?: Prisma.FloatFilter<"Product"> | number
   link?: Prisma.StringFilter<"Product"> | string
   image?: Prisma.StringFilter<"Product"> | string
   categoryId?: Prisma.IntFilter<"Product"> | number
@@ -630,7 +644,7 @@ export type ProductCreateWithoutRedditStatsInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   category: Prisma.CategoryCreateNestedOneWithoutProductsInput
@@ -642,7 +656,7 @@ export type ProductUncheckedCreateWithoutRedditStatsInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   categoryId: number
@@ -680,7 +694,7 @@ export type ProductCreateManyCategoryInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   redditKeyword: string
@@ -691,7 +705,7 @@ export type ProductUpdateWithoutCategoryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   redditStats?: Prisma.RedditStatsUpdateOneRequiredWithoutProductsNestedInput
@@ -703,7 +717,7 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
@@ -715,7 +729,7 @@ export type ProductUncheckedUpdateManyWithoutCategoryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   redditKeyword?: Prisma.StringFieldUpdateOperationsInput | string
@@ -727,7 +741,7 @@ export type ProductCreateManyRedditStatsInput = {
   slug: string
   brand: string
   description: string
-  price: string
+  price: number
   link: string
   image: string
   categoryId: number
@@ -738,7 +752,7 @@ export type ProductUpdateWithoutRedditStatsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutProductsNestedInput
@@ -750,7 +764,7 @@ export type ProductUncheckedUpdateWithoutRedditStatsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -762,7 +776,7 @@ export type ProductUncheckedUpdateManyWithoutRedditStatsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   link?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -854,7 +868,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     slug: string
     brand: string
     description: string
-    price: string
+    price: number
     link: string
     image: string
     categoryId: number
@@ -1289,7 +1303,7 @@ export interface ProductFieldRefs {
   readonly slug: Prisma.FieldRef<"Product", 'String'>
   readonly brand: Prisma.FieldRef<"Product", 'String'>
   readonly description: Prisma.FieldRef<"Product", 'String'>
-  readonly price: Prisma.FieldRef<"Product", 'String'>
+  readonly price: Prisma.FieldRef<"Product", 'Float'>
   readonly link: Prisma.FieldRef<"Product", 'String'>
   readonly image: Prisma.FieldRef<"Product", 'String'>
   readonly categoryId: Prisma.FieldRef<"Product", 'Int'>
