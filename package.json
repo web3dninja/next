@@ -10,7 +10,8 @@
     "server": "tsx server/index.ts",
     "db:seed": "tsx prisma/seed.ts",
     "db:seed:user": "tsx prisma/seed-user.ts",
-    "db:seed:products": "tsx prisma/seed-products.ts"
+    "db:seed:products": "tsx prisma/seed-products.ts",
+    "db:seed:reddit": "tsx prisma/seed-reddit.ts"
   },
   "dependencies": {
     "-": "^0.0.1",

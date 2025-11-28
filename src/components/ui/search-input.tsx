@@ -20,7 +20,7 @@ export function SearchInput({
   className,
 }: SearchInputProps) {
   return (
-    <InputGroup className={cn('w-full', className)}>
+    <InputGroup className={cn('max-w-sm', className)}>
       <InputGroupAddon>
         <Label htmlFor="search" className="size-4">
           <Search />
