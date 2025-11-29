@@ -7,7 +7,6 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { DropdownItem } from './dropdown-item';
@@ -26,10 +25,7 @@ export function DesktopNav({ routes }: Readonly<{ routes: RouteWithDropdown[] }>
             ) : (
               <NavigationMenuLink
                 asChild
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800',
-                )}
+                className={cn(pathname === route.href && 'bg-zinc-100 dark:bg-zinc-800')}
               >
                 <Link href={route.href} passHref>
                   {route.label}

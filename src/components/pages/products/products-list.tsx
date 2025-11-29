@@ -13,8 +13,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FilterIcon } from 'lucide-react';
 import { FiltersProvider, useFiltersContext } from '@/contexts/filters-context';
-import { filtersConfig, sortConfig } from '@/utils/filters';
-import { parseAsString } from 'nuqs';
+import {
+  productSearchConfig,
+  productFiltersConfig,
+  productSortConfig,
+  productUrlParsers,
+} from '@/configs/filters/product-filters';
 
 interface ProductsListProps {
   products: Product[];
@@ -31,7 +35,8 @@ function ProductsListContent({
     filters,
     onFilterChange,
     hasActiveFilters,
-  } = useFiltersContext();
+    activeFiltersCount,
+  } = useFiltersContext<Product>();
   const router = useRouter();
 
   const handleSelect = (slug: string) => {
@@ -57,7 +62,7 @@ function ProductsListContent({
               Filters
               {hasActiveFilters && (
                 <Badge variant="default" className="ml-2 h-5 px-1.5">
-                  •
+                  {activeFiltersCount}
                 </Badge>
               )}
             </Button>
@@ -78,24 +83,17 @@ function ProductsListContent({
   );
 }
 
-const urlParsers = {
-  search: filtersConfig.search.parse,
-  brands: filtersConfig.brands.parse,
-  priceRange: filtersConfig.priceRange.parse,
-  minRating: filtersConfig.minRating.parse,
-  sortField: parseAsString,
-  sortDirection: parseAsString,
-};
-
 export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
-  const config = {
-    filtersConfig,
-    sortConfig,
-    urlParsers,
-  };
-
   return (
-    <FiltersProvider data={products} config={config}>
+    <FiltersProvider
+      data={products}
+      config={{
+        searchConfig: productSearchConfig,
+        filtersConfig: productFiltersConfig,
+        sortConfig: productSortConfig,
+        urlParsers: productUrlParsers,
+      }}
+    >
       <ProductsListContent categories={categories} categoryHrefBase={categoryHrefBase} />
     </FiltersProvider>
   );
