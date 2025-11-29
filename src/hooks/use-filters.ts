@@ -1,27 +1,35 @@
 import { useMemo, useCallback } from 'react';
 import { useQueryStates } from 'nuqs';
+import { SearchConfig, FiltersRecord, SortsRecord, UrlFilters } from '@/types/filters';
+import {
+  applyFilters,
+  applySearch,
+  getDefaultFilterValues,
+  applySort,
+  getActiveFiltersCount,
+} from '@/utils/filter';
 
 export interface UseFiltersConfig<T> {
-  filtersConfig: Record<string, { fn: (data: T[], value: any) => T[]; parse: any }>;
-  sortConfig?: Record<string, { fn: (data: T[], direction: 'asc' | 'desc') => T[] }>;
-  urlParsers: Record<string, any>;
+  searchConfig?: SearchConfig<T>;
+  filtersConfig: FiltersRecord<T>;
+  sortConfig: SortsRecord<T>;
+  urlParsers: UrlFilters;
 }
 
-export interface UseFiltersResult<T, F> {
-  filters: F;
+export interface UseFiltersResult<T> {
+  filters: UrlFilters;
   data: T[];
+  allData: T[];
   total: number;
-  onFilterChange: (key: string, value: any) => void;
+  onFilterChange: <K extends keyof UrlFilters>(key: K, value: UrlFilters[K]) => void;
   reset: () => void;
   hasActiveFilters: boolean;
+  activeFiltersCount: number;
+  config: UseFiltersConfig<T>;
 }
 
-export function useFilters<T, F extends Record<string, any>>(
-  allData: T[],
-  config: UseFiltersConfig<T>,
-): UseFiltersResult<T, F> {
-  const { filtersConfig, sortConfig, urlParsers } = config;
-
+export function useFilters<T>(allData: T[], config: UseFiltersConfig<T>): UseFiltersResult<T> {
+  const { searchConfig, filtersConfig, sortConfig, urlParsers } = config;
   const [urlFilters, setUrlFilters] = useQueryStates(urlParsers, {
     history: 'push',
     shallow: true,
@@ -30,70 +38,44 @@ export function useFilters<T, F extends Record<string, any>>(
   const filteredData = useMemo(() => {
     let result = allData;
 
-    Object.entries(filtersConfig).forEach(([key, filterConfig]) => {
-      const value = (urlFilters as any)[key];
-      result = (filterConfig as any).fn(result, value);
-    });
+    if (searchConfig) {
+      result = applySearch(result, searchConfig, urlFilters);
+    }
+
+    result = applyFilters(result, filtersConfig, urlFilters);
 
     if (sortConfig) {
-      const sortField = (urlFilters as any).sortField;
-      const sortDirection = (urlFilters as any).sortDirection;
-
-      if (sortField && sortDirection) {
-        const sortFn = sortConfig[sortField]?.fn;
-        if (sortFn) {
-          result = sortFn(result, sortDirection);
-        }
-      }
+      result = applySort(result, sortConfig, urlFilters);
     }
 
     return result;
-  }, [allData, urlFilters, filtersConfig, sortConfig]);
+  }, [allData, searchConfig, filtersConfig, urlFilters, sortConfig]);
 
   const onFilterChange = useCallback(
-    (key: string, value: any) => {
-      setUrlFilters({ [key]: value } as any);
+    <K extends keyof UrlFilters>(key: K, value: UrlFilters[K]) => {
+      setUrlFilters({ [key as string]: value });
     },
     [setUrlFilters],
   );
 
   const reset = useCallback(() => {
-    const resetValues = Object.entries(filtersConfig).reduce(
-      (acc, [key, config]) => {
-        const parser = (config as any).parse as any;
-        acc[key] = parser._default ?? null;
-        return acc;
-      },
-      {} as Record<string, any>,
-    );
-
+    const resetValues = getDefaultFilterValues(config);
     setUrlFilters(resetValues);
-  }, [setUrlFilters, filtersConfig]);
+  }, [setUrlFilters, config]);
 
-  const hasActiveFilters = useMemo(() => {
-    const hasFilters = Object.entries(filtersConfig).some(([key, config]) => {
-      const value = urlFilters[key];
-      const parser = config.parse;
-      const defaultValue = parser._default;
-
-      if (Array.isArray(value)) {
-        return value.length > 0;
-      }
-
-      return value !== defaultValue;
-    });
-
-    const hasSorting = urlFilters.sortField || urlFilters.sortDirection;
-
-    return hasFilters || Boolean(hasSorting);
-  }, [urlFilters, filtersConfig]);
+  const activeFiltersCount = useMemo(() => {
+    return getActiveFiltersCount(filtersConfig, searchConfig, urlFilters);
+  }, [filtersConfig, searchConfig, urlFilters]);
 
   return {
-    filters: urlFilters as F,
+    filters: urlFilters,
     data: filteredData,
+    allData,
     total: filteredData.length,
     onFilterChange,
     reset,
-    hasActiveFilters,
+    hasActiveFilters: activeFiltersCount > 0,
+    activeFiltersCount,
+    config,
   };
 }
