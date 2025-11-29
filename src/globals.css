@@ -22,8 +22,9 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
   --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -59,9 +60,9 @@
   --muted-foreground: oklch(0.552 0.016 285.938);
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --success: oklch(0.785 0.1663 162.18);
   --warning: oklch(0.75 0.2 80);
+  --success: oklch(0.785 0.1663 162.18);
+  --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.841 0.238 128.85);
@@ -95,9 +96,9 @@
   --muted-foreground: oklch(0.705 0.015 286.067);
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
   --success: oklch(0.785 0.1663 162.18);
   --warning: oklch(0.75 0.2 80);
+  --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.405 0.101 131.063);
@@ -148,16 +149,20 @@
     @apply max-xs:grid-cols-1 grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4 max-sm:grid-cols-2;
   }
 
+  .toast {
+    @apply border-border bg-card text-card-foreground flex w-84 items-center gap-2 rounded-lg border p-4 text-sm shadow-sm;
+  }
+
   .toast-success {
-    border-color: var(--success);
+    @apply border-success/50 [&_svg]:text-success;
   }
 
   .toast-error {
-    border-color: var(--destructive);
+    @apply border-destructive/50 [&_svg]:text-destructive;
   }
 
   .toast-warning {
-    border-color: var(--warning);
+    @apply border-warning/50 [&_svg]:text-warning;
   }
 
   .text-price {

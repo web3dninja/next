@@ -3,6 +3,7 @@ import { ItemMedia } from '@/components/ui/item';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Github, ExternalLink } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default async function Home() {
   return (
@@ -45,6 +46,7 @@ export default async function Home() {
               Explore the full-featured admin panel with role-based access control. Login as a
               moderator to see what you can do!
             </ItemDescription>
+
             <div className="mb-4 rounded-md bg-black/5 p-3 font-mono text-sm dark:bg-white/5">
               <div className="mb-1">
                 <span className="text-muted-foreground">Email:</span>{' '}
@@ -55,6 +57,7 @@ export default async function Home() {
                 <span className="font-semibold">password</span>
               </div>
             </div>
+            <p className="text-warning">You need to login first to see the admin panel.</p>
             <div className="flex gap-2">
               <Button asChild>
                 <Link href="/admin">Open Admin Panel</Link>
@@ -103,9 +106,10 @@ export default async function Home() {
           <Item variant="outline">
             <ItemMedia variant="image">🔍</ItemMedia>
             <ItemContent>
-              <ItemTitle>Advanced Search</ItemTitle>
+              <ItemTitle>Advanced Search & Filters</ItemTitle>
               <ItemDescription>
-                Real-time search and filtering across products and categories
+                Fuzzy search with Fuse.js, multi-criteria filtering (brands, price range), and
+                flexible sorting options
               </ItemDescription>
             </ItemContent>
           </Item>
@@ -136,7 +140,16 @@ export default async function Home() {
               Frontend
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'Radix UI'].map(tech => (
+              {[
+                'Next.js 16',
+                'React 19',
+                'TypeScript',
+                'Tailwind CSS',
+                'Radix UI',
+                'Fuse.js',
+                'Sift',
+                'Radash',
+              ].map(tech => (
                 <span
                   key={tech}
                   className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200"
@@ -168,7 +181,7 @@ export default async function Home() {
               State Management
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['TanStack Query', 'React Hook Form', 'Zod Validation'].map(tech => (
+              {['TanStack Query', 'React Hook Form', 'Zod Validation', 'nuqs'].map(tech => (
                 <span
                   key={tech}
                   className="rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-800 dark:bg-purple-900 dark:text-purple-200"
@@ -221,6 +234,13 @@ export default async function Home() {
             <span>
               <strong>Parallel Routes & Intercepting Routes:</strong> Advanced Next.js routing
               patterns for modal dialogs and smooth navigation
+            </span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span>
+              <strong>Advanced Filtering System:</strong> Generic, reusable filter architecture with
+              URL synchronization, fuzzy search, and multi-criteria filtering
             </span>
           </li>
           <li className="flex items-start gap-2">
