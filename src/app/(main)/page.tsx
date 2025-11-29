@@ -3,7 +3,6 @@ import { ItemMedia } from '@/components/ui/item';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Github, ExternalLink } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default async function Home() {
   return (

@@ -5,8 +5,8 @@ import { fetchRedditStats, REDDIT_KEYWORD_DELIMITER } from '@/lib/services';
 
 const KEYWORD_GROUPS = [
   {
-    name: 'wahl-shaver',
-    keywords: ['wahl shaver', 'wahl 5 star shaver', '5 star wahl', 'wahl'],
+    name: 'nuwave-brio-air-fryer',
+    keywords: ['nuwave brio 15.5qt air fryer', '15.5qt air fryer'],
   },
 ];
 

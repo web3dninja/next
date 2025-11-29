@@ -79,6 +79,12 @@ export default async function ProductPage({ params }: PageProps) {
               />
             </ItemMedia>
 
+            <Button asChild size="xl" className="mt-4 w-full">
+              <Link href={product.link} target="_blank" rel="noopener noreferrer">
+                Buy on Amazon
+              </Link>
+            </Button>
+
             {product.redditStats && (
               <RedditStatsDisplay stats={product.redditStats} className="mt-4" />
             )}
@@ -94,15 +100,9 @@ export default async function ProductPage({ params }: PageProps) {
               {product.category && <Badge variant="default">{product.category.name}</Badge>}
             </div>
 
-            <ItemDescription className="text-sm text-zinc-600 dark:text-zinc-300">
+            <ItemDescription className="line-clamp-none text-sm text-zinc-600 dark:text-zinc-300">
               {product.description}
             </ItemDescription>
-
-            <Button asChild size="xl" className="mt-4 w-70">
-              <Link href={product.link} target="_blank" rel="noopener noreferrer">
-                Buy on Amazon
-              </Link>
-            </Button>
           </ItemContent>
         </Item>
       </div>
