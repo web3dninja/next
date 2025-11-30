@@ -5,7 +5,7 @@ export type SortDirection = SortDirectionEnum.ASC | SortDirectionEnum.DESC;
 
 export type FilterFn<TData, TValue> = (data: TData[], path: string, value: TValue) => TData[];
 
-export type SortFn<TData, TValue> = (data: TData[], path: string, direction: TValue) => TData[];
+export type SortFn<TData> = (data: TData[], path: string, direction: SortDirection) => TData[];
 
 export type SearchFn<TData> = (
   data: TData[],
@@ -27,8 +27,8 @@ export interface SearchConfig<TData> {
   parse: any;
 }
 
-export interface SortConfig<TData, TKey, TValue> {
-  key: TKey;
+export interface SortConfig<TData, TValue> {
+  key: string;
   path: string;
   label: string;
   fn: SortFn<TData, TValue>;
@@ -40,13 +40,10 @@ export type FiltersConfig<TData, TKey extends string, TValue> = Record<
   FilterConfig<TData, TKey, TValue>
 >;
 
-export type SortsConfig<TData, TKey extends string, TValue> = Record<
-  TKey,
-  SortConfig<TData, TKey, TValue>
->;
+export type SortsConfig<TData, TValue> = Record<string, SortConfig<TData, TValue>>;
 
 export type PriceRange = [number, number];
 
 export type UrlFilters = Record<string, any>;
 export type FiltersRecord<T> = Record<string, FilterConfig<T, string, any>>;
-export type SortsRecord<T> = Record<string, SortConfig<T, string, any>>;
+export type SortsRecord<T> = Record<string, SortConfig<T, any>>;

@@ -1,8 +1,8 @@
 import Fuse, { IFuseOptions } from 'fuse.js';
 import sift from 'sift';
-import { sort } from 'radash';
+import { get, sort } from 'radash';
 import { SortDirectionEnum } from './enums';
-import { FiltersRecord, SearchConfig, UrlFilters, SortsRecord } from './types';
+import { FiltersRecord, SearchConfig, UrlFilters, SortsRecord, SortDirection } from './types';
 import { UseFiltersConfig } from './hooks';
 
 export function filterBySearch<TData>(data: TData[], options: IFuseOptions<TData>, value: string) {
@@ -41,12 +41,8 @@ export function rangeFilter<TData>(data: TData[], key: string, range: [number, n
   return data.filter(filter);
 }
 
-export function sortBy<TData, TKey, TValue>(data: TData[], key: TKey, direction: TValue) {
-  const getValue = (obj: TData, key: string) => {
-    return key.split('.').reduce((current, key: string) => current?.[key], obj as any);
-  };
-
-  return sort(data, item => getValue(item, key as string), direction === SortDirectionEnum.DESC);
+export function sortBy<TData>(data: TData[], key: string, direction: SortDirection) {
+  return sort(data, item => get(item, key), direction === SortDirectionEnum.DESC);
 }
 
 export function getDefaultFilterValues<T>(config: UseFiltersConfig<T>) {
@@ -116,9 +112,9 @@ export function applyFilters<T>(
   return result;
 }
 
-export function parseSortValue(sortValue: string | null | undefined): {
+export function parseSortValue(sortValue: string | null): {
   field: string | null;
-  direction: string | null;
+  direction: SortDirection | null;
 } {
   if (!sortValue) {
     return { field: null, direction: null };
@@ -129,10 +125,10 @@ export function parseSortValue(sortValue: string | null | undefined): {
     return { field: null, direction: null };
   }
 
-  return { field: parts[0], direction: parts[1] };
+  return { field: parts[0], direction: parts[1] as SortDirection };
 }
 
-export function formatSortValue(field: string, direction: string): string {
+export function formatSortValue(field: string, direction: SortDirection): string {
   return `${field}-${direction}`;
 }
 

@@ -1,9 +1,8 @@
 import { parseAsString, parseAsArrayOf, parseAsInteger } from 'nuqs';
-import type { FilterConfig, SearchConfig, SortConfig, SortDirection } from './types';
+import type { FilterConfig, PriceRange, SearchConfig, SortConfig, SortDirection } from './types';
 import { filterBySearch, filterByArray, rangeFilter, sortBy } from './utils';
 import { IFuseOptions } from 'fuse.js';
 import { SortDirectionEnum } from './enums';
-import type { SortDirection as SortDirectionType } from './types';
 
 export const createSearchFilter = <T>(
   key: string = 'search',
@@ -28,19 +27,19 @@ export const createArrayFilter = <T>(
 export const createRangeFilter = <T>(
   key: string,
   path: string,
-): FilterConfig<T, string, [number, number] | null> => ({
+): FilterConfig<T, string, PriceRange> => ({
   key,
   path,
   fn: rangeFilter,
   parse: parseAsArrayOf(parseAsInteger).withDefault([]),
 });
 
-export const createSortConfig = <T>(
+export const createSortConfig = <T, TValue>(
   key: string,
   path: string,
   label: string,
-  defaultDirection: SortDirectionType = SortDirectionEnum.DESC,
-): SortConfig<T, string, string> => ({
+  defaultDirection: SortDirection = SortDirectionEnum.DESC,
+): SortConfig<T, TValue> => ({
   key,
   path,
   label,
