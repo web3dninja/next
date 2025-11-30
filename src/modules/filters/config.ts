@@ -34,12 +34,12 @@ export const createRangeFilter = <T>(
   parse: parseAsArrayOf(parseAsInteger).withDefault([]),
 });
 
-export const createSortConfig = <T, TValue>(
+export const createSortConfig = <T>(
   key: string,
   path: string,
   label: string,
   defaultDirection: SortDirection = SortDirectionEnum.DESC,
-): SortConfig<T, TValue> => ({
+): SortConfig<T> => ({
   key,
   path,
   label,

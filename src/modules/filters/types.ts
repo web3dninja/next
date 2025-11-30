@@ -27,11 +27,11 @@ export interface SearchConfig<TData> {
   parse: any;
 }
 
-export interface SortConfig<TData, TValue> {
+export interface SortConfig<TData> {
   key: string;
   path: string;
   label: string;
-  fn: SortFn<TData, TValue>;
+  fn: SortFn<TData>;
   defaultDirection: SortDirection;
 }
 
@@ -40,10 +40,10 @@ export type FiltersConfig<TData, TKey extends string, TValue> = Record<
   FilterConfig<TData, TKey, TValue>
 >;
 
-export type SortsConfig<TData, TValue> = Record<string, SortConfig<TData, TValue>>;
+export type SortsConfig<TData> = Record<string, SortConfig<TData>>;
 
 export type PriceRange = [number, number];
 
 export type UrlFilters = Record<string, any>;
 export type FiltersRecord<T> = Record<string, FilterConfig<T, string, any>>;
-export type SortsRecord<T> = Record<string, SortConfig<T, any>>;
+export type SortsRecord<T> = Record<string, SortConfig<T>>;

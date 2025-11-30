@@ -27,14 +27,14 @@ export const brandsFilter = createArrayFilter<Product>('brands', 'brand');
 
 export const priceRangeFilter = createRangeFilter<Product>('priceRange', 'price');
 
-export const priceSort = createSortConfig<Product, number>(
+export const priceSort = createSortConfig<Product>(
   'price',
   'price',
   'Price',
   SortDirectionEnum.ASC,
 );
 
-export const popularitySort = createSortConfig<Product, number>(
+export const popularitySort = createSortConfig<Product>(
   'popularity',
   'redditStats.mentions',
   'Popularity',
