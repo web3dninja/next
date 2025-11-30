@@ -26,10 +26,13 @@ export function UsersList({ users }: UsersListProps) {
   const lacation = usePathname();
 
   const filteredUsers = useFilteredUsers(users, searchTerm);
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <>
-      <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search users..." />
+      <SearchInput value={searchTerm} onChange={onSearchChange} placeholder="Search users..." />
 
       <ItemGroup className="gap-4">
         {filteredUsers.map((user: User) => (

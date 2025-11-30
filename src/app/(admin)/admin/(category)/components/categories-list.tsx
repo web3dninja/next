@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { CategoryWithRelations } from '@/types/category';
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
@@ -17,15 +17,27 @@ interface CategoriesListProps {
 export function CategoriesList({ categories }: CategoriesListProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredCategories = categories.filter(
-    category =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      category.slug.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredCategories = useMemo(
+    () =>
+      categories.filter(
+        category =>
+          category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          category.slug.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    [categories, searchTerm],
   );
+
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <>
-      <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search categories..." />
+      <SearchInput
+        value={searchTerm}
+        onChange={onSearchChange}
+        placeholder="Search categories..."
+      />
 
       <ItemGroup className="gap-4">
         {filteredCategories.map(category => (
