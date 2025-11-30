@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react';
 import { Product } from '@/types/product';
-import { PriceRange } from '@/types/filters';
+import type { PriceRange } from '@/modules/filters';
 
 export interface ProductMetadata {
   allBrands: string[];

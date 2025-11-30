@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
-import { useFilters, UseFiltersConfig, UseFiltersResult } from '@/hooks/use-filters';
+import { useFilters, UseFiltersConfig, UseFiltersResult } from './hooks';
 
 export interface FiltersContextValue<TData = any> extends UseFiltersResult<TData> {
   filteredData: TData[];

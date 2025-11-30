@@ -1,9 +1,9 @@
 import Fuse, { IFuseOptions } from 'fuse.js';
 import sift from 'sift';
 import { sort } from 'radash';
-import { SortDirectionEnum } from '@/enums/fiters';
-import { FiltersRecord, SearchConfig, UrlFilters, SortsRecord } from '@/types/filters';
-import { UseFiltersConfig } from '@/hooks/use-filters';
+import { SortDirectionEnum } from './enums';
+import { FiltersRecord, SearchConfig, UrlFilters, SortsRecord } from './types';
+import { UseFiltersConfig } from './hooks';
 
 export function filterBySearch<TData>(data: TData[], options: IFuseOptions<TData>, value: string) {
   if (!value || value.length < 2) {

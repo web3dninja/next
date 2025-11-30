@@ -1,13 +1,13 @@
 import { useMemo, useCallback } from 'react';
 import { useQueryStates } from 'nuqs';
-import { SearchConfig, FiltersRecord, SortsRecord, UrlFilters } from '@/types/filters';
+import { SearchConfig, FiltersRecord, SortsRecord, UrlFilters } from './types';
 import {
   applyFilters,
   applySearch,
   getDefaultFilterValues,
   applySort,
   getActiveFiltersCount,
-} from '@/utils/filter';
+} from './utils';
 
 export interface UseFiltersConfig<T> {
   searchConfig?: SearchConfig<T>;

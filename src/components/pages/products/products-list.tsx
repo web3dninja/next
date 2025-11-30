@@ -21,8 +21,8 @@ import {
   productFiltersConfig,
   productSortConfig,
   productUrlParsers,
-} from '@/configs/filters/product-filters';
-import { Filters } from '@/components/ui/filters';
+} from '@/configs/product-filters';
+import { Filters } from '@/modules/filters';
 import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { useProductMetadata } from '@/hooks/use-product-metadata';

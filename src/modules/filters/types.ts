@@ -1,6 +1,5 @@
-import { SortDirectionEnum } from '@/enums/fiters';
 import { IFuseOptions } from 'fuse.js';
-import { parseAsString } from 'nuqs';
+import { SortDirectionEnum } from './enums';
 
 export type SortDirection = SortDirectionEnum.ASC | SortDirectionEnum.DESC;
 

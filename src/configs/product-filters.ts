@@ -4,10 +4,10 @@ import {
   createArrayFilter,
   createRangeFilter,
   createSortConfig,
-} from './basic-filters';
+  SortDirectionEnum,
+} from '@/modules/filters';
 import { parseAsString } from 'nuqs';
-import { IFuseOptions } from 'fuse.js';
-import { SortDirectionEnum } from '@/enums/fiters';
+import type { IFuseOptions } from 'fuse.js';
 
 export const PRODUCT_FUSE_OPTIONS: IFuseOptions<Product> = {
   keys: [

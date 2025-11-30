@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { useEffect } from 'react';
-import { SheetContent } from '@/components/ui/sheet';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,11 +11,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowUpIcon, ArrowDownIcon, XIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { SortDirectionEnum } from '@/enums/fiters';
-import { parseSortValue, formatSortValue } from '@/utils/filter';
-import { useFiltersContext, FiltersProvider } from '@/contexts/filters-context';
-import type { FilterConfig, PriceRange } from '@/types/filters';
-import type { UseFiltersConfig } from '@/hooks/use-filters';
+import { SortDirectionEnum } from './enums';
+import { parseSortValue, formatSortValue } from './utils';
+import { useFiltersContext, FiltersProvider } from './context';
+import type { FilterConfig, PriceRange } from './types';
+import type { UseFiltersConfig } from './hooks';
 import { SearchInput } from '@/components/ui/search-input';
 
 interface FiltersProps<TData> {
@@ -156,7 +155,6 @@ function CheckboxFilter<TData>({ config, list, label, className }: CheckboxProps
   const { key } = config;
 
   const currentValue = filters[key];
-  const filterKey = config.key;
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -166,7 +164,7 @@ function CheckboxFilter<TData>({ config, list, label, className }: CheckboxProps
         type="multiple"
         orientation="vertical"
         value={currentValue}
-        onValueChange={values => onFilterChange(filterKey, values)}
+        onValueChange={values => onFilterChange(key, values)}
         spacing={0.5}
         className="w-full flex-col items-stretch"
       >
@@ -260,7 +258,7 @@ function Search({ ...props }: React.ComponentProps<typeof Input>) {
   if (!searchConfig) return null;
 
   const { key } = searchConfig;
-  const currentValue = (filters[key] as string) || '';
+  const currentValue = filters[key];
 
   return (
     <SearchInput
