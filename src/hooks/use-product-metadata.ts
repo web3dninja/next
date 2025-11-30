@@ -5,10 +5,11 @@
 
 import { useMemo } from 'react';
 import { Product } from '@/types/product';
+import { PriceRange } from '@/types/filters';
 
 export interface ProductMetadata {
   allBrands: string[];
-  priceRange: { min: number; max: number };
+  priceRange: PriceRange;
 }
 
 export function useProductMetadata(products: Product[]): ProductMetadata {
@@ -17,17 +18,14 @@ export function useProductMetadata(products: Product[]): ProductMetadata {
     return Array.from(new Set(brands)).sort();
   }, [products]);
 
-  const priceRange = useMemo(() => {
+  const priceRange: PriceRange = useMemo(() => {
     const prices = products.map(p => p.price).filter(p => !isNaN(p));
 
     if (prices.length === 0) {
-      return { min: 0, max: 0 };
+      return [0, 0];
     }
 
-    return {
-      min: Math.min(...prices),
-      max: Math.max(...prices),
-    };
+    return [Math.min(...prices), Math.max(...prices)];
   }, [products]);
 
   return {

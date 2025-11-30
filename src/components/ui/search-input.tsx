@@ -6,19 +6,11 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { cn } from '@/lib/utils';
 import { Label } from './label';
 
-interface SearchInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
+interface SearchInputProps extends React.ComponentProps<'input'> {
   className?: string;
 }
 
-export function SearchInput({
-  value,
-  onChange,
-  placeholder = 'Search...',
-  className,
-}: SearchInputProps) {
+export function SearchInput({ className, ...props }: SearchInputProps) {
   return (
     <InputGroup className={cn('max-w-sm', className)}>
       <InputGroupAddon>
@@ -26,13 +18,7 @@ export function SearchInput({
           <Search />
         </Label>
       </InputGroupAddon>
-      <InputGroupInput
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        id="search"
-      />
+      <InputGroupInput type="text" {...props} />
     </InputGroup>
   );
 }

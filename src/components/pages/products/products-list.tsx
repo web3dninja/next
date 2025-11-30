@@ -4,21 +4,28 @@ import { useRouter } from 'next/navigation';
 import { Product } from '@/types/product';
 import { Category } from '@/types/category';
 import { CategoryTree } from '@/components/features/category-tree';
-import { SearchInput } from '@/components/ui/search-input';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ProductItem } from './product-item';
-import { ProductFilters } from './product-filters';
-import { Sheet, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import {
+  Sheet,
+  SheetTitle,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+  SheetFooter,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { FilterIcon } from 'lucide-react';
-import { FiltersProvider, useFiltersContext } from '@/contexts/filters-context';
 import {
   productSearchConfig,
   productFiltersConfig,
   productSortConfig,
   productUrlParsers,
 } from '@/configs/filters/product-filters';
+import { Filters } from '@/components/ui/filters';
+import { useState } from 'react';
+import { Separator } from '@/components/ui/separator';
+import { useProductMetadata } from '@/hooks/use-product-metadata';
 
 interface ProductsListProps {
   products: Product[];
@@ -26,21 +33,17 @@ interface ProductsListProps {
   categoryHrefBase: string;
 }
 
-function ProductsListContent({
-  categories,
-  categoryHrefBase,
-}: Omit<ProductsListProps, 'products'>) {
-  const {
-    filteredData: filteredProducts,
-    filters,
-    onFilterChange,
-    hasActiveFilters,
-    activeFiltersCount,
-  } = useFiltersContext<Product>();
+export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const { allBrands, priceRange } = useProductMetadata(products);
   const router = useRouter();
 
   const handleSelect = (slug: string) => {
     router.push(`${categoryHrefBase}/${slug}`);
+  };
+
+  const onFiltersChange = (filteredProducts: Product[]) => {
+    setFilteredProducts(filteredProducts);
   };
 
   return (
@@ -49,27 +52,62 @@ function ProductsListContent({
         <CategoryTree categories={categories} onSelect={handleSelect} />
         <div className="flex-1" />
 
-        <SearchInput
-          value={filters.search || ''}
-          onChange={value => onFilterChange('search', value)}
-          placeholder="Search products... (fuzzy)"
-        />
+        <Filters
+          data={products}
+          config={{
+            searchConfig: productSearchConfig,
+            filtersConfig: productFiltersConfig,
+            sortConfig: productSortConfig,
+            urlParsers: productUrlParsers,
+          }}
+          onFiltersChange={onFiltersChange}
+        >
+          <Filters.Search />
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="md" className="relative">
-              <FilterIcon className="mr-2 size-4" />
-              Filters
-              {hasActiveFilters && (
-                <Badge variant="default" className="ml-2 h-5 px-1.5">
-                  {activeFiltersCount}
-                </Badge>
-              )}
-            </Button>
-          </SheetTrigger>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Filters.Trigger>
+                <FilterIcon className="mr-2 size-4" />
+                Filters
+              </Filters.Trigger>
+            </SheetTrigger>
 
-          <ProductFilters />
-        </Sheet>
+            <SheetContent className="w-[400px] overflow-y-auto sm:w-[540px]">
+              <SheetHeader>
+                <div className="flex items-center justify-between">
+                  <SheetTitle>Filters & Sort</SheetTitle>
+                </div>
+                <SheetDescription>
+                  Powered by Fuse.js (search), Sift (filters), Radash (sort)
+                </SheetDescription>
+              </SheetHeader>
+
+              <Filters.Content>
+                <Filters.Sort label="Sort By" />
+
+                <Separator />
+
+                <Filters.Range
+                  config={productFiltersConfig.priceRange}
+                  range={priceRange}
+                  label="Price"
+                />
+
+                <Separator />
+
+                <Filters.Checkbox
+                  config={productFiltersConfig.brands}
+                  list={allBrands}
+                  label="Brands"
+                />
+              </Filters.Content>
+
+              <SheetFooter>
+                <Filters.Reset />
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </Filters>
       </div>
 
       <div className="grid-list">
@@ -80,21 +118,5 @@ function ProductsListContent({
 
       <EmptyState show={filteredProducts.length === 0}>No products found</EmptyState>
     </>
-  );
-}
-
-export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
-  return (
-    <FiltersProvider
-      data={products}
-      config={{
-        searchConfig: productSearchConfig,
-        filtersConfig: productFiltersConfig,
-        sortConfig: productSortConfig,
-        urlParsers: productUrlParsers,
-      }}
-    >
-      <ProductsListContent categories={categories} categoryHrefBase={categoryHrefBase} />
-    </FiltersProvider>
   );
 }
