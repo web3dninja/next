@@ -21,24 +21,15 @@ export const PRODUCT_FUSE_OPTIONS: IFuseOptions<Product> = {
   ignoreLocation: true,
 };
 
-export const searchFilter = createSearchFilter<Product>('search', PRODUCT_FUSE_OPTIONS);
+export const searchFilter = createSearchFilter('search', PRODUCT_FUSE_OPTIONS);
 
-export const brandsFilter = createArrayFilter<Product>('brands', 'brand');
+export const brandsFilter = createArrayFilter('brands', 'brand');
 
-export const priceRangeFilter = createRangeFilter<Product>('priceRange', 'price');
+export const priceRangeFilter = createRangeFilter('priceRange', 'price');
 
-export const priceSort = createSortConfig<Product>(
-  'price',
-  'price',
-  'Price',
-  SortDirectionEnum.ASC,
-);
+export const priceSort = createSortConfig('price', 'price', 'Price', SortDirectionEnum.ASC);
 
-export const popularitySort = createSortConfig<Product>(
-  'popularity',
-  'redditStats.mentions',
-  'Popularity',
-);
+export const popularitySort = createSortConfig('popularity', 'redditStats.mentions', 'Popularity');
 
 export const productSearchConfig = searchFilter;
 

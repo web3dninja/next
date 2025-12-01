@@ -4,8 +4,6 @@ export type {
   FilterConfig,
   SearchConfig,
   SortConfig,
-  FiltersConfig,
-  SortsConfig,
   PriceRange,
   UrlFilters,
   FiltersRecord,
@@ -30,7 +28,7 @@ export {
 } from './utils';
 
 export { useFilters } from './hooks';
-export type { UseFiltersConfig, UseFiltersResult } from './hooks';
+export type { UseFiltersConfig } from './hooks';
 
 export { FiltersProvider, useFiltersContext } from './context';
 export type { FiltersContextValue } from './context';

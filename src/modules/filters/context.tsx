@@ -1,33 +1,68 @@
 'use client';
 
-import { createContext, useContext, ReactNode } from 'react';
-import { useFilters, UseFiltersConfig, UseFiltersResult } from './hooks';
+import { createContext, useContext, ReactNode, useCallback, useMemo } from 'react';
+import { UseFiltersConfig } from './hooks';
+import { useQueryStates } from 'nuqs';
+import { UrlFilters } from './types';
+import { getActiveFiltersCount, getDefaultFilterValues } from './utils';
 
-export interface FiltersContextValue<TData = any> extends UseFiltersResult<TData> {
-  filteredData: TData[];
+export interface FiltersContextValue {
+  filters: UrlFilters;
+  onFilterChange: <K extends keyof UrlFilters>(key: K, value: UrlFilters[K]) => void;
+  reset: () => void;
+  hasActiveFilters: boolean;
+  activeFiltersCount: number;
+  config: UseFiltersConfig;
 }
 
 const FiltersContext = createContext<FiltersContextValue | undefined>(undefined);
 
-interface FiltersProviderProps<TData> {
-  config: UseFiltersConfig<TData>;
-  data: TData[];
+interface FiltersProviderProps {
+  config: UseFiltersConfig;
   children: ReactNode;
 }
 
-export function FiltersProvider<TData>({ data, config, children }: FiltersProviderProps<TData>) {
-  const filtersResult = useFilters(data, config);
+export function FiltersProvider({ config, children }: FiltersProviderProps) {
+  const { searchConfig, filtersConfig, urlParsers } = config;
+  const [urlFilters, setUrlFilters] = useQueryStates(urlParsers, {
+    history: 'push',
+    shallow: true,
+  });
 
-  const contextValue: FiltersContextValue<TData> = {
-    ...filtersResult,
-    filteredData: filtersResult.data,
-  };
+  const onFilterChange = useCallback(
+    (key: keyof UrlFilters, value: UrlFilters[keyof UrlFilters]) => {
+      setUrlFilters({ ...urlFilters, [key]: value });
+    },
+    [setUrlFilters, urlFilters],
+  );
 
-  return <FiltersContext.Provider value={contextValue}>{children}</FiltersContext.Provider>;
+  const reset = useCallback(() => {
+    const resetValues = getDefaultFilterValues(config);
+    setUrlFilters(resetValues);
+  }, [setUrlFilters, config]);
+
+  const activeFiltersCount = useMemo(() => {
+    return getActiveFiltersCount(filtersConfig, searchConfig, urlFilters);
+  }, [filtersConfig, searchConfig, urlFilters]);
+
+  return (
+    <FiltersContext.Provider
+      value={{
+        filters: urlFilters,
+        reset: reset,
+        onFilterChange: onFilterChange,
+        hasActiveFilters: activeFiltersCount > 0,
+        activeFiltersCount: activeFiltersCount,
+        config: config,
+      }}
+    >
+      {children}
+    </FiltersContext.Provider>
+  );
 }
 
-export function useFiltersContext<TData>() {
-  const context = useContext(FiltersContext) as FiltersContextValue<TData> | undefined;
+export function useFiltersContext() {
+  const context = useContext(FiltersContext) as FiltersContextValue | undefined;
   if (context === undefined) {
     throw new Error('useFiltersContext must be used within a FiltersProvider');
   }

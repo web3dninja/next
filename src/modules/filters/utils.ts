@@ -45,7 +45,7 @@ export function sortBy<TData>(data: TData[], key: string, direction: SortDirecti
   return sort(data, item => get(item, key), direction === SortDirectionEnum.DESC);
 }
 
-export function getDefaultFilterValues<T>(config: UseFiltersConfig<T>) {
+export function getDefaultFilterValues(config: UseFiltersConfig) {
   const defaults: UrlFilters = {};
 
   Object.entries(config.filtersConfig).forEach(([key, config]) => {
@@ -65,9 +65,9 @@ export function getDefaultFilterValues<T>(config: UseFiltersConfig<T>) {
   return defaults;
 }
 
-export function getActiveFiltersCount<T>(
-  filtersConfig: FiltersRecord<T>,
-  searchConfig: SearchConfig<T> | undefined,
+export function getActiveFiltersCount(
+  filtersConfig: FiltersRecord,
+  searchConfig: SearchConfig | undefined,
   urlFilters: UrlFilters,
 ) {
   let count = 0;
@@ -92,21 +92,17 @@ export function getActiveFiltersCount<T>(
   return count;
 }
 
-export function applySearch<T>(data: T[], searchConfig: SearchConfig<T>, urlFilters: UrlFilters) {
+export function applySearch<T>(data: T[], searchConfig: SearchConfig, urlFilters: UrlFilters): T[] {
   const searchValue = urlFilters[searchConfig.key];
-  return searchConfig.fn(data, searchConfig.options, searchValue);
+  return searchConfig.fn(data, searchConfig.options || {}, searchValue) as T[];
 }
 
-export function applyFilters<T>(
-  data: T[],
-  filtersConfig: FiltersRecord<T>,
-  urlFilters: UrlFilters,
-) {
+export function applyFilters<T>(data: T[], filtersConfig: FiltersRecord, urlFilters: UrlFilters): T[] {
   let result = data;
 
   Object.entries(filtersConfig).forEach(([key, filterConfig]) => {
     const value = urlFilters[key];
-    result = filterConfig.fn(result, filterConfig.path, value);
+    result = filterConfig.fn(result, filterConfig.path, value) as T[];
   });
 
   return result;
@@ -132,7 +128,7 @@ export function formatSortValue(field: string, direction: SortDirection): string
   return `${field}-${direction}`;
 }
 
-export function applySort<T>(data: T[], sortConfig: SortsRecord<T>, urlFilters: UrlFilters) {
+export function applySort<T>(data: T[], sortConfig: SortsRecord, urlFilters: UrlFilters): T[] {
   const sortValue = urlFilters.sort;
   const { field, direction } = parseSortValue(sortValue);
 

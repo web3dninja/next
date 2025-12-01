@@ -18,37 +18,21 @@ import type { FilterConfig, PriceRange } from './types';
 import type { UseFiltersConfig } from './hooks';
 import { SearchInput } from '@/components/ui/search-input';
 
-interface FiltersProps<TData> {
-  data: TData[];
-  config: UseFiltersConfig<TData>;
-  onFiltersChange?: (filteredData: TData[]) => void;
+interface FiltersProps {
+  config: UseFiltersConfig;
   children: React.ReactNode;
   className?: string;
 }
 
-function FiltersRoot<TData>({ data, config, onFiltersChange, children }: FiltersProps<TData>) {
+function FiltersRoot({ config, children }: FiltersProps) {
   return (
-    <FiltersProvider data={data} config={config}>
-      <FiltersContentWrapper onFiltersChange={onFiltersChange}>{children}</FiltersContentWrapper>
+    <FiltersProvider config={config}>
+      <FiltersContentWrapper>{children}</FiltersContentWrapper>
     </FiltersProvider>
   );
 }
 
-function FiltersContentWrapper<TData>({
-  children,
-  onFiltersChange,
-}: {
-  children: React.ReactNode;
-  onFiltersChange?: (filteredData: TData[]) => void;
-}) {
-  const { filteredData } = useFiltersContext<TData>();
-
-  useEffect(() => {
-    if (onFiltersChange) {
-      onFiltersChange(filteredData);
-    }
-  }, [filteredData, onFiltersChange]);
-
+function FiltersContentWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
@@ -109,14 +93,14 @@ function FiltersTrigger({ children, className, ...props }: FiltersTriggerProps) 
   );
 }
 
-interface RangeProps<TData> extends React.ComponentProps<typeof Slider> {
-  config: FilterConfig<TData, string, PriceRange>;
+interface RangeProps extends React.ComponentProps<typeof Slider> {
+  config: FilterConfig;
   range: PriceRange;
   label: string;
   className?: string;
 }
 
-function Range<TData>({ config, range, label, className, ...props }: RangeProps<TData>) {
+function Range({ config, range, label, className, ...props }: RangeProps) {
   const { filters, onFilterChange } = useFiltersContext();
   const { key } = config;
 
@@ -143,14 +127,14 @@ function Range<TData>({ config, range, label, className, ...props }: RangeProps<
   );
 }
 
-interface CheckboxProps<TData> {
-  config: FilterConfig<TData, string, string[]>;
+interface CheckboxProps {
+  config: FilterConfig;
   list: string[];
   label: string;
   className?: string;
 }
 
-function CheckboxFilter<TData>({ config, list, label, className }: CheckboxProps<TData>) {
+function CheckboxFilter({ config, list, label, className }: CheckboxProps) {
   const { filters, onFilterChange } = useFiltersContext();
   const { key } = config;
 

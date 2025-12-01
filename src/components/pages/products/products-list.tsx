@@ -22,8 +22,7 @@ import {
   productSortConfig,
   productUrlParsers,
 } from '@/configs/product-filters';
-import { Filters } from '@/modules/filters';
-import { useState } from 'react';
+import { Filters, useFilters } from '@/modules/filters';
 import { Separator } from '@/components/ui/separator';
 import { useProductMetadata } from '@/hooks/use-product-metadata';
 
@@ -34,7 +33,6 @@ interface ProductsListProps {
 }
 
 export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const { allBrands, priceRange } = useProductMetadata(products);
   const router = useRouter();
 
@@ -42,9 +40,12 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
     router.push(`${categoryHrefBase}/${slug}`);
   };
 
-  const onFiltersChange = (filteredProducts: Product[]) => {
-    setFilteredProducts(filteredProducts);
-  };
+  const filteredProducts = useFilters(products, {
+    searchConfig: productSearchConfig,
+    filtersConfig: productFiltersConfig,
+    sortConfig: productSortConfig,
+    urlParsers: productUrlParsers,
+  });
 
   return (
     <>
@@ -53,14 +54,12 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
         <div className="flex-1" />
 
         <Filters
-          data={products}
           config={{
             searchConfig: productSearchConfig,
             filtersConfig: productFiltersConfig,
             sortConfig: productSortConfig,
             urlParsers: productUrlParsers,
           }}
-          onFiltersChange={onFiltersChange}
         >
           <Filters.Search />
 
