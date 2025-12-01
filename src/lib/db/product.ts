@@ -61,7 +61,8 @@ export async function createProduct(data: ProductFormData): Promise<Product | nu
       ...includeRelations,
     });
 
-    return newProduct;
+    const enrichedProduct = await enrichProductWithAmazon(newProduct);
+    return enrichedProduct;
   });
 }
 
@@ -94,7 +95,8 @@ export async function updateProductById(id: number, data: ProductFormData): Prom
       throw new Error(`Product with id ${id} not found after update`);
     }
 
-    return updatedProduct;
+    const enrichedProduct = await enrichProductWithAmazon(updatedProduct);
+    return enrichedProduct;
   });
 }
 

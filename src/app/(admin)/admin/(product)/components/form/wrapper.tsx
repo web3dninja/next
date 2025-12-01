@@ -8,7 +8,7 @@ interface FormWrapperProps {
 
 export function FormWrapper({ children, onSubmit }: FormWrapperProps) {
   return (
-    <Card className="mx-auto max-w-4xl">
+    <Card className="mx-auto w-full max-w-xl">
       <CardContent>
         <form onSubmit={onSubmit} className="flex gap-6">
           {children}

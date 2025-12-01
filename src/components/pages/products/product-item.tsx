@@ -8,7 +8,6 @@ import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '@/component
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { RedditStatsDisplay } from './reddit-stats';
-import { notFound } from 'next/navigation';
 
 export function ProductItem({
   product,
@@ -19,7 +18,7 @@ export function ProductItem({
 }) {
   const amazonData = product.amazonData;
   if (!amazonData) {
-    return notFound();
+    return null;
   }
 
   return (

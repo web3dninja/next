@@ -10,9 +10,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await findAllProducts();
 
   const productUrls = products
-    .filter(product => product.slug)
+    .filter(product => product.amazonProductId)
     .map(product => ({
-      url: `${baseUrl}/product/${product.slug}`,
+      url: `${baseUrl}/product/${product.amazonProductId}`,
       lastModified: product.redditStats?.updatedAt || new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.8,

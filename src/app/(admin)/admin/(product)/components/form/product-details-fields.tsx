@@ -1,12 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import type { ProductFormData } from '@/lib/schemas';
 
 interface ProductDetailsFieldsProps {
@@ -36,9 +30,9 @@ export function ProductDetailsFields({ form, isPending }: ProductDetailsFieldsPr
         name="link"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Custom Link (optional)</FormLabel>
+            <FormLabel>Amazon Link</FormLabel>
             <FormControl>
-              <Input placeholder="https://example.com/product" disabled={isPending} {...field} />
+              <Input placeholder="https://amzn.to/3DeQNLL" disabled={isPending} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

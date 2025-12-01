@@ -54,7 +54,7 @@ export default async function UpdateProductPage({ params }: PageProps) {
         <DeleteButton productId={product.id} />
       </div>
 
-      <div className="content container">
+      <div className="content container w-full max-w-xl">
         <UpdateProductForm product={product} categories={categories} />
       </div>
     </>
