@@ -18,11 +18,11 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
     <div className={cn('flex w-full flex-col gap-1 text-xs', className)}>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="flex cursor-help items-center justify-center gap-1 text-center text-xs">
+          <div className="flex justify-center text-xs">
+            <TooltipTrigger className="flex cursor-help items-center gap-1">
               {stats.positiveScore}% positive sentiment <InfoIcon className="size-4" />
-            </div>
-          </TooltipTrigger>
+            </TooltipTrigger>
+          </div>
           <TooltipContent side="top" className="max-w-xs text-xs">
             This value shows what percentage of Reddit mentions about the product are positive,
             compared to negative ones. We use the balance of positive and negative sentiment to
