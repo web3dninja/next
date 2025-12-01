@@ -166,6 +166,6 @@
   }
 
   .text-price {
-    @apply text-shadow-primary-foreground font-semibold text-amber-300;
+    @apply font-bold text-amber-500;
   }
 }
