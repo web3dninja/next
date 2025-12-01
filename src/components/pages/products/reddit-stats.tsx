@@ -17,7 +17,7 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
   return (
     <div className={cn('flex w-full flex-col gap-1 text-xs', className)}>
       <TooltipProvider>
-        <Tooltip>
+        <Tooltip disableHoverableContent>
           <div className="flex justify-center text-xs">
             <TooltipTrigger className="flex cursor-help items-center gap-1">
               {stats.positiveScore}% positive sentiment <InfoIcon className="size-4" />
@@ -43,7 +43,7 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
       </div>
       <div className="flex flex-wrap justify-between gap-1">
         <Badge variant="outline">{stats.mentions} mentions</Badge>
-        <Tooltip>
+        <Tooltip disableHoverableContent>
           <TooltipTrigger asChild>
             <Badge variant="outline" className="inline-flex cursor-help items-center gap-1">
               <span>Rank: {stats.rank}</span>
