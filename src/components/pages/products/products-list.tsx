@@ -21,6 +21,10 @@ import {
   productFiltersConfig,
   productSortConfig,
   productUrlParsers,
+  priceSort,
+  priceRangeFilter,
+  brandsFilter,
+  PRODUCT_CONFIGS,
 } from '@/configs/product-filters';
 import { Filters, useFilters } from '@/modules/filters';
 import { Separator } from '@/components/ui/separator';
@@ -40,12 +44,7 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
     router.push(`${categoryHrefBase}/${slug}`);
   };
 
-  const filteredProducts = useFilters(products, {
-    searchConfig: productSearchConfig,
-    filtersConfig: productFiltersConfig,
-    sortConfig: productSortConfig,
-    urlParsers: productUrlParsers,
-  });
+  const filteredProducts = useFilters(products, PRODUCT_CONFIGS);
 
   return (
     <>
@@ -53,14 +52,7 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
         <CategoryTree categories={categories} onSelect={handleSelect} />
         <div className="flex-1" />
 
-        <Filters
-          config={{
-            searchConfig: productSearchConfig,
-            filtersConfig: productFiltersConfig,
-            sortConfig: productSortConfig,
-            urlParsers: productUrlParsers,
-          }}
-        >
+        <Filters config={PRODUCT_CONFIGS}>
           <Filters.Search />
 
           <Sheet>
@@ -86,19 +78,11 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
 
                 <Separator />
 
-                <Filters.Range
-                  config={productFiltersConfig.priceRange}
-                  range={priceRange}
-                  label="Price"
-                />
+                <Filters.Range param={priceRangeFilter.param} range={priceRange} label="Price" />
 
                 <Separator />
 
-                <Filters.Checkbox
-                  config={productFiltersConfig.brands}
-                  list={allBrands}
-                  label="Brands"
-                />
+                <Filters.Checkbox param={brandsFilter.param} list={allBrands} label="Brands" />
               </Filters.Content>
 
               <SheetFooter>

@@ -14,8 +14,8 @@ import { cn } from '@/lib/utils';
 import { SortDirectionEnum } from './enums';
 import { parseSortValue, formatSortValue } from './utils';
 import { useFiltersContext, FiltersProvider } from './context';
-import type { FilterConfig, PriceRange } from './types';
-import type { UseFiltersConfig } from './hooks';
+import type { Range } from './types';
+import type { UseFiltersConfig } from './useFilters';
 import { SearchInput } from '@/components/ui/search-input';
 
 interface FiltersProps {
@@ -94,17 +94,16 @@ function FiltersTrigger({ children, className, ...props }: FiltersTriggerProps) 
 }
 
 interface RangeProps extends React.ComponentProps<typeof Slider> {
-  config: FilterConfig;
-  range: PriceRange;
+  param: string;
+  range: Range;
   label: string;
   className?: string;
 }
 
-function Range({ config, range, label, className, ...props }: RangeProps) {
+function Range({ param, range, label, className, ...props }: RangeProps) {
   const { filters, onFilterChange } = useFiltersContext();
-  const { key } = config;
 
-  const currentRange = filters[key].length > 0 ? filters[key] : range;
+  const currentRange = filters[param].length > 0 ? filters[param] : range;
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -120,7 +119,7 @@ function Range({ config, range, label, className, ...props }: RangeProps) {
           min={range[0]}
           max={range[1]}
           value={currentRange}
-          onValueChange={values => onFilterChange(key, values)}
+          onValueChange={values => onFilterChange(param, values)}
         />
       </div>
     </div>
@@ -128,17 +127,16 @@ function Range({ config, range, label, className, ...props }: RangeProps) {
 }
 
 interface CheckboxProps {
-  config: FilterConfig;
+  param: string;
   list: string[];
   label: string;
   className?: string;
 }
 
-function CheckboxFilter({ config, list, label, className }: CheckboxProps) {
+function CheckboxFilter({ param, list, label, className }: CheckboxProps) {
   const { filters, onFilterChange } = useFiltersContext();
-  const { key } = config;
 
-  const currentValue = filters[key];
+  const currentValue = filters[param];
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -148,7 +146,7 @@ function CheckboxFilter({ config, list, label, className }: CheckboxProps) {
         type="multiple"
         orientation="vertical"
         value={currentValue}
-        onValueChange={values => onFilterChange(key, values)}
+        onValueChange={values => onFilterChange(param, values)}
         spacing={0.5}
         className="w-full flex-col items-stretch"
       >
@@ -170,18 +168,28 @@ function CheckboxFilter({ config, list, label, className }: CheckboxProps) {
   );
 }
 
-function Sort({ label, className }: { label: string; className?: string }) {
+function Sort({
+  param = 'sort',
+  label,
+  className,
+}: {
+  param?: string;
+  label: string;
+  className?: string;
+}) {
   const {
     filters,
     onFilterChange,
-    config: { sortConfig },
+    config: { sort },
   } = useFiltersContext();
 
-  const currentValue = (filters.sort as string) || null;
+  if (!sort) throw new Error('Sort config is required');
+
+  const currentValue = filters[param];
   const currentSort = parseSortValue(currentValue);
 
   const handleSortClick = (field: string) => {
-    const config = sortConfig[field];
+    const config = sort.find(config => config.param === field);
     if (!config) return;
 
     const isSameField = currentSort.field === field;
@@ -203,30 +211,30 @@ function Sort({ label, className }: { label: string; className?: string }) {
     <div className={cn('space-y-4', className)}>
       <FilterLabel label={label} />
       <div className="flex flex-wrap gap-2">
-        {sortConfig &&
-          Object.entries(sortConfig).map(([field, config]) => {
-            const isActive = currentSort.field === field;
-            const direction = isActive
-              ? currentSort.direction || config.defaultDirection
-              : config.defaultDirection;
+        {sort.map(config => {
+          const field = config.param;
+          const isActive = currentSort.field === field;
+          const direction = isActive
+            ? currentSort.direction || config.defaultDirection
+            : config.defaultDirection;
 
-            return (
-              <Button
-                key={field}
-                variant={isActive ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => handleSortClick(field)}
-                className="gap-1"
-              >
-                {config.label}
-                {direction === SortDirectionEnum.ASC ? (
-                  <ArrowDownIcon className="size-3" />
-                ) : (
-                  <ArrowUpIcon className="size-3" />
-                )}
-              </Button>
-            );
-          })}
+          return (
+            <Button
+              key={field}
+              variant={isActive ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => handleSortClick(field)}
+              className="gap-1"
+            >
+              {config.label}
+              {direction === SortDirectionEnum.ASC ? (
+                <ArrowDownIcon className="size-3" />
+              ) : (
+                <ArrowUpIcon className="size-3" />
+              )}
+            </Button>
+          );
+        })}
       </div>
     </div>
   );
@@ -236,18 +244,18 @@ function Search({ ...props }: React.ComponentProps<typeof Input>) {
   const {
     filters,
     onFilterChange,
-    config: { searchConfig },
+    config: { search },
   } = useFiltersContext();
 
-  if (!searchConfig) return null;
+  if (!search) throw new Error('Search config is required');
 
-  const { key } = searchConfig;
-  const currentValue = filters[key];
+  const { param } = search;
+  const currentValue = filters[param];
 
   return (
     <SearchInput
       value={currentValue}
-      onChange={e => onFilterChange(key, e.target.value)}
+      onChange={e => onFilterChange(param, e.target.value)}
       placeholder="Search..."
       {...props}
     />

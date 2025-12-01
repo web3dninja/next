@@ -4,10 +4,9 @@ export type {
   FilterConfig,
   SearchConfig,
   SortConfig,
-  PriceRange,
   UrlFilters,
-  FiltersRecord,
-  SortsRecord,
+  SortDirection,
+  Range,
   FilterFn,
   SortFn,
   SearchFn,
@@ -19,7 +18,6 @@ export {
   rangeFilter,
   sortBy,
   getDefaultFilterValues,
-  getActiveFiltersCount,
   applySearch,
   applyFilters,
   parseSortValue,
@@ -27,8 +25,8 @@ export {
   applySort,
 } from './utils';
 
-export { useFilters } from './hooks';
-export type { UseFiltersConfig } from './hooks';
+export { useFilters } from './useFilters';
+export type { UseFiltersConfig } from './useFilters';
 
 export { FiltersProvider, useFiltersContext } from './context';
 export type { FiltersContextValue } from './context';

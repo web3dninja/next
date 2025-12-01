@@ -10,29 +10,27 @@ export type SortFn = (data: any[], path: string, direction: SortDirection) => an
 export type SearchFn = (data: any[], options: IFuseOptions<any>, value: string) => any[];
 
 export interface FilterConfig {
-  key: string;
+  param: string;
   path: string;
   fn: FilterFn;
   parse: any;
 }
 
 export interface SearchConfig {
-  key: string;
-  options?: IFuseOptions<any>;
+  param: string;
+  options: IFuseOptions<any>;
   fn: SearchFn;
   parse: any;
 }
 
 export interface SortConfig {
-  key: string;
+  param: string;
   path: string;
   label: string;
   fn: SortFn;
   defaultDirection: SortDirection;
 }
 
-export type PriceRange = [number, number];
+export type Range = [number, number];
 
 export type UrlFilters = Record<string, any>;
-export type FiltersRecord = Record<string, FilterConfig>;
-export type SortsRecord = Record<string, SortConfig>;

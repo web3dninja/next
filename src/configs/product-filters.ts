@@ -33,19 +33,20 @@ export const popularitySort = createSortConfig('popularity', 'redditStats.mentio
 
 export const productSearchConfig = searchFilter;
 
-export const productFiltersConfig = {
-  brands: brandsFilter,
-  priceRange: priceRangeFilter,
-};
+export const productFiltersConfig = [brandsFilter, priceRangeFilter];
 
-export const productSortConfig = {
-  price: priceSort,
-  popularity: popularitySort,
-};
+export const productSortConfig = [priceSort, popularitySort];
 
 export const productUrlParsers = {
-  search: productSearchConfig.parse,
-  brands: productFiltersConfig.brands.parse,
-  priceRange: productFiltersConfig.priceRange.parse,
+  [productSearchConfig.param]: productSearchConfig.parse,
+  [brandsFilter.param]: brandsFilter.parse,
+  [priceRangeFilter.param]: priceRangeFilter.parse,
   sort: parseAsString,
+};
+
+export const PRODUCT_CONFIGS = {
+  search: productSearchConfig,
+  filters: productFiltersConfig,
+  sort: productSortConfig,
+  urlParsers: productUrlParsers,
 };

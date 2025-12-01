@@ -27,7 +27,15 @@ export function PriceCategoryFields({
           <FormItem className="flex-1">
             <FormLabel>Price</FormLabel>
             <FormControl>
-              <Input placeholder="99.99" disabled={isPending} {...field} />
+              <Input
+                placeholder="99.99"
+                disabled={isPending}
+                {...field}
+                onChange={e => {
+                  const value = e.target.value;
+                  field.onChange(value === '' ? undefined : parseFloat(value) || 0);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

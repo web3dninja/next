@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useContext, ReactNode, useCallback, useMemo } from 'react';
-import { UseFiltersConfig } from './hooks';
+import { UseFiltersConfig } from './useFilters';
 import { useQueryStates } from 'nuqs';
 import { UrlFilters } from './types';
-import { getActiveFiltersCount, getDefaultFilterValues } from './utils';
+import { getDefaultFilterValues, getActiveFiltersCount } from './utils';
 
 export interface FiltersContextValue {
   filters: UrlFilters;
@@ -23,7 +23,7 @@ interface FiltersProviderProps {
 }
 
 export function FiltersProvider({ config, children }: FiltersProviderProps) {
-  const { searchConfig, filtersConfig, urlParsers } = config;
+  const { urlParsers } = config;
   const [urlFilters, setUrlFilters] = useQueryStates(urlParsers, {
     history: 'push',
     shallow: true,
@@ -42,8 +42,8 @@ export function FiltersProvider({ config, children }: FiltersProviderProps) {
   }, [setUrlFilters, config]);
 
   const activeFiltersCount = useMemo(() => {
-    return getActiveFiltersCount(filtersConfig, searchConfig, urlFilters);
-  }, [filtersConfig, searchConfig, urlFilters]);
+    return getActiveFiltersCount(urlFilters, config);
+  }, [urlFilters, config]);
 
   return (
     <FiltersContext.Provider

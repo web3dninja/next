@@ -2,8 +2,8 @@ import Fuse, { IFuseOptions } from 'fuse.js';
 import sift from 'sift';
 import { get, sort } from 'radash';
 import { SortDirectionEnum } from './enums';
-import { FiltersRecord, SearchConfig, UrlFilters, SortsRecord, SortDirection } from './types';
-import { UseFiltersConfig } from './hooks';
+import { SearchConfig, UrlFilters, SortDirection, FilterConfig, SortConfig } from './types';
+import { UseFiltersConfig } from './useFilters';
 
 export function filterBySearch<TData>(data: TData[], options: IFuseOptions<TData>, value: string) {
   if (!value || value.length < 2) {
@@ -48,44 +48,56 @@ export function sortBy<TData>(data: TData[], key: string, direction: SortDirecti
 export function getDefaultFilterValues(config: UseFiltersConfig) {
   const defaults: UrlFilters = {};
 
-  Object.entries(config.filtersConfig).forEach(([key, config]) => {
-    const parser = config.parse;
+  if (config.filters) {
+    config.filters.forEach(filterConfig => {
+      const parser = filterConfig.parse;
 
-    defaults[key] = parser.defaultValue;
-  });
-
-  if (config.searchConfig) {
-    defaults[config.searchConfig.key] = config.searchConfig.parse.defaultValue;
+      defaults[filterConfig.param] = parser.defaultValue;
+    });
   }
 
-  if (config.sortConfig) {
+  if (config.search) {
+    defaults[config.search.param] = config.search.parse.defaultValue;
+  }
+
+  if (config.sort) {
     defaults.sort = null;
   }
 
   return defaults;
 }
 
-export function getActiveFiltersCount(
-  filtersConfig: FiltersRecord,
-  searchConfig: SearchConfig | undefined,
-  urlFilters: UrlFilters,
-) {
+export function getActiveFiltersCount(urlFilters: UrlFilters, config: UseFiltersConfig): number {
+  const defaults = getDefaultFilterValues(config);
   let count = 0;
 
-  if (searchConfig && urlFilters[searchConfig.key]) {
-    count++;
-  }
-
-  Object.entries(filtersConfig).forEach(([key, config]) => {
-    const value = urlFilters[key];
-    const defaultValue = config.parse.defaultValue;
-
-    if (value !== defaultValue) {
+  if (config.search) {
+    const currentValue = urlFilters[config.search.param];
+    const defaultValue = defaults[config.search.param];
+    if (currentValue && currentValue !== defaultValue) {
       count++;
     }
-  });
+  }
 
-  if (urlFilters.sort) {
+  if (config.filters) {
+    config.filters.forEach(filterConfig => {
+      const currentValue = urlFilters[filterConfig.param];
+      const defaultValue = defaults[filterConfig.param];
+
+      if (Array.isArray(currentValue) && Array.isArray(defaultValue)) {
+        if (
+          currentValue.length !== defaultValue.length ||
+          !currentValue.every((val, i) => val === defaultValue[i])
+        ) {
+          count++;
+        }
+      } else if (currentValue !== defaultValue) {
+        count++;
+      }
+    });
+  }
+
+  if (config.sort && urlFilters.sort) {
     count++;
   }
 
@@ -93,15 +105,19 @@ export function getActiveFiltersCount(
 }
 
 export function applySearch<T>(data: T[], searchConfig: SearchConfig, urlFilters: UrlFilters): T[] {
-  const searchValue = urlFilters[searchConfig.key];
+  const searchValue = urlFilters[searchConfig.param];
   return searchConfig.fn(data, searchConfig.options || {}, searchValue) as T[];
 }
 
-export function applyFilters<T>(data: T[], filtersConfig: FiltersRecord, urlFilters: UrlFilters): T[] {
+export function applyFilters<T>(
+  data: T[],
+  filtersConfig: FilterConfig[],
+  urlFilters: UrlFilters,
+): T[] {
   let result = data;
 
-  Object.entries(filtersConfig).forEach(([key, filterConfig]) => {
-    const value = urlFilters[key];
+  filtersConfig.forEach(filterConfig => {
+    const value = urlFilters[filterConfig.param];
     result = filterConfig.fn(result, filterConfig.path, value) as T[];
   });
 
@@ -128,7 +144,7 @@ export function formatSortValue(field: string, direction: SortDirection): string
   return `${field}-${direction}`;
 }
 
-export function applySort<T>(data: T[], sortConfig: SortsRecord, urlFilters: UrlFilters): T[] {
+export function applySort<T>(data: T[], sortConfig: SortConfig[], urlFilters: UrlFilters): T[] {
   const sortValue = urlFilters.sort;
   const { field, direction } = parseSortValue(sortValue);
 
@@ -136,7 +152,7 @@ export function applySort<T>(data: T[], sortConfig: SortsRecord, urlFilters: Url
     return data;
   }
 
-  const config = sortConfig[field];
+  const config = sortConfig.find(config => config.param === field);
   if (!config) {
     return data;
   }
