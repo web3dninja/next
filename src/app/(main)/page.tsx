@@ -15,8 +15,9 @@ export default async function Home() {
           Product Discovery Platform
         </h1>
         <p className="mb-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          A full-stack e-commerce platform with Reddit sentiment analysis, hierarchical categories,
-          and comprehensive admin dashboard. Built with modern web technologies and best practices.
+          A full-stack product discovery platform that combines live Amazon Product Advertising API
+          data with Reddit sentiment analysis, hierarchical categories, and a comprehensive admin
+          dashboard. Built with modern web technologies and best practices.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button asChild>
@@ -114,6 +115,17 @@ export default async function Home() {
           </Item>
 
           <Item variant="outline">
+            <ItemMedia variant="image">🛒</ItemMedia>
+            <ItemContent>
+              <ItemTitle>Amazon Product Data</ItemTitle>
+              <ItemDescription>
+                Product titles, images, prices, and affiliate links are fetched from the Amazon
+                Product Advertising API and refreshed on a schedule
+              </ItemDescription>
+            </ItemContent>
+          </Item>
+
+          <Item variant="outline">
             <ItemMedia variant="image">🌙</ItemMedia>
             <ItemContent>
               <ItemTitle>Dark Mode</ItemTitle>
@@ -196,7 +208,13 @@ export default async function Home() {
               Tools & APIs
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['Reddit API', 'Google Analytics', 'ESLint', 'Prettier'].map(tech => (
+              {[
+                'Amazon Product Advertising API (PA-API 5.0)',
+                'Reddit API',
+                'Google Analytics',
+                'ESLint',
+                'Prettier',
+              ].map(tech => (
                 <span
                   key={tech}
                   className="rounded-full bg-orange-100 px-3 py-1 text-sm font-medium text-orange-800 dark:bg-orange-900 dark:text-orange-200"

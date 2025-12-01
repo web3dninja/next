@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { findAllProducts } from '@/lib/db';
 
+export const revalidate = 43200; // 12 hours
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   if (!baseUrl) {

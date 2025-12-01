@@ -3,6 +3,8 @@ import { findAllProducts } from '@/lib/db';
 import { findAllCategories } from '@/lib/db';
 import { ProductsList } from '@/components/pages';
 
+export const revalidate = 43200; // 12 hours
+
 export const metadata: Metadata = {
   title: 'Products',
   description:

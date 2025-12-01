@@ -43,7 +43,19 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
       </div>
       <div className="flex flex-wrap justify-between gap-1">
         <Badge variant="outline">{stats.mentions} mentions</Badge>
-        <Badge variant="outline">Rank: {stats.rank}</Badge>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Badge variant="outline" className="inline-flex cursor-help items-center gap-1">
+              <span>Rank: {stats.rank}</span>
+              <InfoIcon className="size-3" />
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-xs text-xs">
+            Rank is a composite health score from 1 to 100 based on Reddit sentiment. It combines
+            the share of positive vs negative mentions, their strength, freshness, and relevance of
+            posts about this product.
+          </TooltipContent>
+        </Tooltip>
       </div>
     </div>
   );
