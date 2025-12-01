@@ -1,32 +1,17 @@
-/**
- * Hook для отримання метаданих продуктів (brands, price range, etc.)
- * Відповідальність: тільки витягування метаданих з масиву продуктів
- */
-
 import { useMemo } from 'react';
-import { Product } from '@/types/product';
-import type { PriceRange } from '@/modules/filters';
+import { ProductWithAmazonData } from '@/types/product';
+import type { Range } from '@/modules/filters';
+import { getAllBrands, getPriceRange } from '@/helpers/product';
 
 export interface ProductMetadata {
   allBrands: string[];
-  priceRange: PriceRange;
+  priceRange: Range;
 }
 
-export function useProductMetadata(products: Product[]): ProductMetadata {
-  const allBrands = useMemo(() => {
-    const brands = products.map(p => p.brand);
-    return Array.from(new Set(brands)).sort();
-  }, [products]);
+export function useProductMetadata(products: ProductWithAmazonData[]): ProductMetadata {
+  const allBrands = useMemo(() => getAllBrands(products), [products]);
 
-  const priceRange: PriceRange = useMemo(() => {
-    const prices = products.map(p => p.price).filter(p => !isNaN(p));
-
-    if (prices.length === 0) {
-      return [0, 0];
-    }
-
-    return [Math.min(...prices), Math.max(...prices)];
-  }, [products]);
+  const priceRange = useMemo(() => getPriceRange(products), [products]);
 
   return {
     allBrands,

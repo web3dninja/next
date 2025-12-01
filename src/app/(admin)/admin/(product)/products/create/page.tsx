@@ -12,10 +12,8 @@ export default async function CreateProductPage() {
         <h1>Create Product</h1>
       </div>
 
-      <div className="content container">
-        <div className="mx-auto space-y-4">
-          <CreateProductForm categories={categories} />
-        </div>
+      <div className="content container w-full max-w-xl">
+        <CreateProductForm categories={categories} />
       </div>
     </>
   );

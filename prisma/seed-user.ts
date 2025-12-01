@@ -21,19 +21,19 @@ if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_EMAIL || !process.env.ADMI
   );
 }
 
-const createAdminUser: UserCreateInput = {
-  username: process.env.ADMIN_USERNAME,
-  email: process.env.ADMIN_EMAIL,
-  password: process.env.ADMIN_PASSWORD,
-  role: 'ADMIN',
-};
-
 // const createAdminUser: UserCreateInput = {
-//   username: 'modarator',
-//   email: 'modarator@example.com',
-//   password: 'password',
-//   role: RoleEnum.MODERATOR,
+//   username: process.env.ADMIN_USERNAME,
+//   email: process.env.ADMIN_EMAIL,
+//   password: process.env.ADMIN_PASSWORD,
+//   role: 'ADMIN',
 // };
+
+const createAdminUser: UserCreateInput = {
+  username: 'modarator',
+  email: 'modarator@example.com',
+  password: 'password',
+  role: RoleEnum.MODERATOR,
+};
 
 async function seedAdminUser() {
   console.log('🌱 Seeding users...');

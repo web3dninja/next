@@ -33,7 +33,7 @@ export function useFilters<T>(allData: T[], config: UseFiltersConfig): T[] {
     }
 
     return result;
-  }, [allData, config]);
+  }, [allData, config, urlFilters]);
 
   return filteredData;
 }

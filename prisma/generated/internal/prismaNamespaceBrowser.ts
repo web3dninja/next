@@ -97,15 +97,10 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 
 export const ProductScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  slug: 'slug',
-  brand: 'brand',
-  description: 'description',
-  price: 'price',
-  link: 'link',
-  image: 'image',
   categoryId: 'categoryId',
-  redditKeyword: 'redditKeyword'
+  redditKeyword: 'redditKeyword',
+  amazonProductId: 'amazonProductId',
+  link: 'link'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
