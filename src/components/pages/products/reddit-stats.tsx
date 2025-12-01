@@ -3,6 +3,8 @@
 import { Badge } from '@/components/ui/badge';
 import type { RedditStats } from '@/types/product';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { InfoIcon } from 'lucide-react';
 
 interface RedditStatsProps {
   stats: RedditStats;
@@ -14,7 +16,21 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
 
   return (
     <div className={cn('flex w-full flex-col gap-1 text-xs', className)}>
-      <div className="text-center text-xs">{stats.positiveScore}% positive sentiment</div>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex cursor-help items-center justify-center gap-1 text-center text-xs">
+              {stats.positiveScore}% positive sentiment <InfoIcon className="size-4" />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-xs text-xs">
+            This value shows what percentage of Reddit mentions about the product are positive,
+            compared to negative ones. We use the balance of positive and negative sentiment to
+            position the marker on the progress bar and quickly visualize how the community feels
+            about this product.
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <div className="relative h-3 w-full">
         <div className="from-destructive to-success absolute inset-0 rounded-md bg-linear-to-r" />
 

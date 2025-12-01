@@ -9,7 +9,11 @@ export interface Product {
   redditStats: RedditStats;
   link: string;
   amazonProductId: string;
-  amazonData?: AmazonProductData | null;
+  amazonData?: AmazonProductData;
+}
+
+export interface ProductWithAmazonData extends Product {
+  amazonData: AmazonProductData;
 }
 
 export interface RedditStats {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Product } from '@/types/product';
+import { Product, ProductWithAmazonData } from '@/types/product';
 import { Category } from '@/types/category';
 import { CategoryTree } from '@/components/features/category-tree';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -20,6 +20,7 @@ import { priceRangeFilter, brandsFilter, PRODUCT_CONFIGS } from '@/configs/produ
 import { Filters, useFilters } from '@/modules/filters';
 import { Separator } from '@/components/ui/separator';
 import { useProductMetadata } from '@/hooks/use-product-metadata';
+import { getProductsWithAmazonData } from '@/helpers/product';
 
 interface ProductsListProps {
   products: Product[];
@@ -28,14 +29,15 @@ interface ProductsListProps {
 }
 
 export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
-  const { allBrands, priceRange } = useProductMetadata(products);
+  const productsWithAmazonData = getProductsWithAmazonData(products);
+  const { allBrands, priceRange } = useProductMetadata(productsWithAmazonData);
   const router = useRouter();
 
   const handleSelect = (slug: string) => {
     router.push(`${categoryHrefBase}/${slug}`);
   };
 
-  const filteredProducts = useFilters(products, PRODUCT_CONFIGS);
+  const filteredProducts = useFilters(productsWithAmazonData, PRODUCT_CONFIGS);
 
   return (
     <>
@@ -85,7 +87,7 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
       </div>
 
       <div className="grid-list">
-        {filteredProducts.map((product: Product) => (
+        {filteredProducts.map((product: ProductWithAmazonData) => (
           <ProductItem key={product.id} product={product} categoryHrefBase={categoryHrefBase} />
         ))}
       </div>

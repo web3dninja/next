@@ -1,3 +1,6 @@
+import { Range } from '@/modules/filters';
+import { Product, ProductWithAmazonData } from '@/types/product';
+
 export function getDescendantCategoryIds<
   T extends {
     id: number;
@@ -37,7 +40,24 @@ export function getLeafCategories<
     parentId: number | null;
   },
 >(categories: T[]): T[] {
-  return categories.filter(
-    category => !categories.some(c => c.parentId === category.id),
-  );
+  return categories.filter(category => !categories.some(c => c.parentId === category.id));
+}
+
+export function getProductsWithAmazonData(products: Product[]): ProductWithAmazonData[] {
+  return products.filter((product): product is ProductWithAmazonData => !!product.amazonData);
+}
+
+export function getAllBrands(products: ProductWithAmazonData[]): string[] {
+  const brands = products.map(p => p.amazonData.brand).filter(brand => brand !== undefined);
+  return Array.from(new Set(brands)).sort();
+}
+
+export function getPriceRange(products: ProductWithAmazonData[]): Range {
+  const prices = products.map(p => p.amazonData.price);
+
+  if (prices.length === 0) {
+    return [0, 0];
+  }
+
+  return [Math.min(...prices), Math.max(...prices)];
 }

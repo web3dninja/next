@@ -11,9 +11,9 @@ import type { IFuseOptions } from 'fuse.js';
 
 export const PRODUCT_FUSE_OPTIONS: IFuseOptions<Product> = {
   keys: [
-    { name: 'name', weight: 0.7 },
-    { name: 'brand', weight: 0.2 },
-    { name: 'description', weight: 0.1 },
+    { name: 'amazonData.title', weight: 0.7 },
+    { name: 'amazonData.brand', weight: 0.2 },
+    { name: 'amazonData.description', weight: 0.1 },
   ],
   threshold: 0.3,
   includeScore: true,
@@ -23,11 +23,16 @@ export const PRODUCT_FUSE_OPTIONS: IFuseOptions<Product> = {
 
 export const searchFilter = createSearchFilter('search', PRODUCT_FUSE_OPTIONS);
 
-export const brandsFilter = createArrayFilter('brands', 'brand');
+export const brandsFilter = createArrayFilter('brands', 'amazonData.brand');
 
-export const priceRangeFilter = createRangeFilter('priceRange', 'price');
+export const priceRangeFilter = createRangeFilter('priceRange', 'amazonData.price');
 
-export const priceSort = createSortConfig('price', 'price', 'Price', SortDirectionEnum.ASC);
+export const priceSort = createSortConfig(
+  'price',
+  'amazonData.price',
+  'Price',
+  SortDirectionEnum.ASC,
+);
 
 export const popularitySort = createSortConfig('popularity', 'redditStats.mentions', 'Popularity');
 

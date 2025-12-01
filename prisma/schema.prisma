@@ -42,7 +42,7 @@ model Product {
   category        Category    @relation(fields: [categoryId], references: [id])
   redditKeyword   String
   redditStats     RedditStats @relation(fields: [redditKeyword], references: [keyword])
-  amazonProductId String
+  amazonProductId String      @unique
   link            String
 
   @@map("products")

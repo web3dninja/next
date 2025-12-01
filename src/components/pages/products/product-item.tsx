@@ -2,7 +2,7 @@
 
 import { Item } from '@/components/ui/item';
 import { ItemMedia } from '@/components/ui/item';
-import type { Product } from '@/types/product';
+import type { ProductWithAmazonData } from '@/types/product';
 import Link from 'next/link';
 import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '@/components/ui/item';
 import Image from 'next/image';
@@ -13,13 +13,10 @@ export function ProductItem({
   product,
   categoryHrefBase,
 }: {
-  product: Product;
+  product: ProductWithAmazonData;
   categoryHrefBase: string;
 }) {
   const amazonData = product.amazonData;
-  if (!amazonData) {
-    return null;
-  }
 
   return (
     <Item key={product.id} variant="default" className="flex-col flex-nowrap items-start" asChild>
