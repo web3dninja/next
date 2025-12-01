@@ -1,16 +1,9 @@
 import { useMemo } from 'react';
 import { useQueryStates } from 'nuqs';
-import { SearchConfig, UrlFilters, FilterConfig, SortConfig } from './types';
 import { applyFilters, applySearch, applySort } from './utils';
+import type { UseFiltersConfig } from './types';
 
-export interface UseFiltersConfig {
-  search: SearchConfig;
-  filters: FilterConfig[];
-  sort: SortConfig[];
-  urlParsers: UrlFilters;
-}
-
-export function useFilters<T>(allData: T[], config: UseFiltersConfig): T[] {
+export function useFilters<TData>(allData: TData[], config: UseFiltersConfig): TData[] {
   const { search, filters, sort, urlParsers } = config;
   const [urlFilters] = useQueryStates(urlParsers, {
     history: 'push',

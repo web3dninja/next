@@ -78,9 +78,9 @@ export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
               handleDelete();
             }}
             disabled={mutation.isPending}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            asChild
           >
-            {mutation.isPending ? <Spinner /> : 'Delete'}
+            <Button variant="destructive">{mutation.isPending ? <Spinner /> : 'Delete'}</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

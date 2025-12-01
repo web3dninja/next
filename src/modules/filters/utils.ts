@@ -2,7 +2,7 @@ import Fuse, { IFuseOptions } from 'fuse.js';
 import sift from 'sift';
 import { get, sort } from 'radash';
 import { SortDirectionEnum } from './enums';
-import { SearchConfig, UrlFilters, SortDirection, FilterConfig, SortConfig } from './types';
+import { SearchConfig, UrlFilters, SortDirection, FilterConfig, SortConfig, Range } from './types';
 import { UseFiltersConfig } from './useFilters';
 
 export function filterBySearch<TData>(data: TData[], options: IFuseOptions<TData>, value: string) {
@@ -25,11 +25,7 @@ export function filterByArray<TData>(data: TData[], key: string, values: string[
   return data.filter(filter);
 }
 
-export function rangeFilter<TData>(data: TData[], key: string, range: [number, number] | null) {
-  if (!range || !Array.isArray(range) || range[0] == null || range[1] == null) {
-    return data;
-  }
-
+export function rangeFilter<TData>(data: TData[], key: string, range: Range) {
   const query = {
     [key]: {
       $gte: range[0],

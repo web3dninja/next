@@ -37,7 +37,10 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
     router.push(`${categoryHrefBase}/${slug}`);
   };
 
-  const filteredProducts = useFilters(productsWithAmazonData, PRODUCT_CONFIGS);
+  const filteredProducts = useFilters<ProductWithAmazonData>(
+    productsWithAmazonData,
+    PRODUCT_CONFIGS,
+  );
 
   return (
     <>

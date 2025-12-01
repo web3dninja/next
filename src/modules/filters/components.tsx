@@ -14,8 +14,7 @@ import { cn } from '@/lib/utils';
 import { SortDirectionEnum } from './enums';
 import { parseSortValue, formatSortValue } from './utils';
 import { useFiltersContext, FiltersProvider } from './context';
-import type { Range } from './types';
-import type { UseFiltersConfig } from './useFilters';
+import type { Range, UseFiltersConfig } from './types';
 import { SearchInput } from '@/components/ui/search-input';
 
 interface FiltersProps {

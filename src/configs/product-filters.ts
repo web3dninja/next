@@ -1,4 +1,4 @@
-import { Product } from '@/types/product';
+import { ProductWithAmazonData } from '@/types/product';
 import {
   createSearchFilter,
   createArrayFilter,
@@ -9,7 +9,7 @@ import {
 import { parseAsString } from 'nuqs';
 import type { IFuseOptions } from 'fuse.js';
 
-export const PRODUCT_FUSE_OPTIONS: IFuseOptions<Product> = {
+export const PRODUCT_FUSE_OPTIONS: IFuseOptions<ProductWithAmazonData> = {
   keys: [
     { name: 'amazonData.title', weight: 0.7 },
     { name: 'amazonData.brand', weight: 0.2 },
@@ -21,37 +21,45 @@ export const PRODUCT_FUSE_OPTIONS: IFuseOptions<Product> = {
   ignoreLocation: true,
 };
 
-export const searchFilter = createSearchFilter('search', PRODUCT_FUSE_OPTIONS);
+export const searchFilter = createSearchFilter<ProductWithAmazonData>(
+  'search',
+  PRODUCT_FUSE_OPTIONS,
+);
 
-export const brandsFilter = createArrayFilter('brands', 'amazonData.brand');
+export const brandsFilter = createArrayFilter<ProductWithAmazonData>('brands', 'amazonData.brand');
 
-export const priceRangeFilter = createRangeFilter('priceRange', 'amazonData.price');
+export const priceRangeFilter = createRangeFilter<ProductWithAmazonData>(
+  'priceRange',
+  'amazonData.price',
+);
 
-export const priceSort = createSortConfig(
+export const priceSort = createSortConfig<ProductWithAmazonData>(
   'price',
   'amazonData.price',
   'Price',
   SortDirectionEnum.ASC,
 );
 
-export const popularitySort = createSortConfig('popularity', 'redditStats.mentions', 'Popularity');
+export const popularitySort = createSortConfig<ProductWithAmazonData>(
+  'popularity',
+  'redditStats.mentions',
+  'Popularity',
+);
 
-export const productSearchConfig = searchFilter;
+export const productFilters = [brandsFilter, priceRangeFilter];
 
-export const productFiltersConfig = [brandsFilter, priceRangeFilter];
-
-export const productSortConfig = [priceSort, popularitySort];
+export const productSort = [priceSort, popularitySort];
 
 export const productUrlParsers = {
-  [productSearchConfig.param]: productSearchConfig.parse,
+  [searchFilter.param]: searchFilter.parse,
   [brandsFilter.param]: brandsFilter.parse,
   [priceRangeFilter.param]: priceRangeFilter.parse,
   sort: parseAsString,
 };
 
 export const PRODUCT_CONFIGS = {
-  search: productSearchConfig,
-  filters: productFiltersConfig,
-  sort: productSortConfig,
+  search: searchFilter,
+  filters: productFilters,
+  sort: productSort,
   urlParsers: productUrlParsers,
 };

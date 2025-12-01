@@ -30,6 +30,12 @@ export interface SortConfig {
   fn: SortFn;
   defaultDirection: SortDirection;
 }
+export interface UseFiltersConfig {
+  search: SearchConfig;
+  filters: FilterConfig[];
+  sort: SortConfig[];
+  urlParsers: UrlFilters;
+}
 
 export type Range = [number, number];
 

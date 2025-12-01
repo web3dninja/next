@@ -1,9 +1,8 @@
 'use client';
 
 import { createContext, useContext, ReactNode, useCallback, useMemo } from 'react';
-import { UseFiltersConfig } from './useFilters';
 import { useQueryStates } from 'nuqs';
-import { UrlFilters } from './types';
+import { UseFiltersConfig, UrlFilters } from './types';
 import { getDefaultFilterValues, getActiveFiltersCount } from './utils';
 
 export interface FiltersContextValue {
