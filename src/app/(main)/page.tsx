@@ -233,42 +233,42 @@ export default async function Home() {
         </h2>
         <ul className="space-y-3 text-zinc-600 dark:text-zinc-400">
           <li className="flex items-start gap-2">
-            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>
               <strong>Server Components & Actions:</strong> Leveraging Next.js 16 App Router with
               server-side rendering and server actions for optimal performance
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>
               <strong>Type Safety:</strong> End-to-end TypeScript with Prisma-generated types and
               Zod schema validation
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>
               <strong>Parallel Routes & Intercepting Routes:</strong> Advanced Next.js routing
               patterns for modal dialogs and smooth navigation
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>
               <strong>Advanced Filtering System:</strong> Generic, reusable filter architecture with
               URL synchronization, fuzzy search, and multi-criteria filtering
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>
               <strong>Optimistic UI Updates:</strong> React Query for efficient caching and
               optimistic updates
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-1 text-green-600 dark:text-green-400">✓</span>
+            <span className="text-green-600 dark:text-green-400">✓</span>
             <span>
               <strong>Responsive Design:</strong> Mobile-first approach with Tailwind CSS and custom
               UI components

@@ -5,6 +5,7 @@ import type { RedditStats } from '@/types/product';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { InfoIcon } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
 
 interface RedditStatsProps {
   stats: RedditStats;
@@ -31,16 +32,14 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <div className="relative h-3 w-full">
-        <div className="from-destructive to-success absolute inset-0 rounded-md bg-linear-to-r" />
 
-        <div
-          className="absolute top-0 bottom-0 w-0.5 bg-white shadow-sm"
-          style={{
-            left: `${positivePercent}%`,
-          }}
-        />
-      </div>
+      <Slider
+        defaultValue={[positivePercent]}
+        disabled
+        max={100}
+        rangeClassName="from-destructive to-success bg-linear-to-r"
+      />
+
       <div className="flex flex-wrap justify-between gap-1">
         <Badge variant="outline">{stats.mentions} mentions</Badge>
         <Tooltip disableHoverableContent>

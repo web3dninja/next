@@ -6,9 +6,11 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import { cn } from '@/lib/utils';
 
 const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
+    rangeClassName?: string;
+  }
+>(({ className, rangeClassName, ...props }, ref) => {
   const initialValue = Array.isArray(props.value) ? props.value : [props.min, props.max];
 
   return (
@@ -18,7 +20,7 @@ const Slider = React.forwardRef<
       {...props}
     >
       <SliderPrimitive.Track className="bg-secondary relative h-2 w-full grow overflow-hidden rounded-full">
-        <SliderPrimitive.Range className="bg-primary absolute h-full" />
+        <SliderPrimitive.Range className={cn('bg-primary absolute h-full', rangeClassName)} />
       </SliderPrimitive.Track>
       {initialValue.map((value, index) => (
         <React.Fragment key={index}>
