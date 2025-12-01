@@ -31,7 +31,7 @@ export function ProductItem({
             objectFit="contain"
           />
           <div className="bg-background/70 absolute right-0 bottom-0 left-0 flex justify-between p-2">
-            <span className="text-price">${amazonData.price}</span>
+            <span className="text-price text-xl">${amazonData.price}</span>
             {product.category && <Badge variant="default">{product.category?.name}</Badge>}
           </div>
         </ItemMedia>
