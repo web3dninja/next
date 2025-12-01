@@ -1,6 +1,5 @@
 import { UseFormReturn } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
   FormControl,
   FormField,
@@ -18,62 +17,14 @@ interface ProductDetailsFieldsProps {
 export function ProductDetailsFields({ form, isPending }: ProductDetailsFieldsProps) {
   return (
     <>
-      <div className="flex gap-4">
-        <FormField
-          control={form.control}
-          name="brand"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Brand</FormLabel>
-              <FormControl>
-                <Input placeholder="Brand name" disabled={isPending} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem className="flex-2">
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Product name" disabled={isPending} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-
       <FormField
         control={form.control}
-        name="slug"
+        name="amazonProductId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Path</FormLabel>
+            <FormLabel>Amazon Product ID (ASIN)</FormLabel>
             <FormControl>
-              <Input placeholder="product-slug" disabled={isPending} {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="description"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Description</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder="Product description"
-                disabled={isPending}
-                {...field}
-                className="max-h-50"
-              />
+              <Input placeholder="e.g. B085LT31HP" disabled={isPending} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -85,27 +36,9 @@ export function ProductDetailsFields({ form, isPending }: ProductDetailsFieldsPr
         name="link"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Link</FormLabel>
+            <FormLabel>Custom Link (optional)</FormLabel>
             <FormControl>
-              <Input placeholder="https://example.com" disabled={isPending} {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="image"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Image URL</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="https://example.com/image.jpg"
-                disabled={isPending}
-                {...field}
-              />
+              <Input placeholder="https://example.com/product" disabled={isPending} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

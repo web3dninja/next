@@ -1,6 +1,6 @@
 generator client {
-  provider   = "prisma-client"
-  output     = "./generated"
+  provider = "prisma-client"
+  output   = "./generated"
 }
 
 datasource db {
@@ -14,11 +14,11 @@ enum Role {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  username String  @unique
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  username String @unique
   password String
-  role     Role    @default(USER)
+  role     Role   @default(USER)
 
   @@map("users")
 }
@@ -37,18 +37,13 @@ model Category {
 }
 
 model Product {
-  id            Int          @id @default(autoincrement())
-  name          String
-  slug          String       @unique
-  brand         String
-  description   String
-  price         Float
-  link          String
-  image         String
-  categoryId    Int
-  category      Category     @relation(fields: [categoryId], references: [id])
-  redditKeyword String
-  redditStats   RedditStats @relation(fields: [redditKeyword], references: [keyword])
+  id              Int         @id @default(autoincrement())
+  categoryId      Int
+  category        Category    @relation(fields: [categoryId], references: [id])
+  redditKeyword   String
+  redditStats     RedditStats @relation(fields: [redditKeyword], references: [keyword])
+  amazonProductId String
+  link            String
 
   @@map("products")
 }

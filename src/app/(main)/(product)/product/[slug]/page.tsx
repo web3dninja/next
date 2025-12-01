@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { findAllProducts, findProductBySlug } from '@/lib/db';
+import { findAllProducts, findProductByAmazonId } from '@/lib/db';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -19,31 +19,32 @@ export async function generateStaticParams() {
   const products = await findAllProducts();
 
   return products
-    .filter(p => p.slug)
+    .filter(p => p.amazonProductId)
     .map(product => ({
-      slug: product.slug!,
+      slug: product.amazonProductId!,
     }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const product = await findProductBySlug(slug);
-  if (!product) {
+  const product = await findProductByAmazonId(slug);
+  if (!product || !product.amazonData) {
     return {
       title: 'Not Found',
     };
   }
 
-  const description = product.description.slice(0, 160);
+  const amazonData = product.amazonData;
+  const description = amazonData.description.slice(0, 160);
 
   return {
-    title: `${product.name} by ${product.brand}`,
+    title: `${amazonData.title}${amazonData.brand ? ` by ${amazonData.brand}` : ''}`,
     description,
     openGraph: {
-      title: `${product.name} by ${product.brand}`,
+      title: `${amazonData.title}${amazonData.brand ? ` by ${amazonData.brand}` : ''}`,
       description,
-      images: [product.image],
+      images: [amazonData.image],
     },
   };
 }
@@ -51,11 +52,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const product = await findProductBySlug(slug);
+  const product = await findProductByAmazonId(slug);
 
-  if (!product) {
+  if (!product || !product.amazonData) {
     notFound();
   }
+
+  const amazonData = product.amazonData;
 
   return (
     <>
@@ -71,16 +74,16 @@ export default async function ProductPage({ params }: PageProps) {
           <div className="mx-auto w-80 sm:w-64">
             <ItemMedia className="relative overflow-hidden rounded-lg pb-[100%]">
               <Image
-                src={product.image}
-                alt={product.name}
+                src={amazonData.image}
+                alt={amazonData.title}
                 fill
-                className="object-cover"
                 sizes="100%"
+                objectFit="contain"
               />
             </ItemMedia>
 
             <Button asChild size="xl" className="mt-4 w-full">
-              <Link href={product.link} target="_blank" rel="noopener noreferrer">
+              <Link href={amazonData.url} target="_blank" rel="noopener noreferrer">
                 Buy on Amazon
               </Link>
             </Button>
@@ -91,17 +94,19 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
           <ItemContent className="flex-1 gap-4">
             <div>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">{product.brand}</p>
-              <h1 className="text-3xl font-bold text-black dark:text-white">{product.name}</h1>
+              {amazonData.brand && (
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">{amazonData.brand}</p>
+              )}
+              <h1 className="text-3xl font-bold text-black dark:text-white">{amazonData.title}</h1>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-price text-2xl">${product.price}</span>
+              <span className="text-price text-2xl">${amazonData.price}</span>
               {product.category && <Badge variant="default">{product.category.name}</Badge>}
             </div>
 
             <ItemDescription className="line-clamp-none text-sm text-zinc-600 dark:text-zinc-300">
-              {product.description}
+              {amazonData.description}
             </ItemDescription>
           </ItemContent>
         </Item>

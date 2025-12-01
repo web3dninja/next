@@ -16,7 +16,7 @@ export function ImagePreview({ value, className }: ImagePreviewProps) {
         <AvatarImage
           src={value}
           alt="Preview"
-          className="absolute inset-0 size-full object-cover"
+          className="absolute inset-0 size-full object-contain"
         />
       ) : null}
       <AvatarFallback className="absolute flex flex-col items-center justify-center gap-2 rounded-lg bg-zinc-50 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">

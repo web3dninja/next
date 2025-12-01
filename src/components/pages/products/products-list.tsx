@@ -16,16 +16,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 import { FilterIcon } from 'lucide-react';
-import {
-  productSearchConfig,
-  productFiltersConfig,
-  productSortConfig,
-  productUrlParsers,
-  priceSort,
-  priceRangeFilter,
-  brandsFilter,
-  PRODUCT_CONFIGS,
-} from '@/configs/product-filters';
+import { priceRangeFilter, brandsFilter, PRODUCT_CONFIGS } from '@/configs/product-filters';
 import { Filters, useFilters } from '@/modules/filters';
 import { Separator } from '@/components/ui/separator';
 import { useProductMetadata } from '@/hooks/use-product-metadata';

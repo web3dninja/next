@@ -1,7 +1,6 @@
 import { BackButton } from '@/components/ui/back-button';
 import { Metadata } from 'next';
-import { findProductBySlug } from '@/lib/db';
-import { findAllCategories } from '@/lib/db';
+import { findAllCategories, findProductByAmazonId } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { DeleteButton } from '../../components/delete-button';
 import { UpdateProductForm } from '../../components/update';
@@ -13,22 +12,25 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const product = await findProductBySlug(slug);
-  if (!product) {
+  const product = await findProductByAmazonId(slug);
+  const amazonData = product?.amazonData;
+
+  if (!product || !amazonData) {
     return {
       title: 'Not Found',
     };
   }
 
-  const description = product.description.slice(0, 160);
+  const description = amazonData.description.slice(0, 160);
+  const title = `${amazonData.title}${amazonData.brand ? ` by ${amazonData.brand}` : ''}`;
 
   return {
-    title: `${product.name} by ${product.brand}`,
+    title,
     description,
     openGraph: {
-      title: `${product.name} by ${product.brand}`,
+      title,
       description,
-      images: [product.image],
+      images: [amazonData.image],
     },
   };
 }
@@ -36,7 +38,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function UpdateProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [product, categories] = await Promise.all([findProductBySlug(slug), findAllCategories()]);
+  const [product, categories] = await Promise.all([
+    findProductByAmazonId(slug),
+    findAllCategories(),
+  ]);
 
   if (!product) {
     notFound();

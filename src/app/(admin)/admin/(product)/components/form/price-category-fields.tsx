@@ -22,28 +22,6 @@ export function PriceCategoryFields({
     <div className="flex gap-4">
       <FormField
         control={form.control}
-        name="price"
-        render={({ field }) => (
-          <FormItem className="flex-1">
-            <FormLabel>Price</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="99.99"
-                disabled={isPending}
-                {...field}
-                onChange={e => {
-                  const value = e.target.value;
-                  field.onChange(value === '' ? undefined : parseFloat(value) || 0);
-                }}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
         name="categoryId"
         render={({ field }) => (
           <FormItem className="flex-1">
