@@ -72,9 +72,10 @@ export async function updateProductById(id: number, data: ProductFormData): Prom
       where: { id },
     });
 
+    const previousKeyword = currentProduct?.redditKeyword;
     const normalizedKeyword = normalizeRedditKeyword(data.redditKeyword);
 
-    await updateRedditKeyword(prisma, currentProduct?.redditKeyword, normalizedKeyword);
+    await ensureRedditStats(prisma, normalizedKeyword);
 
     await prisma.product.update({
       where: { id },
@@ -85,6 +86,11 @@ export async function updateProductById(id: number, data: ProductFormData): Prom
         link: data.link,
       },
     });
+
+    // After updating the product, clean up old reddit stats if no other products use that keyword
+    if (previousKeyword && previousKeyword !== normalizedKeyword) {
+      await cleanupOrphanRedditStats(previousKeyword);
+    }
 
     const updatedProduct = await basePrisma.product.findUnique({
       where: { id },
