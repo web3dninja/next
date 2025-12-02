@@ -3,7 +3,7 @@ import sift from 'sift';
 import { get, sort } from 'radash';
 import { SortDirectionEnum } from './enums';
 import { SearchConfig, UrlFilters, SortDirection, FilterConfig, SortConfig, Range } from './types';
-import { UseFiltersConfig } from './useFilters';
+import { UseFiltersConfig } from './types';
 
 export function filterBySearch<TData>(data: TData[], options: IFuseOptions<TData>, value: string) {
   if (!value || value.length < 2) {
@@ -26,6 +26,10 @@ export function filterByArray<TData>(data: TData[], key: string, values: string[
 }
 
 export function rangeFilter<TData>(data: TData[], key: string, range: Range) {
+  if (!range || range[0] === range[1] || isNaN(range[0]) || isNaN(range[1])) {
+    return data;
+  }
+
   const query = {
     [key]: {
       $gte: range[0],
@@ -100,21 +104,25 @@ export function getActiveFiltersCount(urlFilters: UrlFilters, config: UseFilters
   return count;
 }
 
-export function applySearch<T>(data: T[], searchConfig: SearchConfig, urlFilters: UrlFilters): T[] {
+export function applySearch<TData>(
+  data: TData[],
+  searchConfig: SearchConfig,
+  urlFilters: UrlFilters,
+): TData[] {
   const searchValue = urlFilters[searchConfig.param];
-  return searchConfig.fn(data, searchConfig.options || {}, searchValue) as T[];
+  return searchConfig.fn<TData>(data, searchConfig.options || {}, searchValue);
 }
 
-export function applyFilters<T>(
-  data: T[],
+export function applyFilters<TData>(
+  data: TData[],
   filtersConfig: FilterConfig[],
   urlFilters: UrlFilters,
-): T[] {
+): TData[] {
   let result = data;
 
   filtersConfig.forEach(filterConfig => {
     const value = urlFilters[filterConfig.param];
-    result = filterConfig.fn(result, filterConfig.path, value) as T[];
+    result = filterConfig.fn<TData>(result, filterConfig.path, value);
   });
 
   return result;
@@ -140,7 +148,11 @@ export function formatSortValue(field: string, direction: SortDirection): string
   return `${field}-${direction}`;
 }
 
-export function applySort<T>(data: T[], sortConfig: SortConfig[], urlFilters: UrlFilters): T[] {
+export function applySort<TData>(
+  data: TData[],
+  sortConfig: SortConfig[],
+  urlFilters: UrlFilters,
+): TData[] {
   const sortValue = urlFilters.sort;
   const { field, direction } = parseSortValue(sortValue);
 
@@ -153,5 +165,5 @@ export function applySort<T>(data: T[], sortConfig: SortConfig[], urlFilters: Ur
     return data;
   }
 
-  return config.fn(data, config.path, direction);
+  return config.fn<TData>(data, config.path, direction);
 }

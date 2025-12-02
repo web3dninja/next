@@ -26,7 +26,6 @@ export {
 } from './utils';
 
 export { useFilters } from './useFilters';
-export type { UseFiltersConfig } from './useFilters';
 
 export { FiltersProvider, useFiltersContext } from './context';
 export type { FiltersContextValue } from './context';

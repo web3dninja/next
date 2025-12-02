@@ -3,11 +3,15 @@ import { SortDirectionEnum } from './enums';
 
 export type SortDirection = SortDirectionEnum.ASC | SortDirectionEnum.DESC;
 
-export type FilterFn = (data: any[], path: string, value: any) => any[];
+export type FilterFn = <TData>(data: TData[], path: string, value: any) => TData[];
 
-export type SortFn = (data: any[], path: string, direction: SortDirection) => any[];
+export type SortFn = <TData>(data: TData[], path: string, direction: SortDirection) => TData[];
 
-export type SearchFn = (data: any[], options: IFuseOptions<any>, value: string) => any[];
+export type SearchFn = <TData>(
+  data: TData[],
+  options: IFuseOptions<TData>,
+  value: string,
+) => TData[];
 
 export interface FilterConfig {
   param: string;

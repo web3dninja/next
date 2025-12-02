@@ -144,6 +144,10 @@ async function fetchAmazonProduct(asin: string): Promise<AmazonProductItem | nul
     const responseText = await response.text();
 
     if (!response.ok) {
+      console.error(
+        `Amazon API error for ASIN ${asin}: ${response.status} ${response.statusText}`,
+        responseText,
+      );
       return null;
     }
 
@@ -151,10 +155,12 @@ async function fetchAmazonProduct(asin: string): Promise<AmazonProductItem | nul
     try {
       data = JSON.parse(responseText);
     } catch (parseError) {
+      console.error(`Failed to parse Amazon API response for ASIN ${asin}:`, parseError);
       return null;
     }
 
     if (data.Errors && data.Errors.length > 0) {
+      console.error(`Amazon API errors for ASIN ${asin}:`, data.Errors);
       return null;
     }
 

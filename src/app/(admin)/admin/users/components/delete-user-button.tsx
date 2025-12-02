@@ -72,15 +72,17 @@ export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={mutation.isPending}>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={e => {
-              e.preventDefault();
-              handleDelete();
-            }}
-            disabled={mutation.isPending}
-            asChild
-          >
-            <Button variant="destructive">{mutation.isPending ? <Spinner /> : 'Delete'}</Button>
+          <AlertDialogAction asChild>
+            <Button
+              variant="destructive"
+              onClick={e => {
+                e.preventDefault();
+                handleDelete();
+              }}
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? <Spinner /> : 'Delete'}
+            </Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

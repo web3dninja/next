@@ -8,6 +8,7 @@ import {
 } from '@/modules/filters';
 import { parseAsString } from 'nuqs';
 import type { IFuseOptions } from 'fuse.js';
+import type { UseFiltersConfig } from '@/modules/filters/types';
 
 export const PRODUCT_FUSE_OPTIONS: IFuseOptions<ProductWithAmazonData> = {
   keys: [
@@ -62,4 +63,4 @@ export const PRODUCT_CONFIGS = {
   filters: productFilters,
   sort: productSort,
   urlParsers: productUrlParsers,
-};
+} as UseFiltersConfig;
