@@ -110,7 +110,7 @@ export default async function ProductPage({ params }: PageProps) {
 
             <div className="flex items-center gap-4">
               <span className="text-price text-2xl">${amazonData.price}</span>
-              {product.category && <Badge variant="default">{product.category.name}</Badge>}
+              {product.category && <Badge variant="secondary">{product.category.name}</Badge>}
             </div>
 
             <ItemDescription className="line-clamp-none text-sm text-zinc-600 dark:text-zinc-300">

@@ -30,9 +30,15 @@ export function ProductItem({
             sizes="100%"
             objectFit="contain"
           />
-          <div className="bg-background/70 absolute right-0 bottom-0 left-0 flex justify-between p-2">
+          <div className="bg-background/70 absolute right-0 bottom-0 left-0 flex items-center justify-between gap-1 p-2">
             <span className="text-price text-xl">${amazonData.price}</span>
-            {product.category && <Badge variant="default">{product.category?.name}</Badge>}
+            {product.category && (
+              <Badge variant="secondary">
+                <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                  {product.category?.name}
+                </span>
+              </Badge>
+            )}
           </div>
         </ItemMedia>
         <ItemContent>
