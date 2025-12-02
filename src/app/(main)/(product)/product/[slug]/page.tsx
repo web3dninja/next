@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { RedditStatsDisplay } from '@/components/pages/products';
 import { Item, ItemContent, ItemDescription, ItemMedia } from '@/components/ui/item';
+import { mockAmazonProducts } from '../../products/mock-products';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -52,7 +53,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const product = await findProductByAmazonId(slug);
+  let product = await findProductByAmazonId(slug);
+
+  product = product
+    ? {
+        ...product,
+        amazonData: mockAmazonProducts.find(p => p.asin === slug),
+      }
+    : null;
 
   if (!product || !product.amazonData) {
     notFound();

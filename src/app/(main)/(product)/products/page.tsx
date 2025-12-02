@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { findAllProducts } from '@/lib/db';
 import { findAllCategories } from '@/lib/db';
 import { ProductsList } from '@/components/pages';
+import { mockAmazonProducts } from './mock-products';
 
 export const revalidate = 43200; // 12 hours
 
@@ -19,6 +20,14 @@ export const metadata: Metadata = {
 export default async function ProductsPage() {
   const [products, categories] = await Promise.all([findAllProducts(), findAllCategories()]);
 
+  const productsWithAmazonData = products.map(product => {
+    const amazonData = mockAmazonProducts.find(p => p.asin === product.amazonProductId);
+    return {
+      ...product,
+      amazonData,
+    };
+  });
+
   return (
     <>
       <div className="content-header container">
@@ -27,7 +36,11 @@ export default async function ProductsPage() {
       </div>
 
       <div className="content container">
-        <ProductsList products={products} categories={categories} categoryHrefBase="/products" />
+        <ProductsList
+          products={productsWithAmazonData}
+          categories={categories}
+          categoryHrefBase="/products"
+        />
       </div>
     </>
   );
