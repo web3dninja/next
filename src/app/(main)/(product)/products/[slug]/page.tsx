@@ -4,6 +4,7 @@ import { findProductsByCategoryIds } from '@/lib/db';
 import { findCategoryBySlug, findAllCategories } from '@/lib/db';
 import { getDescendantCategoryIds } from '@/helpers/product';
 import { ProductsList } from '@/components/pages';
+import { mockAmazonProducts } from '../mock-products';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -50,8 +51,14 @@ export default async function CategoryPage({ params }: PageProps) {
 
   const categoryIds = getDescendantCategoryIds(categories, category.id);
 
-  const products = await findProductsByCategoryIds(categoryIds);
-
+  let products = await findProductsByCategoryIds(categoryIds);
+  products = products.map(product => {
+    const amazonData = mockAmazonProducts.find(p => p.asin === product.amazonProductId);
+    return {
+      ...product,
+      amazonData,
+    };
+  });
   return (
     <>
       <div className="content-header container">
