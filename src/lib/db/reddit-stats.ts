@@ -69,19 +69,6 @@ export async function cleanupOrphanRedditStats(keyword: string): Promise<void> {
   }
 }
 
-export async function updateRedditKeyword(
-  prisma: PrismaClient,
-  oldKeyword: string | undefined,
-  newKeyword: string,
-): Promise<void> {
-  const shouldUpdate = oldKeyword && newKeyword && oldKeyword !== newKeyword;
-
-  if (shouldUpdate) {
-    await ensureRedditStats(prisma, newKeyword);
-    await cleanupOrphanRedditStats(oldKeyword);
-  }
-}
-
 export async function updateAllRedditStats(): Promise<UpdateAllResult> {
   const stats = await basePrisma.redditStats.findMany({
     where: {

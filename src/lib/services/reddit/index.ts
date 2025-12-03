@@ -1,9 +1,4 @@
-import type {
-  RedditPost,
-  RedditSearchResponse,
-  RedditStatsResult,
-  AnalyzedComment,
-} from './types';
+import type { RedditPost, RedditSearchResponse, RedditStatsResult, AnalyzedComment } from './types';
 import {
   analyzeSentimentAdvanced,
   detectCategory,
@@ -53,6 +48,7 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
       const a: AnalyzedComment = {
         sentiment: sentiment.sentiment,
         strength: sentiment.strength,
+        qualityScore: sentiment.qualityScore,
         category: category.category,
         categoryWeight: category.weight,
         freshnessWeight: fresh,

@@ -2,7 +2,7 @@ import basePrisma, { withAdmin } from '@/utils/prisma';
 import { Product } from '@/types/product';
 import type { ProductFormData } from '@/lib/schemas';
 import { normalizeRedditKeyword } from '@/lib/validations';
-import { ensureRedditStats, cleanupOrphanRedditStats, updateRedditKeyword } from './reddit-stats';
+import { ensureRedditStats, cleanupOrphanRedditStats } from './reddit-stats';
 import { enrichProductsWithAmazon, enrichProductWithAmazon } from './product-amazon';
 
 const includeRelations = {

@@ -18,16 +18,37 @@ export function detectCategory(text: string): { category: string; weight: number
 export function analyzeSentimentAdvanced(text: string): {
   sentiment: SentimentType;
   strength: number;
+  qualityScore: number;
 } {
   const lower = text.toLowerCase();
   let positiveCount = 0;
   let negativeCount = 0;
 
-  const strongPositive = ['love', 'amazing', 'excellent', 'fantastic'];
-  const strongNegative = ['hate', 'terrible', 'awful', 'horrible'];
+  const strongPositive = ['love', 'amazing', 'excellent', 'fantastic', 'perfect', 'outstanding'];
+  const strongNegative = ['hate', 'terrible', 'awful', 'horrible', 'worst', 'useless'];
 
-  const positiveWords = ['good', 'nice', 'helpful', 'reliable', 'recommend'];
-  const negativeWords = ['bad', 'poor', 'worst', 'junk', 'disappointing'];
+  const positiveWords = [
+    'good',
+    'nice',
+    'helpful',
+    'reliable',
+    'recommend',
+    'solid',
+    'quality',
+    'comfortable',
+    'durable',
+  ];
+  const negativeWords = [
+    'bad',
+    'poor',
+    'worst',
+    'junk',
+    'disappointing',
+    'waste',
+    'regret',
+    'broke',
+    'flimsy',
+  ];
 
   for (const w of strongPositive) if (lower.includes(w)) positiveCount += 2;
   for (const w of strongNegative) if (lower.includes(w)) negativeCount += 2;
@@ -36,12 +57,64 @@ export function analyzeSentimentAdvanced(text: string): {
   for (const w of negativeWords) if (lower.includes(w)) negativeCount++;
 
   const total = positiveCount + negativeCount;
-
   const strength = total > 0 ? Math.min(total / 4, 1.5) : 0.5;
 
-  if (positiveCount > negativeCount) return { sentiment: 'positive', strength };
-  if (negativeCount > positiveCount) return { sentiment: 'negative', strength };
-  return { sentiment: 'neutral', strength: 0.5 };
+  let qualityScore = 1.0;
+
+  const wordCount = text.split(/\s+/).length;
+  if (wordCount >= 50 && wordCount <= 500) {
+    qualityScore *= 1.3;
+  } else if (wordCount > 500 && wordCount <= 1000) {
+    qualityScore *= 1.2;
+  } else if (wordCount < 20) {
+    qualityScore *= 0.7;
+  }
+
+  const hasStructure =
+    /(?:pros?|advantages?|positives?)\s*[:|\-|—]/i.test(text) &&
+    /(?:cons?|disadvantages?|negatives?|downsides?)\s*[:|\-|—]/i.test(text);
+  if (hasStructure) {
+    qualityScore *= 1.5;
+  }
+
+  const hasPositive =
+    positiveWords.some(w => lower.includes(w)) || strongPositive.some(w => lower.includes(w));
+  const hasNegative =
+    negativeWords.some(w => lower.includes(w)) || strongNegative.some(w => lower.includes(w));
+
+  if (hasPositive && hasNegative) {
+    qualityScore *= 1.4;
+  }
+
+  const expertisePatterns = [
+    /\d+\s*(?:months?|years?|weeks?)\s*(?:of use|using|owned|had it)/i,
+    /compared to|vs\.|versus|better than|worse than/i,
+    /specs?|specifications?|technical/i,
+    /\d+(?:hz|db|mah|watts?|hours?|fps)/i,
+  ];
+
+  const hasExpertise = expertisePatterns.some(pattern => pattern.test(text));
+  if (hasExpertise) {
+    qualityScore *= 1.3;
+  }
+
+  const hasExamples = /for example|such as|like when|in my case|specifically/i.test(text);
+  if (hasExamples) {
+    qualityScore *= 1.2;
+  }
+
+  qualityScore = Math.min(qualityScore, 3.0);
+
+  let sentiment: SentimentType;
+  if (positiveCount > negativeCount) {
+    sentiment = 'positive';
+  } else if (negativeCount > positiveCount) {
+    sentiment = 'negative';
+  } else {
+    sentiment = 'neutral';
+  }
+
+  return { sentiment, strength, qualityScore };
 }
 
 export function freshnessWeight(createdUtc: number): number {
@@ -77,14 +150,15 @@ export function calculateSpecificity(text: string, keywords: string[]): number {
 }
 
 export function computeCommentScore(a: AnalyzedComment): number {
-  const sentimentWeight = a.sentiment === 'positive' ? 1 : a.sentiment === 'negative' ? -1 : 0;
+  const base = a.sentiment === 'positive' ? 1 : a.sentiment === 'negative' ? -1 : 0;
 
   return (
-    sentimentWeight *
+    base *
     a.strength *
+    a.qualityScore *
     a.categoryWeight *
     a.freshnessWeight *
     a.sourceWeight *
-    (0.5 + a.specificity / 2)
+    Math.max(a.specificity, 0.3)
   );
 }

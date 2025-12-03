@@ -25,10 +25,10 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
             </TooltipTrigger>
           </div>
           <TooltipContent side="top" className="max-w-xs text-xs">
-            This value shows what percentage of Reddit mentions about the product are positive,
-            compared to negative ones. We use the balance of positive and negative sentiment to
-            position the marker on the progress bar and quickly visualize how the community feels
-            about this product.
+            This percentage shows the balance of positive vs negative Reddit sentiment.
+            High-quality, detailed reviews with pros/cons carry more weight than simple "good" or
+            "bad" comments, giving you a more accurate picture of community opinion based on
+            thoughtful feedback.
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -50,9 +50,10 @@ export function RedditStatsDisplay({ stats, className }: RedditStatsProps) {
             </Badge>
           </TooltipTrigger>
           <TooltipContent side="top" className="max-w-xs text-xs">
-            Rank is a composite health score from 1 to 100 based on Reddit sentiment. It combines
-            the share of positive vs negative mentions, their strength, freshness, and relevance of
-            posts about this product.
+            Reddit Rank (1-100) evaluates product quality by weighing sentiment, review depth, and
+            credibility. Detailed reviews with specific pros/cons, technical details, and real usage
+            experience count significantly more than short opinions, ensuring the score reflects
+            genuine community expertise.
           </TooltipContent>
         </Tooltip>
       </div>

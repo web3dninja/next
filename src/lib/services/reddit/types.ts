@@ -27,6 +27,7 @@ export type SentimentType = 'positive' | 'negative' | 'neutral';
 export interface AnalyzedComment {
   sentiment: SentimentType;
   strength: number;
+  qualityScore: number;
   category: string;
   categoryWeight: number;
   freshnessWeight: number;
@@ -52,4 +53,3 @@ export interface UpdateAllResult {
   errors: number;
   results: UpdateResult[];
 }
-
