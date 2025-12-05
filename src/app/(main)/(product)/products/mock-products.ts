@@ -1,7 +1,7 @@
 export const mockAmazonProducts = [
   {
     asin: 'B07HKQ6YGX',
-    url: 'https://www.amazon.com/dp/B07HKQ6YGX',
+    url: 'https://amzn.to/3MqSFu9',
     price: 99.95,
     description: `WIRELESS BLUETOOTH STREAMING: Wirelessly connect up to 2 smartphones or tablets to the speaker and take turns enjoying powerful sound.
 UP TO 20 HOURS OF PLAYTIME: Built-in rechargeable Li-ion 7500mAH battery supports up to 20 hours of playtime and charges your device via USB port
@@ -18,7 +18,7 @@ PLEASE NOTE: The Charge 4 does not come with a USB wall, power adaptor`,
   },
   {
     asin: 'B0FN46V64H',
-    url: 'https://www.amazon.com/dp/B0FN46V64H',
+    url: 'https://amzn.to/3XCt3gu',
     price: 19.99,
     description: `Colorful Light Show and Button Control: The shower Bluetooth speaker is not only a music device but also a unique nighttime LED light, offering seven different color-changing themes. By blending colors that flash in sync with the beat, portable Bluetooth speakers create a pulsating light show for each song, energizing your music party and enhancing both your auditory and visual experience. All controls are easily recognizable and accessible from the front of the device, ensuring ease of use
 Surround Sound and Crystal Clear Audio: The Q90B shower wireless speaker features 40mm dual bass diaphragms and an innovative four-unit cavity design, allowing it to accurately reproduce crisp highs, detailed mids, and deep, powerful lows. The two powerful waterproof shower speakers are linked together to deliver stereo surround sound, immersing you in a rich audio experience full of depth and detail, whether you're at home or outdoors
@@ -29,5 +29,21 @@ Christmas Gifts for Men and Women:The Q90B shower speaker is simple and easy to 
     title:
       'Bluetooth Shower Speaker, Portable Bluetooth 5.3 Speakers Wireless, IP7 Waterproof Mini Speaker with RGB Lights, Suction Cup, Stereo Bass, for Bathroom Party Travel Outdoor, Gift',
     brand: 'dotn',
+  },
+  {
+    asin: 'B0CFCQVZS6',
+    url: 'https://amzn.to/4pWA0oN',
+    title:
+      'Skullcandy Dime 3 Wireless Earbuds, Bluetooth Headphones, Noise Isolating Fit, Up to 20 Hours Battery, Microphone for iPhone Android, Easy Carry with Integrated Lanyard - True Black',
+    description: `UP TO 20 HOURS BATTERY + RAPID CHARGE. Stay connected with up to 20 hours of battery life (8 hours in the earbuds plus an additional 12 hours in charging case). With Rapid Charge, just 10 minutes of charging gives you 2 hours of listening
+SWEAT AND WATER RESISTANT. Rated IPX4 with sweat and water resistance, these buds are made to withstand any adventure while blocking out unwanted ambient noise
+POCKET-FRIENDLY DESIGN. Compact and lightweight, Dime 3’s pocket-able size and built-in strap makes it easy to take anywhere.
+BUILT-IN TILE FINDING TECHNOLOGY. Find your earbuds near and far when you register your product in the Tile App
+PRESET EQ MODES. Select between 3 preset EQ modes (Music, Bass Boost and Podcast) to best suit your audio
+MULTIPOINT PAIRING. Connect to two devices at once with seamless transitions
+BUY WITH CONFIDENCE. Skullcandy 1-Year USA Limited Warranty included`,
+    image: 'https://m.media-amazon.com/images/I/71YykByL+JL._AC_SL1500_.jpg',
+    brand: 'Skullcandy',
+    price: '15.10',
   },
 ];

@@ -15,7 +15,7 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
     const allPosts: RedditPost[] = [];
 
     for (const keyword of normalizedKeys) {
-      const searchUrl = `https://www.reddit.com/search.json?q=${encodeURIComponent(keyword)}&limit=100&t=year`;
+      const searchUrl = `https://oauth.reddit.com/search.json?q=${encodeURIComponent(keyword)}&limit=100&t=year`;
 
       const response = await fetch(searchUrl, {
         headers: {
