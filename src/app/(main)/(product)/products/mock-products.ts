@@ -44,6 +44,6 @@ MULTIPOINT PAIRING. Connect to two devices at once with seamless transitions
 BUY WITH CONFIDENCE. Skullcandy 1-Year USA Limited Warranty included`,
     image: 'https://m.media-amazon.com/images/I/71YykByL+JL._AC_SL1500_.jpg',
     brand: 'Skullcandy',
-    price: '15.10',
+    price: 15.1,
   },
 ];
