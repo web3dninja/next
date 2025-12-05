@@ -8,11 +8,11 @@ import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ProductDetailsFields } from './form/product-details-fields';
-import { PriceCategoryFields } from './form/category-fields';
 import { RedditKeywordsField } from './form/reddit-keywords-field';
 import { Button } from '@/components/ui/button';
 import { getCategoryOption } from '@/helpers/category';
 import { FormWrapper } from './form/wrapper';
+import { CategoryField } from './form/category-fields';
 
 interface UpdateProductFormProps {
   product: Product;
@@ -38,7 +38,7 @@ export function UpdateProductForm({ product, categories }: UpdateProductFormProp
         <div className="flex-1 space-y-4">
           <ProductDetailsFields form={form} isPending={isPending} />
 
-          <PriceCategoryFields
+          <CategoryField
             form={form}
             isPending={isPending}
             leafCategories={categories}

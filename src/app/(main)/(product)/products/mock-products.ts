@@ -1,4 +1,3 @@
-import { time } from 'console';
 
 export const mockAmazonProducts = [
   {
