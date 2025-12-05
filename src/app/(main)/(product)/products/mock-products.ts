@@ -1,3 +1,5 @@
+import { time } from 'console';
+
 export const mockAmazonProducts = [
   {
     asin: 'B07HKQ6YGX',
@@ -45,5 +47,20 @@ BUY WITH CONFIDENCE. Skullcandy 1-Year USA Limited Warranty included`,
     image: 'https://m.media-amazon.com/images/I/71YykByL+JL._AC_SL1500_.jpg',
     brand: 'Skullcandy',
     price: 15.1,
+  },
+  {
+    asin: 'B0FGDBP2ZZ',
+    url: 'https://amzn.to/4poCg8i',
+    title:
+      'Moondrop Space Travel 2 HiFi Noise-Canceling TWS Wireless Earphone Bluetooth 6.0 ANC Low-Latency Game Mode SBC/AAC (Black)',
+    description: `【Larger Dynamic Lower Distortion】The 13mm dynamic driver consists of a composite flexible suspension diaphragm with a Beryllium-plated dome, offering excellent treble extension and fine detail, with exceptional bass and superior low distortion.
+【Single Feedforward with Lossless Sound Quality Wide-band ANC】SPACETRAVEL2 abandons feedback noise cancellation, adopting a single feedforward solution that is more difficult to adjust, and without any negative effect. After repeated tuning and careful adjustment by skilled acoustic engineers,the combination of updated software and a new domestic SOC chip with stronger computing power achieves a natural in-depth wide-band ANC, without any negative effect on the playback sound quality of TWS.
+【Built-in NPU Hardware-level Al Noise Canceling】SPACE TRAVEL 2 features a built-in Neuron Processor Unit (NPU) core and is equipped with an Al ENC (Environmental Noise Cancellation) algorithm that has been extensively trained and optimized. Compared to traditional ENC algorithms, this advanced technology effectively eliminates noise while enhancing the clarity of vocal sounds.
+【55ms Low-latency Game Mode】SPACE TRAVEL 2 allows easy switching of dual connection modes.In addition to the music mode, users can switch to game mode by tapping the touch faceplate four times. In game mode, the signal transmission delay is as low as 55ms, providing a more comfortable game experience .
+【One-button EQ Setting】SPACE TRAVEL 2 adds one-button EQ function in MOONDROP APP, eliminating the need for manual debugging. Users can simply select target response for one-click settings, allowing for greater exploration of possibilities.
+【Custom Touch Operation Custom ANC Switch】The MOONDROP Link APP enables users to customize touch operations and adjust switches for features like ANC (Active Noise Cancellation),transparency mode, and standard mode, allowing for a more personalized experience.`,
+    image: 'https://m.media-amazon.com/images/I/41XaI5eTMBL._AC_.jpg',
+    brand: 'MoonDrop',
+    price: 29.99,
   },
 ];

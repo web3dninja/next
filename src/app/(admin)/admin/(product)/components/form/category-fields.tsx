@@ -1,23 +1,22 @@
 import { UseFormReturn } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { SelectInput } from '@/components/ui/inputs/select-input';
 import type { ProductFormData } from '@/lib/schemas';
 import type { Category } from '@/types/category';
 
-interface PriceCategoryFieldsProps {
+interface CategoryFieldProps {
   form: UseFormReturn<ProductFormData>;
   isPending: boolean;
   leafCategories: Category[];
   selectedOption: { value: string; key: string | number } | null;
 }
 
-export function PriceCategoryFields({
+export function CategoryField({
   form,
   isPending,
   leafCategories,
   selectedOption,
-}: PriceCategoryFieldsProps) {
+}: CategoryFieldProps) {
   return (
     <div className="flex gap-4">
       <FormField

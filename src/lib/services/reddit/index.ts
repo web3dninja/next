@@ -15,22 +15,51 @@ export async function fetchRedditStats(keywords: string | string[]): Promise<Red
     const allPosts: RedditPost[] = [];
 
     for (const keyword of normalizedKeys) {
-      const searchUrl = `https://oauth.reddit.com/search.json?q=${encodeURIComponent(keyword)}&limit=100&t=year`;
+      let after: string | null = null;
+      let pageCount = 0;
+      const maxPages = 10;
 
-      const response = await fetch(searchUrl, {
-        headers: {
-          'User-Agent': 'ProductStats/2.0',
-        },
-      });
+      while (pageCount < maxPages) {
+        const searchParams = new URLSearchParams({
+          q: keyword,
+          limit: '100',
+          t: 'year',
+        });
 
-      if (!response.ok) {
-        console.warn(`Reddit API error for keyword "${keyword}": ${response.status}`);
-        continue;
-      }
+        if (after) {
+          searchParams.set('after', after);
+        }
 
-      const data: RedditSearchResponse = await response.json();
-      for (const child of data.data.children) {
-        allPosts.push(child.data);
+        const searchUrl = `https://oauth.reddit.com/search.json?${searchParams.toString()}`;
+
+        const response = await fetch(searchUrl, {
+          headers: {
+            'User-Agent': 'ProductStats/2.0',
+          },
+        });
+
+        if (!response.ok) {
+          console.warn(`Reddit API error for keyword "${keyword}": ${response.status}`);
+          break;
+        }
+
+        const data: RedditSearchResponse = await response.json();
+
+        if (data.data.children.length === 0) {
+          break; // No more results
+        }
+
+        for (const child of data.data.children) {
+          allPosts.push(child.data);
+        }
+
+        after = data.data.after;
+        pageCount++;
+
+        // If there's no more pages, stop
+        if (!after) {
+          break;
+        }
       }
     }
 

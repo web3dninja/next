@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ProductDetailsFields } from './form/product-details-fields';
-import { PriceCategoryFields } from './form/price-category-fields';
+import { PriceCategoryFields } from './form/category-fields';
 import { RedditKeywordsField } from './form/reddit-keywords-field';
 import { Button } from '@/components/ui/button';
 import { getCategoryOption } from '@/helpers/category';

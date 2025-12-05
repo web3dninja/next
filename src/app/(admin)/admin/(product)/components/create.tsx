@@ -8,10 +8,11 @@ import { Category } from '@/types/category';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { ProductDetailsFields } from './form/product-details-fields';
-import { PriceCategoryFields } from './form/price-category-fields';
+
 import { RedditKeywordsField } from './form/reddit-keywords-field';
 import { getCategoryOption } from '@/helpers/category';
 import { FormWrapper } from './form/wrapper';
+import { CategoryField } from './form/category-fields';
 
 interface CreateProductFormProps {
   categories: Category[];
@@ -31,7 +32,7 @@ export function CreateProductForm({ categories }: CreateProductFormProps) {
         <div className="flex-1 space-y-4">
           <ProductDetailsFields form={form} isPending={isPending} />
 
-          <PriceCategoryFields
+          <CategoryField
             form={form}
             isPending={isPending}
             leafCategories={categories}

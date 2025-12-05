@@ -5,8 +5,7 @@ import { fetchRedditStats, REDDIT_KEYWORD_DELIMITER } from '@/lib/services';
 
 const KEYWORD_GROUPS = [
   {
-    name: 'nuwave-brio-air-fryer',
-    keywords: ['nuwave brio 15.5qt air fryer', '15.5qt air fryer'],
+    keywords: ['moondrop space travel 2'],
   },
 ];
 
@@ -59,14 +58,14 @@ async function main() {
   console.info('Seeding Reddit stats for keyword groups...');
 
   for (const group of KEYWORD_GROUPS) {
-    console.info(`Fetching stats for ${group.name}`);
+    console.info(`Fetching stats for ${group.keywords.join(', ')}`);
     try {
       const result = await upsertRedditStats(group.keywords);
       if (result) {
         console.info('Updated', result);
       }
     } catch (error) {
-      console.error(`Failed for ${group.name}`, error);
+      console.error(`Failed for ${group.keywords.join(', ')}`, error);
     }
 
     await new Promise(resolve => setTimeout(resolve, 1000));

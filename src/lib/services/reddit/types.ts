@@ -12,6 +12,8 @@ export interface RedditSearchResponse {
     children: Array<{
       data: RedditPost;
     }>;
+    after: string | null;
+    before: string | null;
   };
 }
 
