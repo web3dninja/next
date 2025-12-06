@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { findAllCategories } from '@/lib/db';
+import { findCategoriesWithProductCount } from '@/lib/db';
 import { findAllProducts } from '@/lib/db';
 import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,10 @@ import { PlusIcon } from 'lucide-react';
 import { ProductsList } from '@/components/pages';
 
 export default async function AdminProductsPage() {
-  const [products, categories] = await Promise.all([findAllProducts(), findAllCategories()]);
+  const [products, categories] = await Promise.all([
+    findAllProducts(),
+    findCategoriesWithProductCount(),
+  ]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import basePrisma, { withAdmin, withModeratorOrAdmin } from '@/utils/prisma';
-import type { Category, CategoryWithRelations } from '@/types/category';
+import type { Category, CategoryWithCount } from '@/types/category';
 import type { CategoryFormData } from '@/lib/schemas';
 
 const includeRelations = {
@@ -91,7 +91,7 @@ export async function deleteCategoryFromDb(id: number): Promise<Category> {
   });
 }
 
-export async function findCategoriesWithProductCount(): Promise<CategoryWithRelations[]> {
+export async function findCategoriesWithProductCount(): Promise<CategoryWithCount[]> {
   return await basePrisma.category.findMany({
     include: {
       parent: true,

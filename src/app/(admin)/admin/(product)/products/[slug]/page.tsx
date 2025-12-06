@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { findProductsByCategoryIds } from '@/lib/db';
+import { findCategoriesWithProductCount, findProductsByCategoryIds } from '@/lib/db';
 import { findCategoryBySlug, findAllCategories } from '@/lib/db';
 import { getDescendantCategoryIds } from '@/helpers/product';
 import { ProductsList } from '@/components/pages';
@@ -12,7 +12,7 @@ interface PageProps {
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const categories = await findAllCategories();
+  const categories = await findCategoriesWithProductCount();
 
   return categories.map(category => ({
     slug: category.slug,
@@ -42,7 +42,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [category, categories] = await Promise.all([findCategoryBySlug(slug), findAllCategories()]);
+  const [category, categories] = await Promise.all([
+    findCategoryBySlug(slug),
+    findCategoriesWithProductCount(),
+  ]);
 
   if (!category) {
     notFound();

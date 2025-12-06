@@ -12,11 +12,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import type { Category } from '@/types/category';
-import { buildCategoryTree } from '@/helpers/category';
+import type { CategoryWithCount } from '@/types/category';
+import { buildCategoryTree, getCategoryTreeProductsCount } from '@/helpers/category';
+import { Badge } from '../ui/badge';
 
 interface CategoryTreeProps {
-  categories: Category[];
+  categories: CategoryWithCount[];
   onSelect: (slug: string) => void;
   currentSlug?: string;
 }
@@ -25,19 +26,17 @@ function CategoryMenuItem({
   category,
   onSelect,
 }: {
-  category: Category;
+  category: CategoryWithCount;
   onSelect: (slug: string) => void;
 }) {
-  const hasChildren = category.children && category.children.length > 0;
-
-  if (hasChildren) {
+  if (category.children && category.children.length > 0) {
     return (
       <DropdownMenuSub>
         <DropdownMenuSubTrigger onClick={() => onSelect(category.slug)}>
-          {category.name}
+          {category.name} <Badge variant="outline">{getCategoryTreeProductsCount(category)}</Badge>
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent>
-          {category.children!.map(child => (
+          {category.children.map(child => (
             <CategoryMenuItem key={child.id} category={child} onSelect={onSelect} />
           ))}
         </DropdownMenuSubContent>

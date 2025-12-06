@@ -12,7 +12,7 @@ interface SearchInputProps extends React.ComponentProps<'input'> {
 
 export function SearchInput({ className, ...props }: SearchInputProps) {
   return (
-    <InputGroup className={cn('max-w-sm', className)}>
+    <InputGroup className={cn('max-w-xs', className)}>
       <InputGroupAddon>
         <Label htmlFor="search" className="size-4">
           <Search />

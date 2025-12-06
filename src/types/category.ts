@@ -8,9 +8,9 @@ export interface Category {
   children?: Category[];
 }
 
-export interface CategoryWithRelations extends Category {
-  parent: Category | null;
-  children: Category[];
+export interface CategoryWithCount extends Category {
+  parent?: CategoryWithCount | null;
+  children?: CategoryWithCount[];
   _count?: {
     products: number;
   };

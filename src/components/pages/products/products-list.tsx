@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Product, ProductWithAmazonData } from '@/types/product';
-import { Category } from '@/types/category';
+import { Category, CategoryWithCount } from '@/types/category';
 import { CategoryTree } from '@/components/features/category-tree';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ProductItem } from './product-item';
@@ -24,7 +24,7 @@ import { getProductsWithAmazonData } from '@/helpers/product';
 
 interface ProductsListProps {
   products: Product[];
-  categories: Category[];
+  categories: CategoryWithCount[];
   categoryHrefBase: string;
 }
 

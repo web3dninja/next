@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
-import { findAllProducts } from '@/lib/db';
-import { findAllCategories } from '@/lib/db';
+import { findAllProducts, findCategoriesWithProductCount } from '@/lib/db';
 import { ProductsList } from '@/components/pages';
 import { mockAmazonProducts } from './mock-products';
 
@@ -18,7 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  const [products, categories] = await Promise.all([findAllProducts(), findAllCategories()]);
+  const [products, categories] = await Promise.all([
+    findAllProducts(),
+    findCategoriesWithProductCount(),
+  ]);
 
   const productsWithAmazonData = products.map(product => {
     const amazonData = mockAmazonProducts.find(p => p.asin === product.amazonProductId);

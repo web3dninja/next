@@ -1,4 +1,4 @@
-import type { Category } from '@/types/category';
+import type { Category, CategoryWithCount } from '@/types/category';
 
 export function getCategoryPath<T extends Category>(category: T): string {
   const path: string[] = [];
@@ -26,11 +26,24 @@ export function getCategoryOption(
     : null;
 }
 
-export function buildCategoryTree(categories: Category[], parentId: number | null = null): Category[] {
+export function buildCategoryTree(
+  categories: CategoryWithCount[],
+  parentId: number | null = null,
+): CategoryWithCount[] {
   return categories
     .filter(category => category.parentId === parentId)
     .map(category => ({
       ...category,
       children: buildCategoryTree(categories, category.id),
     }));
+}
+
+export function getCategoryTreeProductsCount(category: CategoryWithCount): number {
+  const count = category._count?.products ?? 0;
+
+  if (!category.children || category.children.length === 0) {
+    return count;
+  }
+
+  return category.children.reduce((sum, child) => sum + getCategoryTreeProductsCount(child), 0);
 }
