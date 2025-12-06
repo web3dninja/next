@@ -7,8 +7,9 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { RedditStatsDisplay } from '@/components/pages/products';
-import { Item, ItemContent, ItemDescription, ItemMedia } from '@/components/ui/item';
+import { Item, ItemContent, ItemDescription, ItemFooter, ItemMedia } from '@/components/ui/item';
 import { mockAmazonProducts } from '../../products/mock-products';
+import { ExternalLinkIcon } from 'lucide-react';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -90,9 +91,9 @@ export default async function ProductPage({ params }: PageProps) {
               />
             </ItemMedia>
 
-            <Button asChild size="xl" className="mt-4 w-full">
+            <Button asChild size="xl" className="mt-4 w-full animate-pulse">
               <Link href={amazonData.url} target="_blank" rel="noopener noreferrer">
-                Buy on Amazon
+                Buy on Amazon <ExternalLinkIcon className="h-4 w-4" />
               </Link>
             </Button>
 
@@ -116,6 +117,14 @@ export default async function ProductPage({ params }: PageProps) {
             <ItemDescription className="line-clamp-none text-sm text-zinc-600 dark:text-zinc-300">
               {amazonData.description}
             </ItemDescription>
+
+            <ItemFooter>
+              <Button asChild size="xl" className="mx-auto w-auto">
+                <Link href={amazonData.url} target="_blank" rel="noopener noreferrer">
+                  More details on Amazon <ExternalLinkIcon className="h-4 w-4" />
+                </Link>
+              </Button>
+            </ItemFooter>
           </ItemContent>
         </Item>
       </div>

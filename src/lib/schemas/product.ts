@@ -13,7 +13,7 @@ export const productUpdateSchema = productSchema;
 export type ProductFormData = z.infer<typeof productSchema>;
 
 export const DEFAULT_PRODUCT_FORM_DATA: ProductFormData = {
-  categoryId: 1,
+  categoryId: 0,
   redditKeyword: '',
   amazonProductId: '',
   link: '',
