@@ -54,7 +54,7 @@ function CategoryMenuItem({
 
   return (
     <DropdownMenuItem onClick={() => onFilterChange('category', categoryPath)}>
-      {category.name}
+      {category.name} <Badge variant="outline">{getCategoryTreeProductsCount(category)}</Badge>
     </DropdownMenuItem>
   );
 }
