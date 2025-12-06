@@ -5,7 +5,7 @@ import { fetchRedditStats, REDDIT_KEYWORD_DELIMITER } from '@/lib/services';
 
 const KEYWORD_GROUPS = [
   {
-    keywords: ['moondrop space travel 2'],
+    keywords: ['xiaomi mi smart band 10'],
   },
 ];
 

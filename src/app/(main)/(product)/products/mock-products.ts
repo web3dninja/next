@@ -1,4 +1,3 @@
-
 export const mockAmazonProducts = [
   {
     asin: 'B07HKQ6YGX',
@@ -61,5 +60,21 @@ BUY WITH CONFIDENCE. Skullcandy 1-Year USA Limited Warranty included`,
     image: 'https://m.media-amazon.com/images/I/41XaI5eTMBL._AC_.jpg',
     brand: 'MoonDrop',
     price: 29.99,
+  },
+  {
+    asin: 'B0DYF82545',
+    url: 'https://amzn.to/44MIExN',
+    title:
+      'XIAOMI Mi Smart Band 10 (2025) Global Version - 1.72" AMOLED Display | 21 Days Battery Life | Touchscreen, Multi-Sport Tracker, Activity Tracker, Heart Rate Monitor | BT5.4 - (Midnight Black)',
+    description: `Stunning images, smooth touch: Immerse yourself in brilliant clarity with the large 1.72-inch AMOLED display.Vacuum filling sealing technology enables symmetrical 2.0mm ultra-thin bezels, expanding screen-to-body ratio from 66% to 73%. Enjoy incredibly smooth and seamless interaction with crisp, color-accurate images, right on your wrist.
+Fast charging, longer adventures: Say goodbye to daily charging hassles! Enjoy an exceptional 21 days of battery life on a single charge. And when you need more power, it only takes an hour to fully recharge the device with fast charging. Freedom without limits!
+Revolutionize your swimming and training sessions: The Xiaomi smartwatch is equipped with a new high-precision electronic compass that tracks swimming direction like never before, delivering unparalleled accuracy for pool sessions. Plus, gain detailed insights through professional analysis of your workouts to optimize each session.
+Master your nighttime recovery: Discover the secrets of your sleep with comprehensive and enhanced sleep monitoring. Get comprehensive insights into your sleep stages and quality, helping you wake up refreshed and optimize your well-being.
+1500 nits HBM brightness,Glanceable in any light:25% brighter than before, the display achieves a remarkable 1500 nits HBM brightness, making every message readable even in direct sunlight.
+A smarter experience with HyperOS: Enjoy a smoother, more connected, and more efficient user interface with the advanced Xiaomi HyperOS 2. Benefit from improved system performance and smarter interactions on your wrist.
+Xiaomi Fit app only support the metric system. In order to show measurement in imperial system like LB/OZ & INCH/FEET, use the third-party app coonection and connect the xiaomi fit app with google fit app. Then use google fit app.`,
+    image: 'https://m.media-amazon.com/images/I/51XrOqJxTVL._AC_SL1000_.jpg',
+    brand: 'Xiaomi',
+    price: 45.7,
   },
 ];
