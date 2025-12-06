@@ -78,7 +78,7 @@ export default async function ProductPage({ params }: PageProps) {
       <div className="content container">
         <Item
           variant="default"
-          className="flex-start mx-auto flex max-w-4xl flex-wrap items-start gap-8"
+          className="flex-start mx-auto flex max-w-5xl flex-wrap items-start gap-8"
         >
           <div className="mx-auto w-80 sm:w-64">
             <ItemMedia className="relative overflow-hidden rounded-lg pb-[100%]">
