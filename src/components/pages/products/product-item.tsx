@@ -1,5 +1,3 @@
-'use client';
-
 import { Item } from '@/components/ui/item';
 import { ItemMedia } from '@/components/ui/item';
 import type { ProductWithAmazonData } from '@/types/product';
@@ -8,7 +6,7 @@ import { ItemContent, ItemDescription, ItemFooter, ItemTitle } from '@/component
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { RedditStatsDisplay } from './reddit-stats';
-import { useIntl } from 'react-intl';
+import { FormatUSD } from '@/components/format/format-usd';
 
 export function ProductItem({
   product,
@@ -17,7 +15,6 @@ export function ProductItem({
   product: ProductWithAmazonData;
   categoryHrefBase: string;
 }) {
-  const { formatNumber } = useIntl();
   const amazonData = product.amazonData;
 
   return (
@@ -34,7 +31,7 @@ export function ProductItem({
           />
           <div className="bg-background/70 absolute right-0 bottom-0 left-0 flex items-center justify-between gap-1 p-2">
             <span className="text-price text-xl">
-              {formatNumber(amazonData.price, { style: 'currency', currency: 'USD' })}
+              <FormatUSD number={amazonData.price} />
             </span>
             {product.category && (
               <Badge variant="secondary">

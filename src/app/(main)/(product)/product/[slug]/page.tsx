@@ -10,6 +10,7 @@ import { RedditStatsDisplay } from '@/components/pages/products';
 import { Item, ItemContent, ItemDescription, ItemFooter, ItemMedia } from '@/components/ui/item';
 import { mockAmazonProducts } from '../../products/mock-products';
 import { ExternalLinkIcon } from 'lucide-react';
+import { FormatUSD } from '@/components/format/format-usd';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -110,7 +111,7 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-price text-2xl">${amazonData.price}</span>
+              <FormatUSD number={amazonData.price} />
               {product.category && <Badge variant="secondary">{product.category.name}</Badge>}
             </div>
 
