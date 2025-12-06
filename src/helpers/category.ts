@@ -1,15 +1,28 @@
 import type { Category, CategoryWithCount } from '@/types/category';
 
-export function getCategoryPath<T extends Category>(category: T): string {
+export function getCategoryPath(category: CategoryWithCount): string {
   const path: string[] = [];
-  let current: T | null = category;
+  let current: CategoryWithCount | null = category;
 
   while (current) {
     path.unshift(current.name);
-    current = current.parent as T | null;
+    current = current.parent || null;
   }
 
   return path.join(' > ');
+}
+
+export function getChildrenCategorySlugs(category: CategoryWithCount): string[] {
+  const path: string[] = [category.slug];
+  let current: CategoryWithCount | null = category;
+
+  while (current) {
+    if (current.children && current.children.length > 0) {
+      path.push(...current.children.map(child => child.slug));
+    }
+    current = current.children?.[0] || null;
+  }
+  return path;
 }
 
 export function getCategoryOption(

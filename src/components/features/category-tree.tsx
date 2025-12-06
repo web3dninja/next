@@ -13,31 +13,39 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import type { CategoryWithCount } from '@/types/category';
-import { buildCategoryTree, getCategoryTreeProductsCount } from '@/helpers/category';
+import { getChildrenCategorySlugs, getCategoryTreeProductsCount } from '@/helpers/category';
 import { Badge } from '../ui/badge';
+import { useFiltersContext } from '@/modules/filters/context';
 
 interface CategoryTreeProps {
-  categories: CategoryWithCount[];
-  onSelect: (slug: string) => void;
+  tree: CategoryWithCount[];
   currentSlug?: string;
 }
 
 function CategoryMenuItem({
   category,
-  onSelect,
+  tree,
 }: {
   category: CategoryWithCount;
-  onSelect: (slug: string) => void;
+  tree: CategoryWithCount[];
 }) {
+  const { onFilterChange } = useFiltersContext();
+
+  const categoryPath = getChildrenCategorySlugs(category);
+
   if (category.children && category.children.length > 0) {
     return (
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger onClick={() => onSelect(category.slug)}>
+        <DropdownMenuSubTrigger
+          onClick={() => {
+            onFilterChange('category', categoryPath);
+          }}
+        >
           {category.name} <Badge variant="outline">{getCategoryTreeProductsCount(category)}</Badge>
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent>
           {category.children.map(child => (
-            <CategoryMenuItem key={child.id} category={child} onSelect={onSelect} />
+            <CategoryMenuItem key={child.id} category={child} tree={tree} />
           ))}
         </DropdownMenuSubContent>
       </DropdownMenuSub>
@@ -45,20 +53,17 @@ function CategoryMenuItem({
   }
 
   return (
-    <DropdownMenuItem onClick={() => onSelect(category.slug)}>{category.name}</DropdownMenuItem>
+    <DropdownMenuItem onClick={() => onFilterChange('category', categoryPath)}>
+      {category.name}
+    </DropdownMenuItem>
   );
 }
 
-export function CategoryTree({ categories, currentSlug, onSelect }: CategoryTreeProps) {
-  const tree = useMemo(() => buildCategoryTree(categories), [categories]);
+export function CategoryTree({ tree, currentSlug }: CategoryTreeProps) {
   const currentCategory = useMemo(
-    () => categories.find(category => (currentSlug ? category.slug === currentSlug : false)),
-    [categories, currentSlug],
+    () => tree.find(category => (currentSlug ? category.slug === currentSlug : false)),
+    [tree, currentSlug],
   );
-
-  const handleSelect = (slug: string) => {
-    onSelect(slug);
-  };
 
   return (
     <DropdownMenu>
@@ -70,7 +75,7 @@ export function CategoryTree({ categories, currentSlug, onSelect }: CategoryTree
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
         {tree.map(category => (
-          <CategoryMenuItem key={category.id} category={category} onSelect={handleSelect} />
+          <CategoryMenuItem key={category.id} category={category} tree={tree} />
         ))}
       </DropdownMenuContent>
     </DropdownMenu>

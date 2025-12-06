@@ -1,8 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Product, ProductWithAmazonData } from '@/types/product';
-import { Category, CategoryWithCount } from '@/types/category';
+import { CategoryWithCount } from '@/types/category';
 import { CategoryTree } from '@/components/features/category-tree';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ProductItem } from './product-item';
@@ -21,6 +20,7 @@ import { Filters, useFilters } from '@/modules/filters';
 import { Separator } from '@/components/ui/separator';
 import { useProductMetadata } from '@/hooks/use-product-metadata';
 import { getProductsWithAmazonData } from '@/helpers/product';
+import { buildCategoryTree } from '@/helpers/category';
 
 interface ProductsListProps {
   products: Product[];
@@ -30,12 +30,8 @@ interface ProductsListProps {
 
 export function ProductsList({ products, categories, categoryHrefBase }: ProductsListProps) {
   const productsWithAmazonData = getProductsWithAmazonData(products);
+  const categoriesTree = buildCategoryTree(categories);
   const { allBrands, priceRange } = useProductMetadata(productsWithAmazonData);
-  const router = useRouter();
-
-  const handleSelect = (slug: string) => {
-    router.push(`${categoryHrefBase}/${slug}`);
-  };
 
   const filteredProducts = useFilters<ProductWithAmazonData>(
     productsWithAmazonData,
@@ -45,10 +41,10 @@ export function ProductsList({ products, categories, categoryHrefBase }: Product
   return (
     <>
       <div className="content-header container">
-        <CategoryTree categories={categories} onSelect={handleSelect} />
-        <div className="flex-1" />
-
         <Filters config={PRODUCT_CONFIGS}>
+          <CategoryTree tree={categoriesTree} />
+
+          <div className="flex-1" />
           <Filters.Search />
 
           <Sheet>

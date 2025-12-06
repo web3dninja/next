@@ -62,7 +62,7 @@ function CategoryItem({ category }: { category: CategoryWithCount }) {
             </div>
             {category.parent && (
               <div className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
-                Path: {getCategoryPath(category as CategoryWithCount)}
+                Path: {getCategoryPath(category)}
               </div>
             )}
           </ItemContent>
@@ -72,7 +72,7 @@ function CategoryItem({ category }: { category: CategoryWithCount }) {
         <div className="ml-6 border-l-2 border-zinc-200 pl-4 dark:border-zinc-800">
           <ItemGroup className="gap-2">
             {category.children.map(child => (
-              <CategoryItem key={child.id} category={child as CategoryWithCount} />
+              <CategoryItem key={child.id} category={child} />
             ))}
           </ItemGroup>
         </div>

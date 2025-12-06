@@ -44,3 +44,5 @@ export interface UseFiltersConfig {
 export type Range = [number, number];
 
 export type UrlFilters = Record<string, any>;
+
+export type FilterChangeArgs = <K extends keyof UrlFilters>(key: K, value: UrlFilters[K]) => void;

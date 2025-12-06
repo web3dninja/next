@@ -4,12 +4,10 @@ export interface Category {
   slug: string;
   icon: string | null;
   parentId: number | null;
-  parent?: Category | null;
-  children?: Category[];
 }
 
 export interface CategoryWithCount extends Category {
-  parent?: CategoryWithCount | null;
+  parent?: Category | null;
   children?: CategoryWithCount[];
   _count?: {
     products: number;

@@ -29,6 +29,11 @@ export const searchFilter = createSearchFilter<ProductWithAmazonData>(
 
 export const brandsFilter = createArrayFilter<ProductWithAmazonData>('brands', 'amazonData.brand');
 
+export const categoriesFilter = createArrayFilter<ProductWithAmazonData>(
+  'category',
+  'category.slug',
+);
+
 export const priceRangeFilter = createRangeFilter<ProductWithAmazonData>(
   'priceRange',
   'amazonData.price',
@@ -47,7 +52,7 @@ export const popularitySort = createSortConfig<ProductWithAmazonData>(
   'Popularity',
 );
 
-export const productFilters = [brandsFilter, priceRangeFilter];
+export const productFilters = [brandsFilter, priceRangeFilter, categoriesFilter];
 
 export const productSort = [priceSort, popularitySort];
 
@@ -55,6 +60,7 @@ export const productUrlParsers = {
   [searchFilter.param]: searchFilter.parse,
   [brandsFilter.param]: brandsFilter.parse,
   [priceRangeFilter.param]: priceRangeFilter.parse,
+  [categoriesFilter.param]: categoriesFilter.parse,
   sort: parseAsString,
 };
 

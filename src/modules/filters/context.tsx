@@ -2,12 +2,12 @@
 
 import { createContext, useContext, ReactNode, useCallback, useMemo } from 'react';
 import { useQueryStates } from 'nuqs';
-import { UseFiltersConfig, UrlFilters } from './types';
+import { UseFiltersConfig, UrlFilters, FilterChangeArgs } from './types';
 import { getDefaultFilterValues, getActiveFiltersCount } from './utils';
 
 export interface FiltersContextValue {
   filters: UrlFilters;
-  onFilterChange: <K extends keyof UrlFilters>(key: K, value: UrlFilters[K]) => void;
+  onFilterChange: FilterChangeArgs;
   reset: () => void;
   hasActiveFilters: boolean;
   activeFiltersCount: number;
